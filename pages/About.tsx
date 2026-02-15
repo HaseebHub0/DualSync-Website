@@ -130,9 +130,14 @@ const About: React.FC = () => {
             {team.map((member, index) => (
               <ScrollReveal key={index} delay={index * 150}>
                 <div className="glass-card rounded-[2.5rem] p-5 group h-full hover:border-primary/20 transition-all">
-                  <div className="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative grayscale group-hover:grayscale-0 transition-all duration-700">
-                    <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60"></div>
-                    <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <div className="aspect-[4/5] min-h-[350px] rounded-[2rem] overflow-hidden mb-6 relative md:grayscale group-hover:grayscale-0 transition-all duration-700 bg-white/5 border border-white/5">
+                    <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent z-10"></div>
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                      loading="lazy"
+                    />
 
                     {/* Founder Badge */}
                     {member.name === "Muhammad Haseeb" ? (

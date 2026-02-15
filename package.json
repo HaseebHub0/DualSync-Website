@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.41.0",
+    "netlify": "^23.15.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.22.3",
-    "@google/genai": "^1.41.0"
+    "react-router-dom": "6.22.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
