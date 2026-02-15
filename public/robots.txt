@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dualsyncagency.com/sitemap.xml

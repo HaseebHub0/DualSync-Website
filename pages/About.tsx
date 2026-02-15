@@ -1,0 +1,163 @@
+
+import React from 'react';
+import { TeamMember } from '../types';
+import ScrollReveal from '../components/ScrollReveal';
+import Testimonials from '../components/Testimonials';
+
+const team: TeamMember[] = [
+  {
+    name: "Muhammad Haseeb",
+    role: "Founder & Chief Product Officer (CPO)",
+    bio: "A visionary developer and designer at the intersection of AI and Product Design. I specialize in building high-end ERP systems and autonomous AI agents that transform business operations. My focus is on blending aesthetic marketing design with complex technical logic to create products that are not just functional, but market-disrupting.",
+    image: "/assets/haseeb.jpeg"
+  },
+  {
+    name: "Muhammad Siddique",
+    role: "Founder & Chief Technology Officer (CTO)",
+    bio: "A seasoned Systems Architect with a core expertise in Django backend development and high-performance database management. Siddique leads our technical infrastructure and client acquisition strategy. He is responsible for ensuring that our enterprise-level solutions are scalable, secure, and engineered to handle high-traffic business demands.",
+    image: "/assets/siddique.jpeg"
+  }
+];
+
+const About: React.FC = () => {
+  return (
+    <div className="pt-44 pb-20">
+      {/* Header */}
+      <section className="px-4 sm:px-8 mb-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <ScrollReveal>
+            <div className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary font-bold text-sm mb-6 uppercase tracking-widest">Our DNA</div>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+              Founder-led. <span className="text-primary">Code-driven</span>.
+            </h1>
+            <p className="text-xl text-white/60 leading-relaxed">
+              We are a hands-on technical team. When you partner with DualSync, you talk directly to the founders who are designing your architecture and writing your code.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="px-4 sm:px-8 mb-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: "Years Experience", value: "3+" },
+            { label: "Successful Projects", value: "10+" },
+            { label: "Core Founders", value: "2" },
+            { label: "AI Optimized", value: "100%" }
+          ].map((stat, i) => (
+            <ScrollReveal key={i} delay={i * 100}>
+              <div className="glass-panel p-8 rounded-3xl text-center h-full flex flex-col justify-center border-white/10 hover:border-primary/30 transition-colors">
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-white/40 text-[10px] font-bold uppercase tracking-widest">{stat.label}</div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* The AI & Technical Edge */}
+      <section className="px-4 sm:px-8 mb-32">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ScrollReveal>
+              <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full relative overflow-hidden group">
+                <span className="material-symbols-outlined text-primary text-5xl mb-6 group-hover:rotate-180 transition-transform duration-700">psychology</span>
+                <h3 className="text-2xl font-bold text-white mb-4">AI-Accelerated Workflow</h3>
+                <p className="text-white/60 leading-relaxed">
+                  We use AI to bridge the gap between vision and reality. By automating boilerplate and streamlining debugging, we focus 100% of our energy on your unique business logic, delivering high-end systems at startup speed.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={200}>
+              <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full relative overflow-hidden group">
+                <span className="material-symbols-outlined text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-700">database</span>
+                <h3 className="text-2xl font-bold text-white mb-4">Enterprise Data Layers</h3>
+                <p className="text-white/60 leading-relaxed">
+                  Our systems, like <strong>PaFood</strong>, are built on robust <strong>PostgreSQL</strong> foundations. We specialize in cross-platform data synchronization, ensuring your web dashboards and mobile apps stay in perfect sync across multiple user roles.
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Strategic Partnership Section */}
+      <section className="px-4 sm:px-8 mb-20">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal>
+            <div className="glass-card rounded-[3rem] p-8 md:p-16 border-primary/20 relative overflow-hidden group">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 blur-[120px] rounded-full group-hover:bg-primary/10 transition-colors duration-1000"></div>
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-4 block">Our Main Partner</span>
+                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">DualSync & Pak Asian Foods</h2>
+                  <p className="text-white/60 text-lg leading-relaxed mb-6">
+                    For over 3 years, we have been the primary technical architects for <strong>Pak Asian Foods</strong>. We maintain the <strong>PaFood</strong> ecosystem and manage <strong>PakAsianShop.com</strong>, providing a seamless bridge between digital storefronts and physical logistics.
+                  </p>
+                  <p className="text-white/60 text-lg leading-relaxed">
+                    This is a long-term technical marriage where we grow as our partner grows.
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-[2.5rem] p-12 border border-white/10 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,224,123,0.1),transparent_70%)]"></div>
+                  <img
+                    src="https://pakasianshop.com/logo.webp"
+                    alt="Pak Asian Foods"
+                    className="h-24 md:h-36 object-contain relative z-10 filter drop-shadow-[0_0_30px_rgba(56,224,123,0.4)]"
+                  />
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <Testimonials />
+
+      {/* Team Section */}
+      <section className="py-20 px-4 sm:px-8 mb-20" id="team">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Founders</h2>
+              <p className="text-white/40">Technical experts who are personally involved in every line of code.</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {team.map((member, index) => (
+              <ScrollReveal key={index} delay={index * 150}>
+                <div className="glass-card rounded-[2.5rem] p-5 group h-full hover:border-primary/20 transition-all">
+                  <div className="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative grayscale group-hover:grayscale-0 transition-all duration-700">
+                    <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60"></div>
+                    <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+
+                    {/* Founder Badge */}
+                    {member.name === "Muhammad Haseeb" ? (
+                      <div className="absolute top-4 right-4 bg-primary text-background-dark text-[10px] font-black uppercase px-4 py-1.5 rounded-full shadow-2xl flex items-center gap-1">
+                        <span className="material-symbols-outlined text-xs">verified</span> Lead
+                      </div>
+                    ) : (
+                      <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10">
+                        Founder
+                      </div>
+                    )}
+                  </div>
+                  <div className="px-3 pb-4">
+                    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-primary transition-colors">{member.name}</h3>
+                    <p className="text-primary text-[10px] font-black mb-4 uppercase tracking-[0.2em]">{member.role}</p>
+                    <p className="text-white/50 text-sm leading-relaxed">{member.bio}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default About;
