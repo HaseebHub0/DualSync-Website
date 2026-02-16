@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #122017 0%, #1a2e22 100%);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 4px solid #38e07b;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            margin: 0;
+        }
+
+        .logo-accent {
+            color: #38e07b;
+        }
+
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .greeting {
+            font-size: 24px;
+            color: #122017;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .message-text {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .highlight-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-left: 4px solid #38e07b;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .next-steps-title {
+            font-weight: bold;
+            color: #122017;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .footer {
+            background: #122017;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: #fff;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .footer-link {
+            color: #38e07b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #38e07b;
+            color: #122017;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Dual<span class="logo-accent">Sync</span> Agency</div>
+        </div>
+
+        <div class="content">
+            <div class="hero-icon">✅</div>
+            <div class="greeting">Signal Received, {{name}}!</div>
+
+            <p class="message-text">
+                Thank you for reaching out to DualSync Agency. We have successfully received your project details and
+                verified the transmission.
+            </p>
+
+            <div class="highlight-box">
+                <span class="next-steps-title">🚀 What happens next?</span>
+                <ul style="margin: 0; padding-left: 20px; color: #555;">
+                    <li>Our technical team will review your requirements.</li>
+                    <li>We will outline a preliminary strategy or architecture.</li>
+                    <li>You will receive a personal response within 24 hours.</li>
+                </ul>
+            </div>
+
+            <p class="message-text">
+                In the meantime, feel free to browse our latest case studies or connect with us on social media.
+            </p>
+
+            <a href="https://dualsyncagency.com" class="btn">Return to Website</a>
+
+            <div class="divider"></div>
+
+            <p style="font-size: 12px; color: #999;">
+                You received this email because you submitted a form on our website. If this wasn't you, please ignore
+                this message.
+            </p>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">DualSync Agency</div>
+            <div class="footer-text">📍 <a href="https://dualsyncagency.com" class="footer-link">dualsyncagency.com</a>
+            </div>
+            <div class="footer-text" style="opacity: 0.6; margin-top: 10px;">Founder-led. Code-driven.</div>
+        </div>
+    </div>
+</body>
+
+</html>

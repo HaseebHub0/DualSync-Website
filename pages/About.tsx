@@ -7,7 +7,7 @@ import Testimonials from '../components/Testimonials';
 const team: TeamMember[] = [
   {
     name: "Muhammad Haseeb",
-    role: "Founder & Chief Product Officer (CPO)",
+    role: "Founder & CEO",
     bio: "A visionary developer and designer at the intersection of AI and Product Design. I specialize in building high-end ERP systems and autonomous AI agents that transform business operations. My focus is on blending aesthetic marketing design with complex technical logic to create products that are not just functional, but market-disrupting.",
     image: "/assets/haseeb.jpeg",
     linkedin: "https://www.linkedin.com/in/muhammad-haseeb-739884317"

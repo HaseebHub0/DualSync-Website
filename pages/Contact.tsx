@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import ScrollReveal from '../components/ScrollReveal';
 import FAQ from '../components/FAQ';
 
@@ -22,56 +23,56 @@ const Contact: React.FC = () => {
     setStatus('loading');
 
     try {
-      // Prepare form data for Web3Forms
-      const web3FormsData = new FormData();
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      // EmailJS configuration
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      // Check if access key is configured
-      if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-        const errorMsg = 'System Error: Transmission Key Missing. Please check site configuration.';
-        console.error(errorMsg);
-        alert(errorMsg); // Immediate feedback for the user
-        throw new Error(errorMsg);
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS configuration missing. Check .env.local');
       }
 
-      web3FormsData.append('access_key', accessKey);
-      web3FormsData.append('name', formData.name);
-      web3FormsData.append('email', formData.email);
-      web3FormsData.append('project_type', formData.projectType);
-      web3FormsData.append('message', formData.message);
-      web3FormsData.append('subject', `🚀 New Project Inquiry: ${formData.projectType}`);
-      web3FormsData.append('from_name', 'DualSync Agency Website');
-      web3FormsData.append('replyto', formData.email);
+      console.log('Sending via EmailJS...', { serviceId, templateId, publicKey });
 
-      // Debugging Log - Check console to see if key is loaded
-      console.log("Transmission initialized. Key loaded:", accessKey ? "YES" : "NO");
+      // 1. Send Admin Notification
+      const adminParams = {
+        name: formData.name,
+        email: formData.email,
+        project_type: formData.projectType,
+        message: formData.message,
+        reply_to: formData.email
+      };
 
-      // Send to Web3Forms API
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: web3FormsData
+      const adminPromise = emailjs.send(serviceId, templateId, adminParams, publicKey);
+
+      // 2. Send Auto-Reply (if configured)
+      const autoReplyTemplateId = import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID;
+      let autoReplyPromise = Promise.resolve(null as any);
+
+      if (autoReplyTemplateId) {
+        const autoReplyParams = {
+          name: formData.name,
+          email: formData.email, // This sends it TO the user
+          project_type: formData.projectType
+        };
+        autoReplyPromise = emailjs.send(serviceId, autoReplyTemplateId, autoReplyParams, publicKey);
+      }
+
+      await Promise.all([adminPromise, autoReplyPromise]);
+
+      setConfirmationId(Math.random().toString(36).substr(2, 9).toUpperCase());
+      setStatus('success');
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        projectType: 'Full Website Development',
+        message: ''
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        setConfirmationId(Math.random().toString(36).substr(2, 9).toUpperCase());
-        setStatus('success');
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          projectType: 'Full Website Development',
-          message: ''
-        });
-      } else {
-        console.error('Web3Forms API Error:', result);
-        throw new Error(result.message || 'Transmission failed. Please try again.');
-      }
     } catch (error: any) {
       console.error("Transmission failed:", error);
       setStatus('error');
-      alert(`Transmission Error: ${error.message || 'Unknown error'}`);
+      alert(`Transmission Error: ${error.text || error.message || 'Unknown error'}`);
     }
   };
 

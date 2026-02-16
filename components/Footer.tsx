@@ -1,4 +1,5 @@
 import React from 'react';
+import emailjs from '@emailjs/browser';
 import { useLocation, Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
@@ -16,32 +17,46 @@ const Footer: React.FC = () => {
 
     setStatus('loading');
     try {
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-      if (!accessKey) throw new Error('Missing API Key');
+      // EmailJS configuration
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      const formData = new FormData();
-      formData.append('access_key', accessKey);
-      formData.append('email', email);
-      formData.append('subject', '🚀 New Footer Subscription');
-      formData.append('message', `New subscription request from: ${email}`);
-      formData.append('from_name', 'DualSync Footer');
-
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setStatus('success');
-        setEmail('');
-      } else {
-        throw new Error('Submission failed');
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS not configured');
       }
+
+      // 1. Send Admin Notification
+      const adminParams = {
+        email: email,
+        message: 'New Footer Subscription from ' + email,
+        project_type: 'Newsletter Subscription',
+        name: 'Subscriber'
+      };
+
+      const adminPromise = emailjs.send(serviceId, templateId, adminParams, publicKey);
+
+      // 2. Send Auto-Reply (if configured)
+      const autoReplyTemplateId = import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID;
+      let autoReplyPromise = Promise.resolve(null as any);
+
+      if (autoReplyTemplateId) {
+        const autoReplyParams = {
+          name: 'Subscriber',
+          email: email, // This sends it TO the user
+          project_type: 'Newsletter'
+        };
+        autoReplyPromise = emailjs.send(serviceId, autoReplyTemplateId, autoReplyParams, publicKey);
+      }
+
+      await Promise.all([adminPromise, autoReplyPromise]);
+
+      setStatus('success');
+      setEmail('');
     } catch (e) {
-      console.error(e);
+      console.error('EmailJS Error:', e);
       setStatus('error');
-      alert('Failed to subscribe. Please try again.');
+      alert('Failed to subscribe. Please try again or check console for details.');
     }
   };
 
