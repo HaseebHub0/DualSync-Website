@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceItem } from '../types';
+import { ServiceItem, RoadmapItem } from '../types';
 import ScrollReveal from '../components/ScrollReveal';
 
 // Adding features and color to the type to match the object literals and usage in JSX
@@ -137,6 +137,46 @@ const ServicesPage: React.FC = () => {
                       </span>
                     ))}
                   </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+
+      {/* Expanding Horizons Section */}
+      <div className="max-w-6xl mx-auto mt-32">
+        <ScrollReveal>
+          <div className="mb-12 gap-6">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Expanding Horizons</h2>
+              <p className="text-white/60 max-w-lg">We are constantly evolving. Here is what's coming next to the DualSync ecosystem.</p>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              icon: 'brush',
+              title: 'Graphics Design',
+              description: 'Brand identity, UI/UX prototyping, and marketing assets.'
+            },
+            {
+              icon: 'trending_up',
+              title: 'SEO Optimization',
+              description: 'Advanced technical SEO, programmatic content strategies, and ranking domination.'
+            }
+          ].map((item, index) => (
+            <ScrollReveal key={index} delay={index * 100} className="h-full">
+              <div className="glass-panel p-6 rounded-[2rem] border-dashed border-white/20 flex items-center gap-6 relative overflow-hidden h-full hover:border-primary/30 transition-colors group">
+                <div className="absolute right-0 top-0 bg-white/10 px-4 py-1 rounded-bl-xl text-xs font-bold text-white/80 uppercase tracking-wider backdrop-blur-md group-hover:bg-primary group-hover:text-background-dark transition-colors">Coming Soon</div>
+                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-primary/50 transition-colors">
+                  <span className="material-symbols-outlined text-white/40 text-3xl group-hover:text-primary transition-colors">{item.icon}</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+                  <p className="text-white/40 text-sm group-hover:text-white/60 transition-colors">{item.description}</p>
                 </div>
               </div>
             </ScrollReveal>
