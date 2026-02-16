@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { ServiceItem } from '../types';
 import ScrollReveal from '../components/ScrollReveal';
 
-const detailedServices: (ServiceItem & { details: string[] })[] = [
+// Adding features and color to the type to match the object literals and usage in JSX
+const detailedServices: (ServiceItem & { details: string[]; features: string[]; color: string })[] = [
   {
     icon: 'psychology',
     title: 'AI Integration',
@@ -73,47 +73,86 @@ const ServicesPage: React.FC = () => {
           </ScrollReveal>
         </div>
 
-        <div className="grid grid-cols-1 gap-12">
+        <div className="grid grid-cols-1 gap-12 perspective-[2000px]">
           {detailedServices.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100}>
-              <div className={`glass-card p-10 md:p-16 rounded-[3.5rem] border-2 ${service.color} hover:bg-white/[0.03] transition-all flex flex-col lg:flex-row gap-12 items-start relative overflow-hidden group`}>
+              <div className={`
+                glass-card p-10 md:p-16 rounded-[3.5rem] border-2 ${service.color} 
+                hover:bg-white/[0.03] transition-all duration-700 
+                flex flex-col lg:flex-row gap-12 items-start relative overflow-hidden group
+                hover:[transform:rotateX(2deg)_rotateY(-1deg)_translateZ(20px)]
+              `}>
 
-                {/* Number Indicator */}
-                <div className="absolute top-10 right-10 text-8xl font-black text-white/[0.02] select-none group-hover:text-white/[0.05] transition-colors">0{index + 1}</div>
+                {/* Tech Mesh Background Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 pointer-events-none">
+                  <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(56,224,123,0.1)_1px,transparent_1px),linear-gradient(rgba(56,224,123,0.1)_1px,transparent_1px)] bg-[length:40px_40px]"></div>
+                </div>
 
-                <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white relative z-10">
-                  <span className="material-symbols-outlined text-5xl">{service.icon}</span>
+                {/* AI Scan-line Animation */}
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/40 shadow-[0_0_15px_#38e07b] opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_infinite_linear] pointer-events-none z-50"></div>
+
+                {/* Number Indicator with Hover Glow */}
+                <div className="absolute top-10 right-10 text-8xl font-black text-white/[0.02] select-none group-hover:text-primary/[0.05] group-hover:scale-110 transition-all duration-1000">0{index + 1}</div>
+
+                {/* Interactive Icon Container */}
+                <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white relative z-10 group-hover:border-primary/40 group-hover:shadow-[0_0_30px_rgba(56,224,123,0.1)] transition-all duration-500">
+                  <div className="animate-float group-hover:animate-none">
+                    <span className="material-symbols-outlined text-5xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">{service.icon}</span>
+                  </div>
+                  {/* Subtle pulsing ring behind icon */}
+                  <div className="absolute inset-0 rounded-3xl border border-primary/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
                 </div>
 
                 <div className="flex-grow relative z-10">
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{service.title}</h3>
-                  <p className="text-xl text-white/50 mb-10 max-w-3xl leading-relaxed">{service.description}</p>
+                  <div className="flex flex-col mb-6">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2 opacity-60">Service Module</span>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white group-hover:text-primary transition-colors duration-500">{service.title}</h3>
+                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-10">
+                  <p className="text-xl text-white/50 mb-10 max-w-3xl leading-relaxed transition-colors group-hover:text-white/70">{service.description}</p>
+
+                  {/* Feature Grid with Staggered Visuals */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 mb-10">
                     {service.details.map((detail, dIndex) => (
-                      <div key={dIndex} className="flex items-center gap-4 text-white/70">
-                        <div className="size-1.5 rounded-full bg-primary/40"></div>
+                      <div
+                        key={dIndex}
+                        className="flex items-center gap-4 text-white/40 group-hover:text-white/80 transition-all duration-500 group-hover:translate-x-2"
+                        style={{ transitionDelay: `${dIndex * 50}ms` }}
+                      >
+                        <div className="size-1.5 rounded-full bg-primary/20 group-hover:bg-primary group-hover:shadow-[0_0_8px_#38e07b] transition-all"></div>
                         <span className="text-sm font-medium">{detail}</span>
                       </div>
                     ))}
                   </div>
 
+                  {/* Tech Tags */}
                   <div className="flex flex-wrap gap-2">
                     {service.tags.map((tag, tIndex) => (
-                      <span key={tIndex} className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/40">
+                      <span
+                        key={tIndex}
+                        className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/30 group-hover:text-white/60 group-hover:border-white/20 transition-all"
+                        style={{ transitionDelay: `${tIndex * 100}ms` }}
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
-                </div>
-
-                <div className="lg:self-center shrink-0 relative z-10 hidden">
                 </div>
               </div>
             </ScrollReveal>
           ))}
         </div>
       </div>
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes scan {
+          0% { transform: translateY(0); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(600px); opacity: 0; }
+        }
+      `}} />
     </div>
   );
 };
