@@ -78,7 +78,9 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;col
 </div></body></html>`;
 
       web3FormsData.append('message', emailHTML);
-      web3FormsData.append('redirect', 'false');
+
+      // Debugging Log - Check console to see if key is loaded
+      console.log("Transmission initialized. Key loaded:", accessKey ? "YES" : "NO");
 
       // Send to Web3Forms API
       const response = await fetch('https://api.web3forms.com/submit', {
