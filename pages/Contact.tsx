@@ -24,12 +24,14 @@ const Contact: React.FC = () => {
     try {
       // Prepare form data for Web3Forms
       const web3FormsData = new FormData();
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '';
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
       // Check if access key is configured
       if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-        console.error('Web3Forms access key is not configured. Please add it to .env.local');
-        throw new Error('Access key not configured');
+        const errorMsg = 'System Error: Transmission Key Missing. Please check site configuration.';
+        console.error(errorMsg);
+        alert(errorMsg); // Immediate feedback for the user
+        throw new Error(errorMsg);
       }
 
       web3FormsData.append('access_key', accessKey);
@@ -98,11 +100,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;col
         });
       } else {
         console.error('Web3Forms API Error:', result);
-        throw new Error(result.message || 'Submission failed');
+        throw new Error(result.message || 'Transmission failed. Please try again.');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Transmission failed:", error);
       setStatus('error');
+      alert(`Transmission Error: ${error.message || 'Unknown error'}`);
     }
   };
 

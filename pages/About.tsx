@@ -43,7 +43,7 @@ const About: React.FC = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight">
               Founder-led. <span className="text-primary">Code-driven</span>.
             </h1>
-            <p className="text-xl text-white/60 leading-relaxed">
+            <p className="text-xl text-white/80 leading-relaxed">
               We are a hands-on technical team. When you partner with DualSync, you talk directly to the founders who are designing your architecture and writing your code.
             </p>
           </ScrollReveal>
@@ -62,7 +62,7 @@ const About: React.FC = () => {
             <ScrollReveal key={i} delay={i * 100}>
               <div className="glass-panel p-8 rounded-3xl text-center h-full flex flex-col justify-center border-white/10 hover:border-primary/30 transition-colors">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">{stat.value}</div>
-                <div className="text-white/40 text-[10px] font-bold uppercase tracking-widest">{stat.label}</div>
+                <div className="text-white/60 text-[10px] font-bold uppercase tracking-widest">{stat.label}</div>
               </div>
             </ScrollReveal>
           ))}
@@ -77,7 +77,7 @@ const About: React.FC = () => {
               <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full relative overflow-hidden group">
                 <span className="material-symbols-outlined text-primary text-5xl mb-6 group-hover:rotate-180 transition-transform duration-700">psychology</span>
                 <h3 className="text-2xl font-bold text-white mb-4">AI-Accelerated Workflow</h3>
-                <p className="text-white/60 leading-relaxed">
+                <p className="text-white/80 leading-relaxed">
                   We use AI to bridge the gap between vision and reality. By automating boilerplate and streamlining debugging, we focus 100% of our energy on your unique business logic, delivering high-end systems at startup speed.
                 </p>
               </div>
@@ -87,7 +87,7 @@ const About: React.FC = () => {
               <div className="glass-card p-10 rounded-[2.5rem] border-white/5 h-full relative overflow-hidden group">
                 <span className="material-symbols-outlined text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-700">database</span>
                 <h3 className="text-2xl font-bold text-white mb-4">Enterprise Data Layers</h3>
-                <p className="text-white/60 leading-relaxed">
+                <p className="text-white/80 leading-relaxed">
                   Our systems, like <strong>PaFood</strong>, are built on robust <strong>PostgreSQL</strong> foundations. We specialize in cross-platform data synchronization, ensuring your web dashboards and mobile apps stay in perfect sync across multiple user roles.
                 </p>
               </div>
@@ -106,10 +106,10 @@ const About: React.FC = () => {
                 <div>
                   <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-4 block">Our Main Partner</span>
                   <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">DualSync & Pak Asian Foods</h2>
-                  <p className="text-white/60 text-lg leading-relaxed mb-6">
+                  <p className="text-white/80 text-lg leading-relaxed mb-6">
                     For over 3 years, we have been the primary technical architects for <strong>Pak Asian Foods</strong>. We maintain the <strong>PaFood</strong> ecosystem and manage <strong>PakAsianShop.com</strong>, providing a seamless bridge between digital storefronts and physical logistics.
                   </p>
-                  <p className="text-white/60 text-lg leading-relaxed">
+                  <p className="text-white/80 text-lg leading-relaxed">
                     This is a long-term technical marriage where we grow as our partner grows.
                   </p>
                 </div>
@@ -135,7 +135,7 @@ const About: React.FC = () => {
           <ScrollReveal>
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Team</h2>
-              <p className="text-white/40">Technical experts who are personally involved in every line of code.</p>
+              <p className="text-white/60">Technical experts who are personally involved in every line of code.</p>
             </div>
           </ScrollReveal>
 
@@ -180,7 +180,7 @@ const About: React.FC = () => {
                       )}
                     </div>
                     <p className="text-primary text-[10px] font-black mb-4 uppercase tracking-[0.2em]">{member.role}</p>
-                    <p className="text-white/50 text-sm leading-relaxed mb-4">{member.bio}</p>
+                    <p className="text-white/70 text-sm leading-relaxed mb-4">{member.bio}</p>
                   </div>
                 </div>
               </ScrollReveal>

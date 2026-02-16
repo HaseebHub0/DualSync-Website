@@ -67,7 +67,7 @@ const ServicesPage: React.FC = () => {
         <div className="text-center mb-16 md:mb-24">
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter">Engineered <br /><span className="text-primary">Capabilities.</span></h1>
-            <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
               We provide end-to-end technical leadership, helping companies build software that is both beautiful and robust.
             </p>
           </ScrollReveal>
@@ -109,14 +109,14 @@ const ServicesPage: React.FC = () => {
                     <h3 className="text-3xl md:text-4xl font-bold text-white group-hover:text-primary transition-colors duration-500">{service.title}</h3>
                   </div>
 
-                  <p className="text-xl text-white/50 mb-10 max-w-3xl leading-relaxed transition-colors group-hover:text-white/70">{service.description}</p>
+                  <p className="text-xl text-white/70 mb-10 max-w-3xl leading-relaxed transition-colors group-hover:text-white/90">{service.description}</p>
 
                   {/* Feature Grid with Staggered Visuals */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 mb-10">
                     {service.details.map((detail, dIndex) => (
                       <div
                         key={dIndex}
-                        className="flex items-center gap-4 text-white/40 group-hover:text-white/80 transition-all duration-500 group-hover:translate-x-2"
+                        className="flex items-center gap-4 text-white/60 group-hover:text-white/90 transition-all duration-500 group-hover:translate-x-2"
                         style={{ transitionDelay: `${dIndex * 50}ms` }}
                       >
                         <div className="size-1.5 rounded-full bg-primary/20 group-hover:bg-primary group-hover:shadow-[0_0_8px_#38e07b] transition-all"></div>
@@ -130,7 +130,7 @@ const ServicesPage: React.FC = () => {
                     {service.tags.map((tag, tIndex) => (
                       <span
                         key={tIndex}
-                        className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/30 group-hover:text-white/60 group-hover:border-white/20 transition-all"
+                        className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/50 group-hover:text-white/80 group-hover:border-white/20 transition-all"
                         style={{ transitionDelay: `${tIndex * 100}ms` }}
                       >
                         {tag}
@@ -150,7 +150,7 @@ const ServicesPage: React.FC = () => {
           <div className="mb-12 gap-6">
             <div className="flex flex-col gap-4">
               <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Expanding Horizons</h2>
-              <p className="text-white/60 max-w-lg">We are constantly evolving. Here is what's coming next to the DualSync ecosystem.</p>
+              <p className="text-white/80 max-w-lg">We are constantly evolving. Here is what's coming next to the DualSync ecosystem.</p>
             </div>
           </div>
         </ScrollReveal>
@@ -176,7 +176,7 @@ const ServicesPage: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-                  <p className="text-white/40 text-sm group-hover:text-white/60 transition-colors">{item.description}</p>
+                  <p className="text-white/60 text-sm group-hover:text-white/80 transition-colors">{item.description}</p>
                 </div>
               </div>
             </ScrollReveal>

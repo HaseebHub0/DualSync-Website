@@ -51,7 +51,7 @@ const Work: React.FC = () => {
               10+ Systems Built
             </div>
             <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight">Systems Built <br />To Scale.</h1>
-            <p className="text-xl text-white/60 mb-10 max-w-2xl">
+            <p className="text-xl text-white/80 mb-10 max-w-2xl">
               From multi-role enterprise logistics to high-traffic retail platforms, we've engineered 10+ successful digital systems that run modern businesses.
             </p>
 
@@ -61,8 +61,8 @@ const Work: React.FC = () => {
                   key={cat}
                   onClick={() => setFilter(cat)}
                   className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all border ${filter === cat
-                      ? 'bg-primary text-background-dark border-primary'
-                      : 'bg-transparent text-white/60 border-white/10 hover:border-white/30 hover:text-white'
+                    ? 'bg-primary text-background-dark border-primary'
+                    : 'bg-transparent text-white/80 border-white/10 hover:border-white/30 hover:text-white'
                     }`}
                 >
                   {cat}
@@ -124,7 +124,7 @@ const Work: React.FC = () => {
                     <h3 className="text-3xl md:text-4xl font-bold text-white">{project.title}</h3>
                   </div>
 
-                  <p className="text-white/50 leading-relaxed text-lg mb-8">{project.description}</p>
+                  <p className="text-white/70 leading-relaxed text-lg mb-8">{project.description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-10">
                     {project.tags.map((tag, i) => (

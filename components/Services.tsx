@@ -63,7 +63,7 @@ const Services: React.FC = () => {
           <div className="flex flex-col gap-4 mb-16 text-center">
             <div className="text-primary font-bold text-xs uppercase tracking-[0.4em] mb-2">Our Capabilities</div>
             <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">Technical Excellence</h2>
-            <p className="text-white/50 max-w-2xl mx-auto text-lg leading-relaxed">
+            <p className="text-white/70 max-w-2xl mx-auto text-lg leading-relaxed">
               We leverage cutting-edge technology to solve complex problems and drive business growth.
             </p>
           </div>
@@ -86,11 +86,11 @@ const Services: React.FC = () => {
                 </div>
 
                 <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors">{service.title}</h3>
-                <p className="text-white/50 leading-relaxed text-sm mb-8">{service.description}</p>
+                <p className="text-white/70 leading-relaxed text-sm mb-8">{service.description}</p>
 
                 <ul className="space-y-3 mb-10">
                   {service.features?.map((feat, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/40 group-hover:text-white/70 transition-colors text-xs font-medium">
+                    <li key={i} className="flex items-center gap-3 text-white/60 group-hover:text-white/80 transition-colors text-xs font-medium">
                       <div className="size-1 rounded-full bg-white/20 group-hover:bg-primary transition-colors"></div>
                       {feat}
                     </li>

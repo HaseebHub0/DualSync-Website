@@ -5,6 +5,46 @@ const Footer: React.FC = () => {
   const location = useLocation();
   const isContactPage = location.pathname === '/contact';
 
+  const [email, setEmail] = React.useState('');
+  const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubscribe = async () => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    setStatus('loading');
+    try {
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      if (!accessKey) throw new Error('Missing API Key');
+
+      const formData = new FormData();
+      formData.append('access_key', accessKey);
+      formData.append('email', email);
+      formData.append('subject', '🚀 New Footer Subscription');
+      formData.append('message', `New subscription request from: ${email}`);
+      formData.append('from_name', 'DualSync Footer');
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setEmail('');
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (e) {
+      console.error(e);
+      setStatus('error');
+      alert('Failed to subscribe. Please try again.');
+    }
+  };
+
   return (
     <footer className="py-20 px-4 sm:px-8 border-t border-white/5" id="contact">
       <div className="max-w-4xl mx-auto text-center">
@@ -17,21 +57,37 @@ const Footer: React.FC = () => {
               <p className="text-white/70 text-lg max-w-lg mx-auto">Let's discuss how DualSync can elevate your digital presence. Schedule a free consultation today.</p>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-4">
-                <input
-                  className="h-12 px-6 rounded-full bg-background-dark/50 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-auto min-w-[280px]"
-                  placeholder="Enter your email"
-                  type="email"
-                />
-                <button className="bg-primary text-background-dark font-bold h-12 px-8 rounded-full hover:bg-white hover:scale-105 transition-all shadow-lg shadow-primary/20 whitespace-nowrap">
-                  Get in Touch
-                </button>
+                {status === 'success' ? (
+                  <div className="bg-primary/20 border border-primary text-primary px-8 py-3 rounded-full font-bold flex items-center gap-2">
+                    <span className="material-symbols-outlined">check_circle</span>
+                    Subscribed Successfully!
+                  </div>
+                ) : (
+                  <>
+                    <input
+                      className="h-12 px-6 rounded-full bg-background-dark/50 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-auto min-w-[280px]"
+                      placeholder="Enter your email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      disabled={status === 'loading'}
+                    />
+                    <button
+                      onClick={handleSubscribe}
+                      disabled={status === 'loading'}
+                      className="bg-primary text-background-dark font-bold h-12 px-8 rounded-full hover:bg-white hover:scale-105 transition-all shadow-lg shadow-primary/20 whitespace-nowrap disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                    >
+                      {status === 'loading' ? 'Sending...' : 'Get in Touch'}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
         )}
 
         {/* Footer Links */}
-        <div className={`flex flex-col md:flex-row justify-between items-center text-white/40 text-sm ${isContactPage ? 'pt-0' : 'mt-12'}`}>
+        <div className={`flex flex-col md:flex-row justify-between items-center text-white/60 text-sm ${isContactPage ? 'pt-0' : 'mt-12'}`}>
           <p>© 2025 DualSync. All rights reserved.</p>
           <div className="flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0">
             <div className="flex gap-6 order-2 md:order-1">
@@ -43,6 +99,9 @@ const Footer: React.FC = () => {
             <div className="flex gap-4 order-1 md:order-2 mb-4 md:mb-0">
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="LinkedIn">
                 <svg className="size-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="X (Twitter)">
+                <svg className="size-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="Instagram">
                 <svg className="size-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>

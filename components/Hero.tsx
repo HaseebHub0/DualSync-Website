@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
       {/* Enhanced Ambient Background Lights */}
       <div className="absolute inset-0 pointer-events-none z-0">
         {/* Base Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,224,123,0.08),transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,224,123,0.15),transparent_60%)]"></div>
 
         {/* Drifting Blobs */}
         <div className={`absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full transition-all duration-1000 ${phase === 'chaos' ? 'opacity-20 scale-75' : 'opacity-100 animate-drift'}`}></div>
@@ -112,7 +112,7 @@ const Hero: React.FC = () => {
             <span>{phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
             Sync Your{' '}
             <span className="relative inline-block px-1 md:px-2">
               <span className={`absolute inset-0 bg-primary -skew-x-6 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
@@ -121,7 +121,7 @@ const Hero: React.FC = () => {
               </span>
             </span>
             <br />
-            <span className="text-white/30">With</span>{' '}
+            <span className="text-white/90">With</span>{' '}
             <span className="relative inline-block px-1 md:px-2">
               <span className={`absolute inset-0 bg-white -skew-x-3 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
               <span className={`relative z-10 text-background-dark transition-all duration-700 inline-block ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
@@ -130,11 +130,21 @@ const Hero: React.FC = () => {
             </span>
           </h1>
 
-          <p className="animate-fade-in-up animate-delay-200 text-base md:text-xl text-white/50 max-w-2xl leading-relaxed px-4">
+          <p className="animate-fade-in-up animate-delay-200 text-base md:text-xl text-white/70 max-w-2xl leading-relaxed px-4">
             {phase === 'chaos'
               ? 'Drowning in messy data and chaotic workflows? Feel the weight of inefficiency and stress-induced friction.'
               : 'Experience true relief with structured digital ecosystems that grow with you, stress-free and synchronized.'}
           </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animate-delay-300">
+            <a href="#contact" className="group relative px-8 py-3 bg-primary text-background-dark font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white transition-colors duration-300 shadow-[0_0_20px_rgba(56,224,123,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2">
+              <span>Start Project</span>
+              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </a>
+            <a href="#work" className="px-8 py-3 bg-white/5 border border-white/10 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors flex items-center gap-2 backdrop-blur-md">
+              <span>View Work</span>
+            </a>
+          </div>
         </div>
 
         {/* 3D Visual Scene */}
