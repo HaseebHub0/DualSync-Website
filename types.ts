@@ -39,6 +39,7 @@ export interface TeamMember {
   role: string;
   image: string;
   bio: string;
+  linkedin?: string;
 }
 
 export interface BlogPost {
