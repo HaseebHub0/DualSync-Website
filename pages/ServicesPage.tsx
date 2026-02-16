@@ -25,11 +25,11 @@ const detailedServices: (ServiceItem & { details: string[] })[] = [
   {
     icon: 'smartphone',
     title: 'Mobile Apps',
-    description: "Native iOS & Android apps that users love. We've delivered apps with 4.8+ star ratings and millions of downloads.",
-    tags: ['React Native', 'Swift', 'Kotlin', 'Firebase'],
-    features: ['iOS & Android', 'Cross-Platform', 'App Store Optimization'],
+    description: "Efficient cross-platform solutions for modern businesses. We build functional, high-performance apps that solve real operational problems.",
+    tags: ['React Native', 'Expo', 'Android', 'iOS'],
+    features: ['Business Apps', 'Cross-Platform', 'Internal Tools'],
     color: 'border-cyan-400/20',
-    details: ['High-Performance Mobile Games', 'Social Networking Apps', 'Bluetooth & IoT Integration', 'Biometric Authentication']
+    details: ['Real-time Data Synchronization', 'Offline-First Architecture', 'Inventory Management Apps', 'Field Operation Tools']
   },
   {
     icon: 'code',
@@ -43,11 +43,20 @@ const detailedServices: (ServiceItem & { details: string[] })[] = [
   {
     icon: 'palette',
     title: 'UI/UX Design',
-    description: 'Designs that delight users and drive conversions. Our redesigns have increased conversion rates by up to 200%.',
-    tags: ['Figma', 'User Testing', 'Interaction Design'],
-    features: ['User Research', 'Prototyping', 'Design Systems'],
+    description: 'Clean, intuitive interfaces designed for clarity. We focus on usability and logical flows to ensure your software is easy to navigate.',
+    tags: ['Figma', 'Wireframing', 'Prototyping'],
+    features: ['User Flows', 'Information Architecture', 'Design Systems'],
     color: 'border-purple-500/20',
-    details: ['Atomic Design Systems', 'Accessibility Compliance (WCAG)', 'Interactive High-Fidelity Prototypes', 'User Journey Mapping']
+    details: ['Interactive Prototypes', 'Dashboard layouts', 'Mobile-First Design', 'User Journey Mapping']
+  },
+  {
+    icon: 'campaign',
+    title: 'Social Media Marketing',
+    description: 'Data-driven social strategies that build community and drive engagement. We handle everything from content creation to analytics.',
+    tags: ['Instagram', 'LinkedIn', 'Content Creation', 'Analytics'],
+    features: ['Reels & Shorts', 'Copywriting', 'Growth Hacking'],
+    color: 'border-orange-500/20',
+    details: ['Short-form Video Production', 'LinkedIn Authority Building', 'Community Management', 'Performance Analytics']
   }
 ];
 
@@ -57,7 +66,7 @@ const ServicesPage: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-24">
           <ScrollReveal>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">Engineered <br/><span className="text-primary">Capabilities.</span></h1>
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">Engineered <br /><span className="text-primary">Capabilities.</span></h1>
             <p className="text-xl text-white/50 max-w-2xl mx-auto leading-relaxed">
               We provide end-to-end technical leadership, helping companies build software that is both beautiful and robust.
             </p>
@@ -68,7 +77,7 @@ const ServicesPage: React.FC = () => {
           {detailedServices.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div className={`glass-card p-10 md:p-16 rounded-[3.5rem] border-2 ${service.color} hover:bg-white/[0.03] transition-all flex flex-col lg:flex-row gap-12 items-start relative overflow-hidden group`}>
-                
+
                 {/* Number Indicator */}
                 <div className="absolute top-10 right-10 text-8xl font-black text-white/[0.02] select-none group-hover:text-white/[0.05] transition-colors">0{index + 1}</div>
 
@@ -79,7 +88,7 @@ const ServicesPage: React.FC = () => {
                 <div className="flex-grow relative z-10">
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{service.title}</h3>
                   <p className="text-xl text-white/50 mb-10 max-w-3xl leading-relaxed">{service.description}</p>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-10">
                     {service.details.map((detail, dIndex) => (
                       <div key={dIndex} className="flex items-center gap-4 text-white/70">
@@ -98,10 +107,7 @@ const ServicesPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="lg:self-center shrink-0 relative z-10">
-                   <button className="h-16 w-16 rounded-full border border-white/10 flex items-center justify-center text-white/30 hover:bg-primary hover:border-primary hover:text-background-dark transition-all transform hover:scale-110 active:scale-95">
-                      <span className="material-symbols-outlined text-3xl">arrow_forward</span>
-                   </button>
+                <div className="lg:self-center shrink-0 relative z-10 hidden">
                 </div>
               </div>
             </ScrollReveal>

@@ -9,9 +9,9 @@ const futureServices: RoadmapItem[] = [
     description: 'Brand identity, UI/UX prototyping, and marketing assets.'
   },
   {
-    icon: 'share',
-    title: 'Social Media Management',
-    description: 'Strategic content planning and community engagement.'
+    icon: 'trending_up',
+    title: 'SEO Optimization',
+    description: 'Advanced technical SEO, programmatic content strategies, and ranking domination.'
   }
 ];
 
@@ -27,7 +27,7 @@ const Roadmap: React.FC = () => {
             </div>
           </div>
         </ScrollReveal>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {futureServices.map((item, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">

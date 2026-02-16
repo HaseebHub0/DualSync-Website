@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
               <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="TikTok">
                 <svg className="size-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.01 1.62 4.14.99 1.14 2.3 1.94 3.75 2.29v4.03c-1.83-.07-3.53-.88-4.68-2.31v7.59c.02 1.67-.4 3.32-1.22 4.75-.82 1.43-2.03 2.59-3.48 3.34-1.45.75-3.09 1.12-4.73.99-1.64-.13-3.21-.76-4.52-1.82-1.31-1.06-2.28-2.5-2.77-4.14-.49-1.64-.47-3.4.06-5.03.53-1.63 1.55-3.07 2.94-4.11 1.39-1.04 3.08-1.58 4.78-1.54v4.21c-.57-.03-1.14.07-1.66.29-.52.22-.98.57-1.35 1.01-.37.44-.64.97-.79 1.53s-.12 1.15.08 1.7.53 1.04 1 1.42.94.63 1.53.74c.59.1 1.2.02 1.75-.24s1.02-.67 1.34-1.2c.32-.53.48-1.15.46-1.77V.02z" /></svg>
               </a>
-              <a href="https://daily.dev" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="Daily.dev">
+              <a href="https://app.daily.dev/squads/dualsynctechhub" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors p-2 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 group" title="Daily.dev">
                 <svg className="size-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.5l5 7.5-5 7.5-5-7.5 5-7.5z" /></svg>
               </a>
             </div>

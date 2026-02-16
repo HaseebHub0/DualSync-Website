@@ -24,8 +24,8 @@ const services: ServiceItem[] = [
   {
     icon: 'smartphone',
     title: 'Mobile Apps',
-    description: "Native iOS & Android apps that users love. We've delivered apps with 4.8+ star ratings and millions of downloads.",
-    features: ['iOS & Android', 'Cross-Platform', 'App Store Optimization'],
+    description: "We build efficient cross-platform apps focused on business logic and operational utility.",
+    features: ['Business Focus', 'Cross-Platform', 'React Native'],
     tags: [],
     color: 'border-cyan-400/30'
   },
@@ -40,10 +40,18 @@ const services: ServiceItem[] = [
   {
     icon: 'palette',
     title: 'UI/UX Design',
-    description: 'Designs that delight users and drive conversions. Our redesigns have increased conversion rates by up to 200%.',
-    features: ['User Research', 'Prototyping', 'Design Systems'],
+    description: 'Clean, functional design prioritization clarity and ease of use for complex data systems.',
+    features: ['Prototyping', 'User Flows', 'Dashboard Design'],
     tags: [],
     color: 'border-purple-500/30'
+  },
+  {
+    icon: 'campaign',
+    title: 'Social Media Marketing',
+    description: 'Strategic content and community management to grow your brand presence.',
+    features: ['Content Strategy', 'Video Editing', 'Community Growth'],
+    tags: [],
+    color: 'border-orange-500/30'
   }
 ];
 
@@ -60,19 +68,18 @@ const Services: React.FC = () => {
             </p>
           </div>
         </ScrollReveal>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
               <div className={`glass-card p-10 rounded-[2.5rem] flex flex-col h-full group border-2 ${service.color} hover:bg-white/[0.04] transition-all duration-500 relative overflow-hidden`}>
                 {/* Background Glow */}
-                <div className={`absolute -top-24 -right-24 size-48 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity ${
-                  service.title === 'AI Integration' ? 'bg-rose-500' :
+                <div className={`absolute -top-24 -right-24 size-48 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity ${service.title === 'AI Integration' ? 'bg-rose-500' :
                   service.title === 'Web Development' ? 'bg-blue-500' :
-                  service.title === 'Mobile Apps' ? 'bg-cyan-500' :
-                  service.title === 'Custom Software' ? 'bg-primary' :
-                  'bg-purple-500'
-                }`}></div>
+                    service.title === 'Mobile Apps' ? 'bg-cyan-500' :
+                      service.title === 'Custom Software' ? 'bg-primary' :
+                        'bg-purple-500'
+                  }`}></div>
 
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-8 bg-white/5 border border-white/10 text-white/80 group-hover:text-white transition-colors`}>
                   <span className="material-symbols-outlined text-2xl">{service.icon}</span>
@@ -80,7 +87,7 @@ const Services: React.FC = () => {
 
                 <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors">{service.title}</h3>
                 <p className="text-white/50 leading-relaxed text-sm mb-8">{service.description}</p>
-                
+
                 <ul className="space-y-3 mb-10">
                   {service.features?.map((feat, i) => (
                     <li key={i} className="flex items-center gap-3 text-white/40 group-hover:text-white/70 transition-colors text-xs font-medium">
@@ -90,14 +97,13 @@ const Services: React.FC = () => {
                   ))}
                 </ul>
 
-                <Link to="/contact" className={`mt-auto flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em] transition-all group/link ${
-                  service.title === 'AI Integration' ? 'text-rose-400' :
+                <Link to="/contact" className={`mt-auto flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em] transition-all group/link ${service.title === 'AI Integration' ? 'text-rose-400' :
                   service.title === 'Web Development' ? 'text-blue-400' :
-                  service.title === 'Mobile Apps' ? 'text-cyan-400' :
-                  service.title === 'Custom Software' ? 'text-primary' :
-                  'text-purple-400'
-                }`}>
-                  Get Started 
+                    service.title === 'Mobile Apps' ? 'text-cyan-400' :
+                      service.title === 'Custom Software' ? 'text-primary' :
+                        'text-purple-400'
+                  }`}>
+                  Get Started
                   <span className="material-symbols-outlined text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
                 </Link>
               </div>
