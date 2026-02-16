@@ -13,9 +13,15 @@ const team: TeamMember[] = [
   },
   {
     name: "Muhammad Siddique",
-    role: "Founder & Chief Technology Officer (CTO)",
+    role: "Co-Founder & Chief Technology Officer (CTO)",
     bio: "A seasoned Systems Architect with a core expertise in Django backend development and high-performance database management. Siddique leads our technical infrastructure and client acquisition strategy. He is responsible for ensuring that our enterprise-level solutions are scalable, secure, and engineered to handle high-traffic business demands.",
     image: "/assets/siddique.jpeg"
+  },
+  {
+    name: "Kiran Haroon",
+    role: "Video Editor & Social Media Manager",
+    bio: "The creative force behind DualSync's digital presence. Kiran blends storytelling with visual artistry to craft compelling narratives that resonate with our audience. She manages our social channels and produces high-impact video content that showcases our technological milestones due to her privacy concerns face is hidden.",
+    image: "https://ui-avatars.com/api/?name=Kiran+Haroon&background=38e07b&color=fff&size=512"
   }
 ];
 
@@ -121,12 +127,12 @@ const About: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Founders</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Team</h2>
               <p className="text-white/40">Technical experts who are personally involved in every line of code.</p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {team.map((member, index) => (
               <ScrollReveal key={index} delay={index * 150}>
                 <div className="glass-card rounded-[2.5rem] p-5 group h-full hover:border-primary/20 transition-all">
@@ -141,14 +147,14 @@ const About: React.FC = () => {
 
                     {/* Founder Badge */}
                     {member.name === "Muhammad Haseeb" ? (
-                      <div className="absolute top-4 right-4 bg-primary text-background-dark text-[10px] font-black uppercase px-4 py-1.5 rounded-full shadow-2xl flex items-center gap-1">
+                      <div className="absolute top-4 right-4 bg-primary text-background-dark text-[10px] font-black uppercase px-4 py-1.5 rounded-full shadow-2xl flex items-center gap-1 z-20">
                         <span className="material-symbols-outlined text-xs">verified</span> Lead
                       </div>
-                    ) : (
-                      <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10">
-                        Founder
+                    ) : member.name === "Muhammad Siddique" ? (
+                      <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10 z-20">
+                        Co-Founder
                       </div>
-                    )}
+                    ) : null}
                   </div>
                   <div className="px-3 pb-4">
                     <h3 className="text-xl font-bold text-white mb-1 group-hover:text-primary transition-colors">{member.name}</h3>
