@@ -37,47 +37,11 @@ const Contact: React.FC = () => {
       web3FormsData.append('access_key', accessKey);
       web3FormsData.append('name', formData.name);
       web3FormsData.append('email', formData.email);
+      web3FormsData.append('project_type', formData.projectType);
+      web3FormsData.append('message', formData.message);
       web3FormsData.append('subject', `🚀 New Project Inquiry: ${formData.projectType}`);
       web3FormsData.append('from_name', 'DualSync Agency Website');
-
-      // Professional HTML email template
-      const emailHTML = `<!DOCTYPE html>
-<html><head><meta charset="utf-8"><style>
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:#333;margin:0;padding:0;background-color:#f4f4f4}
-.container{max-width:600px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-.header{background:linear-gradient(135deg,#122017 0%,#1a2e22 100%);padding:30px;text-align:center;border-bottom:4px solid #38e07b}
-.logo{font-size:28px;font-weight:bold;color:#fff;margin:0}.logo-accent{color:#38e07b}
-.badge{display:inline-block;background:#38e07b;color:#122017;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin-top:10px}
-.content{padding:40px 30px}.greeting{font-size:18px;color:#122017;font-weight:600;margin-bottom:20px}
-.info-section{margin-bottom:30px}.info-label{font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;color:#38e07b;margin-bottom:8px}
-.info-value{background:#f8f9fa;padding:14px 18px;border-radius:8px;border-left:3px solid #38e07b;font-size:15px;color:#122017;word-wrap:break-word}
-.message-box{background:linear-gradient(135deg,#f8f9fa 0%,#fff 100%);padding:20px;border-radius:10px;border:1px solid #e9ecef;margin-top:10px}
-.message-text{color:#333;font-size:15px;line-height:1.8;white-space:pre-wrap}
-.divider{height:1px;background:linear-gradient(90deg,transparent,#e9ecef,transparent);margin:30px 0}
-.footer{background:#122017;padding:25px;text-align:center}.footer-text{color:#fff;font-size:13px;margin:5px 0}
-.footer-link{color:#38e07b;text-decoration:none;font-weight:600}
-.timestamp{background:#fff3cd;color:#856404;padding:10px 15px;border-radius:6px;font-size:12px;text-align:center;margin-bottom:20px;border-left:3px solid #ffc107}
-.priority{background:linear-gradient(135deg,#38e07b 0%,#2bc76b 100%);color:#fff;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:bold;text-transform:uppercase;display:inline-block;margin-bottom:20px}
-.btn{display:inline-block;background:#38e07b;color:#122017;padding:14px 30px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;margin:5px}
-</style></head><body>
-<div class="container">
-<div class="header"><div class="logo">Dual<span class="logo-accent">Sync</span> Agency</div><div class="badge">New Inquiry</div></div>
-<div class="content">
-<div class="priority">⚡ Priority: Immediate Review Required</div>
-<div class="greeting">New Project Inquiry Received!</div>
-<div class="timestamp">📅 Received: ${new Date().toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
-<div class="info-section"><div class="info-label">👤 Client Name</div><div class="info-value">${formData.name}</div></div>
-<div class="info-section"><div class="info-label">📧 Email Address</div><div class="info-value"><a href="mailto:${formData.email}" style="color:#38e07b;text-decoration:none;font-weight:600">${formData.email}</a></div></div>
-<div class="info-section"><div class="info-label">🎯 Project Type</div><div class="info-value">${formData.projectType}</div></div>
-<div class="divider"></div>
-<div class="info-section"><div class="info-label">💬 Project Details & Message</div><div class="message-box"><div class="message-text">${formData.message}</div></div></div>
-<div class="divider"></div>
-<div style="text-align:center;margin-top:30px"><a href="mailto:${formData.email}?subject=Re: ${formData.projectType}" class="btn">📧 Reply Now</a></div>
-</div>
-<div class="footer"><div class="footer-text">DualSync Agency - Contact Form Submission</div><div class="footer-text">📍 <a href="https://dualsyncagency.com" class="footer-link">dualsyncagency.com</a></div><div class="footer-text" style="margin-top:15px;color:#38e07b;font-size:12px">Founder-led. Code-driven.</div></div>
-</div></body></html>`;
-
-      web3FormsData.append('message', emailHTML);
+      web3FormsData.append('replyto', formData.email);
 
       // Debugging Log - Check console to see if key is loaded
       console.log("Transmission initialized. Key loaded:", accessKey ? "YES" : "NO");
