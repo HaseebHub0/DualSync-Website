@@ -72,7 +72,8 @@ const Contact: React.FC = () => {
     } catch (error: any) {
       console.error("Transmission failed:", error);
       setStatus('error');
-      alert(`Transmission Error: ${error.text || error.message || 'Unknown error'}`);
+      // Show the exact error text to the user for debugging
+      alert(`Transmission Error: ${JSON.stringify(error)}`);
     }
   };
 
