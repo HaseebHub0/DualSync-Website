@@ -64,10 +64,10 @@ const ServicesPage: React.FC = () => {
   return (
     <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-24">
+        <div className="text-center mb-16 md:mb-24">
           <ScrollReveal>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">Engineered <br /><span className="text-primary">Capabilities.</span></h1>
-            <p className="text-xl text-white/50 max-w-2xl mx-auto leading-relaxed">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter">Engineered <br /><span className="text-primary">Capabilities.</span></h1>
+            <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed">
               We provide end-to-end technical leadership, helping companies build software that is both beautiful and robust.
             </p>
           </ScrollReveal>
@@ -77,9 +77,9 @@ const ServicesPage: React.FC = () => {
           {detailedServices.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div className={`
-                glass-card p-10 md:p-16 rounded-[3.5rem] border-2 ${service.color} 
+                glass-card p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[3.5rem] border-2 ${service.color} 
                 hover:bg-white/[0.03] transition-all duration-700 
-                flex flex-col lg:flex-row gap-12 items-start relative overflow-hidden group
+                flex flex-col lg:flex-row gap-8 lg:gap-12 items-start relative overflow-hidden group
                 hover:[transform:rotateX(2deg)_rotateY(-1deg)_translateZ(20px)]
               `}>
 

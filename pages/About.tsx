@@ -40,7 +40,7 @@ const About: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           <ScrollReveal>
             <div className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary font-bold text-sm mb-6 uppercase tracking-widest">Our DNA</div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight">
               Founder-led. <span className="text-primary">Code-driven</span>.
             </h1>
             <p className="text-xl text-white/60 leading-relaxed">
