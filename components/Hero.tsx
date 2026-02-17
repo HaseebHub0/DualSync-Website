@@ -113,27 +113,13 @@ const Hero: React.FC = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            Sync Your{' '}
-            <span className="relative inline-block px-1 md:px-2">
-              <span className={`absolute inset-0 bg-primary -skew-x-6 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
-              <span className={`relative z-10 text-background-dark transition-all duration-700 inline-block ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-                {currentPair.first}
-              </span>
-            </span>
-            <br />
-            <span className="text-white/90">With</span>{' '}
-            <span className="relative inline-block px-1 md:px-2">
-              <span className={`absolute inset-0 bg-white -skew-x-3 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
-              <span className={`relative z-10 text-background-dark transition-all duration-700 inline-block ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                {currentPair.second}
-              </span>
-            </span>
+            DualSync: <span className="text-primary">ERP & AI</span> <br /> Engineering.
           </h1>
 
           <p className="animate-fade-in-up animate-delay-200 text-base md:text-xl text-white/70 max-w-2xl leading-relaxed px-4">
             {phase === 'chaos'
               ? 'Drowning in messy data and chaotic workflows? Feel the weight of inefficiency and stress-induced friction.'
-              : 'Experience true relief with structured digital ecosystems that grow with you, stress-free and synchronized.'}
+              : 'Empowering modern businesses with custom ERP software, autonomous AI agents, and high-performance digital infrastructure.'}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animate-delay-300">

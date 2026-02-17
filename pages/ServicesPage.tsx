@@ -66,9 +66,9 @@ const ServicesPage: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 md:mb-24">
           <ScrollReveal>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter">Engineered <br /><span className="text-primary">Capabilities.</span></h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter">DualSync <br /><span className="text-primary">ERP & AI Services.</span></h1>
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-              We provide end-to-end technical leadership, helping companies build software that is both beautiful and robust.
+              We provide end-to-end technical leadership, building custom ERP systems and autonomous AI software that is both beautiful and robust.
             </p>
           </ScrollReveal>
         </div>
