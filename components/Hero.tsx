@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
 const wordPairs = [
+  { first: 'Business', second: 'ERP' },
+  { first: 'Chaos', second: 'AI Agents' },
   { first: 'Vision', second: 'Reality' },
-  { first: 'Concepts', second: 'Software' },
-  { first: 'Strategy', second: 'Growth' },
-  { first: 'Ideas', second: 'Impact' },
-  { first: 'Dreams', second: 'Future' }
+  { first: 'Complexity', second: 'Systems' },
+  { first: 'Logic', second: 'Software' }
 ];
 
 const Hero: React.FC = () => {
@@ -113,7 +113,21 @@ const Hero: React.FC = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            DualSync: <span className="text-primary">ERP & AI</span> <br /> Engineering.
+            Sync Your{' '}
+            <span className="relative inline-block px-1 md:px-2">
+              <span className={`absolute inset-0 bg-primary -skew-x-6 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
+              <span className={`relative z-10 text-background-dark transition-all duration-700 inline-block ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+                {currentPair.first}
+              </span>
+            </span>
+            <br />
+            <span className="text-white/90">With</span>{' '}
+            <span className="relative inline-block px-1 md:px-2">
+              <span className={`absolute inset-0 bg-white -skew-x-3 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
+              <span className={`relative z-10 text-background-dark transition-all duration-700 inline-block ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                {currentPair.second}
+              </span>
+            </span>
           </h1>
 
           <p className="animate-fade-in-up animate-delay-200 text-base md:text-xl text-white/70 max-w-2xl leading-relaxed px-4">
