@@ -112,112 +112,52 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Behind the Code Section */}
+      {/* DualSync Studio Gallery */}
       <section className="px-4 sm:px-8 mb-32">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <div className="mb-12 text-center md:text-left">
-              <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-4 block">Process</span>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Behind the Code</h2>
-              <p className="text-white/80 text-lg max-w-2xl">
-                Real work happens here. From brainstorming complex logic to late-night deployment sprints, we are obsessed with quality.
+            <div className="mb-16 text-center">
+              <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-4 block">Inside the Lab</span>
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-6">DualSync Studio</h2>
+              <p className="text-white/60 text-lg max-w-2xl mx-auto">
+                A high-end environment engineered for deep work. From architecture design to final deployment, this is where your systems come to life.
               </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Main Featured Image - me_at_work */}
-            <ScrollReveal delay={100}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[450px] relative overflow-hidden group md:col-span-2">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/me_at_work.jpeg"
-                  alt="Founder at work"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <span className="bg-primary/90 text-background-dark text-[10px] font-black uppercase px-3 py-1 rounded-full mb-2 inline-block">Focus</span>
-                  <p className="text-white font-bold text-xl">Engineering the Future</p>
-                </div>
-              </div>
-            </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[250px] md:auto-rows-[300px]">
+            {[
+              { src: "/assets/me_at_work.jpeg", title: "Lead Architect", span: "lg:col-span-2 lg:row-span-2", alt: "Founder at work" },
+              { src: "/assets/workplace4.jpeg", title: "Workstation 01", span: "lg:row-span-1", alt: "DualSync Workplace" },
+              { src: "/assets/workplace5.jpeg", title: "Studio View", span: "lg:row-span-2", alt: "DualSync Studio" },
+              { src: "/assets/workplace1.jpeg", title: "The Hardware", span: "lg:row-span-1", alt: "Workplace Setup" },
+              { src: "/assets/workplace6.jpeg", title: "Logic Mapping", span: "lg:col-span-2 lg:row-span-1", alt: "System Architecture" },
+              { src: "/assets/work.jpeg", title: "Late Night Sprints", span: "lg:row-span-1", alt: "Work session" },
+              { src: "/assets/workplace7.jpeg", title: "Focus Zone", span: "lg:col-span-2 lg:row-span-2", alt: "Detailed workplace" },
+              { src: "/assets/workplace2.jpeg", title: "System Design", span: "lg:row-span-1", alt: "Workspace Detail" },
+              { src: "/assets/work_2.jpeg", title: "Collaboration", span: "lg:row-span-1", alt: "Pair Programming" },
+              { src: "/assets/workplace8.jpeg", title: "Technical Edge", span: "lg:row-span-1", alt: "DualSync Studio Closeup" },
+              { src: "/assets/workplace9.jpeg", title: "Final Sprints", span: "lg:row-span-1", alt: "Development Workflow" },
+              { src: "/assets/workplace3.jpeg", title: "Infrastructure", span: "lg:col-span-2 lg:row-span-1", alt: "Architecture Setup" },
 
-            {/* Workplace 1 */}
-            <ScrollReveal delay={200}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[450px] relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/workplace1.jpeg"
-                  alt="DualSync Studio"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <span className="bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full mb-2 inline-block border border-white/10">Studio</span>
-                  <p className="text-white font-bold text-xl">The Setup</p>
+            ].map((img, i) => (
+              <ScrollReveal key={i} delay={i * 50}>
+                <div className={`glass-card p-2 rounded-[2rem] border-white/5 relative overflow-hidden group h-full ${img.span}`}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 z-10 flex items-end p-8">
+                    <div>
+                      <span className="text-primary font-black text-[10px] uppercase tracking-widest mb-1 block">DualSync Studio</span>
+                      <p className="text-white font-bold text-lg">{img.title}</p>
+                    </div>
+                  </div>
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover rounded-[1.5rem] grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out"
+                    loading="lazy"
+                  />
                 </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Work 1 */}
-            <ScrollReveal delay={300}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[400px] relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/work.jpeg"
-                  alt="Work Session"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <p className="text-white font-bold text-lg">Late Night Sprints</p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Workplace 2 */}
-            <ScrollReveal delay={400}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[400px] relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/workplace2.jpeg"
-                  alt="Workspace Detail"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <p className="text-white font-bold text-lg">System Design</p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Work 2 */}
-            <ScrollReveal delay={500}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[400px] relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/work_2.jpeg"
-                  alt="Collaboration"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <p className="text-white font-bold text-lg">Pair Programming</p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Workplace 3 - Full width Footer of gallery */}
-            <ScrollReveal delay={600}>
-              <div className="glass-card p-3 rounded-[2.5rem] border-white/5 h-[400px] relative overflow-hidden group md:col-span-3">
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
-                <img
-                  src="/assets/workplace3.jpeg"
-                  alt="Studio Environment"
-                  className="w-full h-full object-cover rounded-[2rem] grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 left-8 z-20">
-                  <span className="bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full mb-2 inline-block border border-white/10">Architecture</span>
-                  <p className="text-white font-bold text-xl">Built to Scale</p>
-                </div>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>

@@ -25,12 +25,13 @@ export interface TestimonialItem {
 export type DeviceType = 'mobile' | 'laptop' | 'both';
 
 export interface ProjectItem {
-  title: string;
+  title?: string; // Made optional for simple video showcases
   category: string;
-  description: string;
-  image: string;
+  description?: string; // Made optional for simple video showcases
+  image?: string; // Made optional for simple video showcases
   mobileImage?: string;
-  tags: string[];
+  video?: string;
+  tags?: string[]; // Made optional for simple video showcases
   deviceType?: DeviceType;
 }
 
