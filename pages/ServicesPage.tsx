@@ -66,6 +66,15 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
     features: ['Logo Design', 'Social Media Assets', 'Brand Kits'],
     color: 'border-pink-500/20',
     details: ['Visual Identity Systems', 'Marketing Collateral', 'User Interface Elements', 'Presentation Design']
+  },
+  {
+    icon: 'ads_click',
+    title: 'Performance Marketing',
+    description: 'Scale your revenue with high-ROAS paid advertising campaigns. We dominate the feed on TikTok, Meta, and Instagram to bring you ready-to-buy customers.',
+    tags: ['TikTok Ads', 'Meta Ads', 'Instagram', 'PPC'],
+    features: ['Campaign Scaling', 'Creative Strategy', 'Pixel Conversions'],
+    color: 'border-yellow-500/20',
+    details: ['Viral Ad Creatives', 'Audience Retargeting', 'Shopify/WooCommerce Integration', 'Real-time ROAS Tracking']
   }
 ];
 
