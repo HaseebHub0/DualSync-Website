@@ -41,6 +41,7 @@ export interface TeamMember {
   image: string;
   bio: string;
   linkedin?: string;
+  behance?: string;
 }
 
 export interface BlogPost {

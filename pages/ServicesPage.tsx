@@ -57,6 +57,15 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
     features: ['Reels & Shorts', 'Copywriting', 'Growth Hacking'],
     color: 'border-orange-500/20',
     details: ['Short-form Video Production', 'LinkedIn Authority Building', 'Community Management', 'Performance Analytics']
+  },
+  {
+    icon: 'brush',
+    title: 'Graphics Designing',
+    description: 'Compelling visual identities that resonate with your audience. From logos to full brand guidelines, we craft designs that speak.',
+    tags: ['Photoshop', 'Canva', 'Illustrator', 'Branding'],
+    features: ['Logo Design', 'Social Media Assets', 'Brand Kits'],
+    color: 'border-pink-500/20',
+    details: ['Visual Identity Systems', 'Marketing Collateral', 'User Interface Elements', 'Presentation Design']
   }
 ];
 
@@ -73,14 +82,14 @@ const ServicesPage: React.FC = () => {
           </ScrollReveal>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 perspective-[2000px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 perspective-[2000px]">
           {detailedServices.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div className={`
-                glass-card p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[3.5rem] border-2 ${service.color} 
+                glass-card p-8 md:p-10 rounded-[2rem] border-2 ${service.color} 
                 hover:bg-white/[0.03] transition-all duration-700 
-                flex flex-col lg:flex-row gap-8 lg:gap-12 items-start relative overflow-hidden group
-                hover:[transform:rotateX(2deg)_rotateY(-1deg)_translateZ(20px)]
+                flex flex-col gap-8 h-full relative overflow-hidden group
+                hover:[transform:rotateX(2deg)_rotateY(-1deg)_translateZ(10px)]
               `}>
 
                 {/* Tech Mesh Background Effect */}
@@ -91,47 +100,49 @@ const ServicesPage: React.FC = () => {
                 {/* AI Scan-line Animation */}
                 <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/40 shadow-[0_0_15px_#38e07b] opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_infinite_linear] pointer-events-none z-50"></div>
 
-                {/* Number Indicator with Hover Glow */}
-                <div className="absolute top-10 right-10 text-8xl font-black text-white/[0.02] select-none group-hover:text-primary/[0.05] group-hover:scale-110 transition-all duration-1000">0{index + 1}</div>
-
-                {/* Interactive Icon Container */}
-                <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white relative z-10 group-hover:border-primary/40 group-hover:shadow-[0_0_30px_rgba(56,224,123,0.1)] transition-all duration-500">
-                  <div className="animate-float group-hover:animate-none">
-                    <span className="material-symbols-outlined text-5xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">{service.icon}</span>
+                {/* Header Section with Icon and Title */}
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 relative z-10">
+                  {/* Interactive Icon Container */}
+                  <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white relative group-hover:border-primary/40 group-hover:shadow-[0_0_30px_rgba(56,224,123,0.1)] transition-all duration-500">
+                    <div className="animate-float group-hover:animate-none">
+                      <span className="material-symbols-outlined text-4xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">{service.icon}</span>
+                    </div>
+                    {/* Subtle pulsing ring behind icon */}
+                    <div className="absolute inset-0 rounded-2xl border border-primary/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
                   </div>
-                  {/* Subtle pulsing ring behind icon */}
-                  <div className="absolute inset-0 rounded-3xl border border-primary/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
+
+                  {/* Number Indicator */}
+                  <div className="text-6xl font-black text-white/[0.04] select-none group-hover:text-primary/[0.05] transition-all duration-500 absolute top-0 right-0 sm:static">0{index + 1}</div>
                 </div>
 
-                <div className="flex-grow relative z-10">
-                  <div className="flex flex-col mb-6">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2 opacity-60">Service Module</span>
-                    <h3 className="text-3xl md:text-4xl font-bold text-white group-hover:text-primary transition-colors duration-500">{service.title}</h3>
+                <div className="flex-grow relative z-10 flex flex-col">
+                  <div className="mb-4">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2 block opacity-80">Service Module</span>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors duration-500">{service.title}</h3>
                   </div>
 
-                  <p className="text-xl text-white/70 mb-10 max-w-3xl leading-relaxed transition-colors group-hover:text-white/90">{service.description}</p>
+                  <p className="text-lg text-white/70 mb-8 leading-relaxed transition-colors group-hover:text-white/90">{service.description}</p>
 
-                  {/* Feature Grid with Staggered Visuals */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 mb-10">
+                  {/* Feature Grid - Compact for Grid View */}
+                  <div className="grid grid-cols-1 gap-3 mb-8 mt-auto">
                     {service.details.map((detail, dIndex) => (
                       <div
                         key={dIndex}
-                        className="flex items-center gap-4 text-white/60 group-hover:text-white/90 transition-all duration-500 group-hover:translate-x-2"
-                        style={{ transitionDelay: `${dIndex * 50}ms` }}
+                        className="flex items-center gap-3 text-white/60 group-hover:text-white/90 transition-all duration-500 group-hover:translate-x-1"
+                        style={{ transitionDelay: `${dIndex * 30}ms` }}
                       >
-                        <div className="size-1.5 rounded-full bg-primary/20 group-hover:bg-primary group-hover:shadow-[0_0_8px_#38e07b] transition-all"></div>
+                        <div className="size-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></div>
                         <span className="text-sm font-medium">{detail}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mt-auto">
                     {service.tags.map((tag, tIndex) => (
                       <span
                         key={tIndex}
-                        className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/50 group-hover:text-white/80 group-hover:border-white/20 transition-all"
-                        style={{ transitionDelay: `${tIndex * 100}ms` }}
+                        className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-white/50 group-hover:text-white/80 group-hover:border-white/20 transition-all"
                       >
                         {tag}
                       </span>
@@ -158,9 +169,9 @@ const ServicesPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              icon: 'brush',
-              title: 'Graphics Design',
-              description: 'Brand identity, UI/UX prototyping, and marketing assets.'
+              icon: 'token',
+              title: 'Blockchain Solutions',
+              description: 'Smart contracts, decentralized applications (dApps), and secure ledger integrations.'
             },
             {
               icon: 'trending_up',
