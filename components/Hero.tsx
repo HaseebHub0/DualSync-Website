@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
 
 const wordPairs = [
   { first: 'Business', second: 'ERP' },
@@ -106,13 +107,25 @@ const Hero: React.FC = () => {
       <div className="max-w-7xl mx-auto w-full flex flex-col items-center relative z-10">
 
         {/* Headline Section */}
-        <div className="text-center max-w-4xl mx-auto flex flex-col items-center gap-6 md:gap-8 mb-16 md:mb-24">
-          <div className={`animate-fade-in-up inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] transition-all duration-700 ${phase === 'chaos' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-primary/10 border-primary/20 text-primary'}`}>
+        <motion.div
+          className="text-center max-w-4xl mx-auto flex flex-col items-center gap-6 md:gap-8 mb-16 md:mb-24"
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+        >
+          {/* Badge */}
+          <motion.div
+            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] transition-all duration-700 ${phase === 'chaos' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-primary/10 border-primary/20 text-primary'}`}
+          >
             <span className={`w-2 h-2 rounded-full animate-pulse ${phase === 'chaos' ? 'bg-red-500' : 'bg-primary'}`}></span>
             <span>{phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}</span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+          <motion.h1
+            variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+          >
             Sync Your{' '}
             <span className="relative inline-block px-1 md:px-2">
               <span className={`absolute inset-0 bg-primary -skew-x-6 rounded-md transition-all duration-700 ease-out origin-center ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}></span>
@@ -128,15 +141,21 @@ const Hero: React.FC = () => {
                 {currentPair.second}
               </span>
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="animate-fade-in-up animate-delay-200 text-base md:text-xl text-white/70 max-w-2xl leading-relaxed px-4">
+          <motion.p
+            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
+            className="text-base md:text-xl text-white/70 max-w-2xl leading-relaxed px-4"
+          >
             {phase === 'chaos'
               ? 'Drowning in messy data and chaotic workflows? Feel the weight of inefficiency and stress-induced friction.'
               : 'Empowering modern businesses with custom ERP software, autonomous AI agents, and high-performance digital infrastructure.'}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animate-delay-300">
+          <motion.div
+            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
             <a href="#contact" className="group relative px-8 py-3 bg-primary text-background-dark font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white transition-colors duration-300 shadow-[0_0_20px_rgba(56,224,123,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2">
               <span>Start Project</span>
               <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -144,8 +163,8 @@ const Hero: React.FC = () => {
             <a href="#work" className="px-8 py-3 bg-white/5 border border-white/10 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors flex items-center gap-2 backdrop-blur-md">
               <span>View Work</span>
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* 3D Visual Scene */}
         <div className="w-full max-w-5xl h-[400px] md:h-[600px] relative preserve-3d perspective-[2000px] flex justify-center items-center">

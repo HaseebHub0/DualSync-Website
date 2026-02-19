@@ -1,62 +1,54 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
-  delay?: number; // Delay in milliseconds
-  threshold?: number; // Intersection threshold (0.0 to 1.0)
+  delay?: number;
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+  distance?: number;
+  once?: boolean;
 }
 
-const ScrollReveal: React.FC<ScrollRevealProps> = ({ 
-  children, 
-  className = "", 
+const ScrollReveal: React.FC<ScrollRevealProps> = ({
+  children,
+  className = '',
   delay = 0,
-  threshold = 0.1 
+  direction = 'up',
+  distance = 40,
+  once = true,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once, margin: '-60px 0px' });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (delay) {
-            setTimeout(() => setIsVisible(true), delay);
-          } else {
-            setIsVisible(true);
-          }
-          // Once visible, we can stop observing to keep it visible
-          if (ref.current) observer.unobserve(ref.current);
-        }
-      },
-      {
-        threshold: threshold,
-        rootMargin: "0px 0px -50px 0px" // Trigger slightly before the element hits the very bottom
-      }
-    );
+  const directionMap = {
+    up: { y: distance, x: 0 },
+    down: { y: -distance, x: 0 },
+    left: { x: distance, y: 0 },
+    right: { x: -distance, y: 0 },
+    none: { x: 0, y: 0 },
+  };
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [delay, threshold]);
+  const initial = { opacity: 0, ...directionMap[direction] };
+  const animate = isInView
+    ? { opacity: 1, x: 0, y: 0 }
+    : { opacity: 0, ...directionMap[direction] };
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className={`transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) transform ${
-        isVisible 
-          ? "opacity-100 translate-y-0" 
-          : "opacity-0 translate-y-12"
-      } ${className}`}
+      initial={initial}
+      animate={animate}
+      transition={{
+        duration: 0.75,
+        delay: delay / 1000,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 
