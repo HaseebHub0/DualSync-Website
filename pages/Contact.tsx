@@ -3,8 +3,16 @@ import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import ScrollReveal from '../components/ScrollReveal';
 import FAQ from '../components/FAQ';
+import { useSEO } from '../hooks/useSEO';
 
 const Contact: React.FC = () => {
+  useSEO({
+    title: 'Contact DualSync Agency | Start Your Project Today',
+    description: 'Ready to build your ERP system or AI agent? Contact DualSync Agency directly. Talk to the technical founders who will design and build your solution.',
+    canonical: '/contact',
+    keywords: 'Contact DualSync, Hire ERP Developer, AI Agent Agency, Software Project Inquiry Pakistan',
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

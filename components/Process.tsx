@@ -34,7 +34,7 @@ const Process: React.FC = () => {
     <section className="py-24 px-4 sm:px-8 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent hidden lg:block"></div>
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
         <ScrollReveal>
           <div className="text-center mb-20">
@@ -50,11 +50,11 @@ const Process: React.FC = () => {
               <div className="group relative">
                 {/* Connecting Line (Mobile) */}
                 {index < 2 && <div className="absolute left-10 top-full w-px h-8 bg-gradient-to-b from-primary/30 to-transparent lg:hidden"></div>}
-                
+
                 <div className="glass-card p-10 rounded-[3rem] border-white/5 h-full hover:border-primary/20 transition-all duration-500 relative overflow-hidden">
                   {/* Step Number Background */}
                   <div className="absolute -top-4 -right-4 text-9xl font-black text-white/[0.03] italic select-none group-hover:text-primary/[0.05] transition-colors">{step.number}</div>
-                  
+
                   {/* Content */}
                   <div className={`size-16 rounded-2xl bg-gradient-to-br ${step.color} border border-white/10 flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-transform duration-500`}>
                     <span className="material-symbols-outlined text-3xl">{step.icon}</span>

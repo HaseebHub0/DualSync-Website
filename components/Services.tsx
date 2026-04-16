@@ -52,6 +52,14 @@ const services: ServiceItem[] = [
     features: ['Content Strategy', 'Video Editing', 'Community Growth'],
     tags: [],
     color: 'border-orange-500/30'
+  },
+  {
+    icon: 'view_in_ar',
+    title: '3D Art & Animation',
+    description: 'Cinematic 3D visuals that elevate your brand. From photorealistic product renders to character animation, we create assets that captivate and convert.',
+    features: ['Character Design & Rigging', 'Product Visualization', 'Game-Ready Assets'],
+    tags: [],
+    color: 'border-amber-500/30'
   }
 ];
 
@@ -78,6 +86,7 @@ const Services: React.FC = () => {
                   service.title === 'Web Development' ? 'bg-blue-500' :
                     service.title === 'Mobile Apps' ? 'bg-cyan-500' :
                       service.title === 'Custom Software' ? 'bg-primary' :
+                        service.title === '3D Art & Animation' ? 'bg-amber-500' :
                         'bg-purple-500'
                   }`}></div>
 
@@ -101,6 +110,7 @@ const Services: React.FC = () => {
                   service.title === 'Web Development' ? 'text-blue-400' :
                     service.title === 'Mobile Apps' ? 'text-cyan-400' :
                       service.title === 'Custom Software' ? 'text-primary' :
+                        service.title === '3D Art & Animation' ? 'text-amber-400' :
                         'text-purple-400'
                   }`}>
                   Get Started

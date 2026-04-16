@@ -2,9 +2,18 @@ import React, { useState } from 'react';
 import { blogPosts } from '../data/blogPosts';
 import ScrollReveal from '../components/ScrollReveal';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
+
 
 const Blog: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  useSEO({
+    title: 'Blog | DualSync Agency — Insights on ERP, AI & Software Development',
+    description: 'Read DualSync’s blog for insights on ERP systems, autonomous AI agents, software engineering best practices, and the future of enterprise technology.',
+    canonical: '/blog',
+    keywords: 'ERP Blog, AI Software Blog, Software Engineering Insights, DualSync Journal, Tech Blog Pakistan',
+  });
+
   const categories = ["All", ...Array.from(new Set(blogPosts.map(p => p.category)))];
 
   const filteredPosts = activeCategory === "All" ? blogPosts : blogPosts.filter(p => p.category === activeCategory);

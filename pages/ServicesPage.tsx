@@ -1,6 +1,8 @@
 import React from 'react';
 import { ServiceItem, RoadmapItem } from '../types';
 import ScrollReveal from '../components/ScrollReveal';
+import { useSEO } from '../hooks/useSEO';
+
 
 // Adding features and color to the type to match the object literals and usage in JSX
 const detailedServices: (ServiceItem & { details: string[]; features: string[]; color: string })[] = [
@@ -75,10 +77,31 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
     features: ['Campaign Scaling', 'Creative Strategy', 'Pixel Conversions'],
     color: 'border-yellow-500/20',
     details: ['Viral Ad Creatives', 'Audience Retargeting', 'Shopify/WooCommerce Integration', 'Real-time ROAS Tracking']
+  },
+  {
+    icon: 'view_in_ar',
+    title: '3D Art & Animation',
+    description: 'Cinematic 3D visuals that transform how your brand is perceived. From hyper-realistic product renders to character animation, we deliver premium 3D production.',
+    tags: ['Blender', 'Unreal Engine', 'Character Design', 'Product Viz'],
+    features: ['Character Design & Rigging', 'Product Visualization', 'Game-Ready Assets'],
+    color: 'border-amber-500/20',
+    details: [
+      'Photorealistic Product Renders',
+      'Character Modeling & Animation',
+      'Game-Ready Asset Production',
+      'Unreal Engine Environment Art'
+    ]
   }
 ];
 
 const ServicesPage: React.FC = () => {
+  useSEO({
+    title: 'Services | DualSync Agency — ERP, AI, Web & Mobile Development',
+    description: 'DualSync offers custom ERP development, autonomous AI agents, web & mobile apps, UI/UX design, 3D animation, and performance marketing. Founder-led engineering for enterprise needs.',
+    canonical: '/services',
+    keywords: 'ERP Development, AI Agents, React Native, Django, Web Development, UI UX Design, 3D Animation, Performance Marketing, Pakistan Software Agency',
+  });
+
   return (
     <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up">
       <div className="max-w-6xl mx-auto">

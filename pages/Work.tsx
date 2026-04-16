@@ -7,6 +7,8 @@ import DeviceFrame from '../components/DeviceFrame';
 import PakAsianShopMockup from '../components/PakAsianShopMockup';
 import FinanceProMockup from '../components/FinanceProMockup';
 import PaFoodMockup from '../components/PaFoodMockup';
+import { useSEO } from '../hooks/useSEO';
+
 
 const projects: ProjectItem[] = [
   {
@@ -25,6 +27,14 @@ const projects: ProjectItem[] = [
     description: "A specialized high-conversion storefront for the 'Glorynuts Coated Peanuts' line. Designed with a vibrant red brand identity, featuring a seamless 'Shop Now' flow, live order tracking, and optimized for high-traffic snacking industry product launches.",
     image: "custom-mockup",
     tags: ["MERN Stack", "Brand Storytelling", "Inventory Management", "Fast Checkout"]
+  },
+  {
+    title: "Multan Munch: Brand Storefront",
+    category: "Premium E-Commerce",
+    deviceType: "laptop",
+    description: "A vibrant, high-energy e-commerce experience for Multan Munch. Designed to capture the 'Asli Crunch' of the brand with bold typography, playful animations, and a seamless shopping flow that brings local flavours to a digital audience.",
+    image: "/assets/images/WhatsApp Image 2026-02-20 at 2.19.11 PM.jpeg",
+    tags: ["E-Commerce", "Brand Storytelling", "Fast Checkout", "by Haseeb"]
   },
   {
     title: "Finance Pro: Freelance Ledger",
@@ -89,6 +99,30 @@ const projects: ProjectItem[] = [
   {
     category: "Social Media",
     video: "/assets/Videos/Scene_an_elegant_1080p_202602181939.mp4"
+  },
+  {
+    title: "3D Realistic Animation & Renderings",
+    category: "3D Art & Animation",
+    description: "A collection of hyper-realistic 3D animations and product renderings crafted with precision. Showcasing character animation, environmental storytelling, and photorealistic lighting workflows built for commercial production.",
+    tags: ["3D Modeling", "Character Animation", "Unreal Engine", "Product Viz", "by Sajid"],
+  },
+  {
+    title: "Character Design & Rigging",
+    category: "3D Art & Animation",
+    description: "Original character concepts brought into full 3D — complete with topology-clean meshes, advanced rigs, and expressive animation cycles ready for games or film production.",
+    tags: ["Character Design", "Rigging", "Game-Ready Assets", "by Sajid"],
+  },
+  {
+    title: "Product Visualization",
+    category: "3D Art & Animation",
+    description: "Photorealistic 3D product renders with cinematic lighting and material precision. Ideal for e-commerce, brand campaigns, and launch materials that need to stand out.",
+    tags: ["Product Visualization", "Texturing", "Lighting", "by Sajid"],
+  },
+  {
+    title: "Environment Art & Game Assets",
+    category: "3D Art & Animation",
+    description: "High-fidelity environment art and game-ready 3D assets. From modular kits to full scene compositions, built for Unreal Engine pipelines with optimized poly counts.",
+    tags: ["Environment Art", "Game Assets", "Unreal Engine", "Texturing", "by Sajid"],
   }
 ];
 
@@ -103,6 +137,13 @@ const cardVariants = {
 
 const Work: React.FC = () => {
   const [filter, setFilter] = useState("Websites");
+  useSEO({
+    title: 'Our Work | DualSync Agency — ERP, Apps & Creative Productions',
+    description: 'Explore DualSync\'s portfolio: PaFood ERP ecosystem, PakAsianShop e-commerce, Finance Pro mobile app, 3D animations, and social media campaigns.',
+    canonical: '/work',
+    keywords: 'DualSync Portfolio, ERP Case Study, PaFood, PakAsianShop, React Native App, 3D Animation Portfolio',
+  });
+
 
   const categories = Array.from(new Set(projects.map(p => p.category)));
   const filteredProjects = projects.filter(p => p.category === filter);
@@ -116,7 +157,7 @@ const Work: React.FC = () => {
           <div className="mb-24 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary/10 text-primary font-bold text-xs mb-6 uppercase tracking-wider border border-primary/20">
               <span className="material-symbols-outlined text-sm">verified</span>
-              14+ Productions Completed
+              18+ Productions Completed
             </div>
             <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.05]">
               Systems &amp; Story <br />Synced.
@@ -215,7 +256,7 @@ const Work: React.FC = () => {
             )}
 
             {/* ── MAIN PROJECT TABS (Logistics / E-Commerce / FinTech) ── */}
-            {filter !== "Websites" && filter !== "Social Media" && filter !== "Creative Production" && (
+            {filter !== "Websites" && filter !== "Social Media" && filter !== "Creative Production" && filter !== "3D Art & Animation" && (
               <div className="flex flex-col gap-36">
                 {filteredProjects.filter(p => !p.video).map((project, index) => (
                   <ScrollReveal key={`${project.title}-${index}`} delay={index * 80}>
@@ -411,6 +452,101 @@ const Work: React.FC = () => {
               </div>
             )}
 
+            {/* ── 3D ART & ANIMATION TAB ── */}
+            {filter === "3D Art & Animation" && (
+              <div>
+                <div className="flex items-center gap-4 mb-16">
+                  <span className="h-px bg-white/10 flex-grow"></span>
+                  <span className="text-white/30 uppercase tracking-[0.2em] text-xs font-bold">3D Art &amp; Animation</span>
+                  <span className="h-px bg-white/10 flex-grow"></span>
+                </div>
+
+                {/* Behance showcase hero */}
+                <ScrollReveal>
+                  <a
+                    href="https://www.behance.net/gallery/205183763/3D-Realistic-Animation-And-Renderings"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block mb-16"
+                  >
+                    <div className="glass-card rounded-[2.5rem] p-8 md:p-14 border-amber-500/20 relative overflow-hidden hover:border-amber-500/40 transition-all duration-500">
+                      <div className="absolute -top-32 -right-32 w-96 h-96 bg-amber-500/10 blur-[120px] rounded-full group-hover:bg-amber-500/20 transition-colors duration-1000 pointer-events-none"></div>
+                      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-5">
+                            <span className="material-symbols-outlined text-amber-400 text-2xl">view_in_ar</span>
+                            <span className="px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-widest">
+                              Live on Behance
+                            </span>
+                          </div>
+                          <h3 className="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight group-hover:text-amber-400 transition-colors">
+                            3D Realistic Animation<br />& Renderings
+                          </h3>
+                          <p className="text-white/55 text-base leading-relaxed max-w-xl">
+                            Sajid Rahim's full production showcase — hyper-realistic 3D animations, character work, and photorealistic renders. View the complete portfolio on Behance.
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3 text-amber-400 font-black text-sm uppercase tracking-widest shrink-0">
+                          <span>View Portfolio</span>
+                          <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </ScrollReveal>
+
+                {/* Work type cards grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {filteredProjects.map((project, index) => (
+                    <motion.div
+                      key={`3d-${index}`}
+                      custom={index}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="show"
+                      className="glass-card p-8 rounded-[2rem] border-white/5 hover:border-amber-500/20 transition-all duration-500 group relative overflow-hidden"
+                    >
+                      <div className="absolute top-6 right-8 text-6xl font-black text-white/[0.03] select-none group-hover:text-amber-500/[0.06] transition-colors">
+                        0{index + 1}
+                      </div>
+                      <div className="relative z-10">
+                        <span className="material-symbols-outlined text-amber-400/60 text-3xl mb-5 block group-hover:text-amber-400 transition-colors">view_in_ar</span>
+                        <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-amber-400 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-white/55 text-sm leading-relaxed mb-6">{project.description}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags?.map(tag => (
+                            <span key={tag} className="px-3 py-1 bg-white/5 rounded-full text-white/35 text-xs border border-white/5 group-hover:border-amber-500/10 transition-colors">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Artist attribution footer */}
+                <ScrollReveal>
+                  <div className="mt-16 flex items-center justify-center gap-6">
+                    <div className="h-px bg-white/10 flex-grow"></div>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src="/assets/sajid.jpeg"
+                        alt="Sajid Rahim"
+                        className="w-10 h-10 rounded-full object-cover border border-amber-500/30 grayscale"
+                      />
+                      <div>
+                        <p className="text-white/80 text-sm font-bold">Sajid Rahim</p>
+                        <p className="text-amber-400 text-xs uppercase tracking-widest font-bold">3D Artist &amp; Animator</p>
+                      </div>
+                    </div>
+                    <div className="h-px bg-white/10 flex-grow"></div>
+                  </div>
+                </ScrollReveal>
+              </div>
+            )}
 
           </motion.div>
         </AnimatePresence>

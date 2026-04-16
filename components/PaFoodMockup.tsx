@@ -159,12 +159,11 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
         </div>
         <div className="flex flex-col gap-2 w-full px-1 md:px-2">
           {['dashboard', 'map', 'inventory_2', 'account_tree', 'groups', 'settings'].map((icon, i) => (
-            <div key={i} className={`h-8 w-full rounded flex items-center justify-center transition-all ${
-              (i === 0 && phase === 'dashboard') ||
-              (i === 1 && phase === 'routes') ||
-              (i === 2 && phase === 'inventory') ||
-              (i === 3 && phase === 'management') 
-              ? 'bg-[#7f1d1d] text-white shadow-lg' : 'text-white/10 hover:bg-white/5 hover:text-white/40'}`}>
+            <div key={i} className={`h-8 w-full rounded flex items-center justify-center transition-all ${(i === 0 && phase === 'dashboard') ||
+                (i === 1 && phase === 'routes') ||
+                (i === 2 && phase === 'inventory') ||
+                (i === 3 && phase === 'management')
+                ? 'bg-[#7f1d1d] text-white shadow-lg' : 'text-white/10 hover:bg-white/5 hover:text-white/40'}`}>
               <span className="material-symbols-outlined text-xs md:text-sm">{icon}</span>
             </div>
           ))}
@@ -223,8 +222,8 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
                 </div>
               </div>
               <div className="glass-panel p-4 rounded-2xl border-white/5 flex flex-col items-center justify-center">
-                 <div className="size-16 md:size-24 rounded-full border-[8px] border-[#7f1d1d]/20 border-t-[#38e07b] animate-spin-slow"></div>
-                 <div className="mt-4 text-[7px] font-black uppercase text-white/40 tracking-[0.2em]">Syncing Logistics</div>
+                <div className="size-16 md:size-24 rounded-full border-[8px] border-[#7f1d1d]/20 border-t-[#38e07b] animate-spin-slow"></div>
+                <div className="mt-4 text-[7px] font-black uppercase text-white/40 tracking-[0.2em]">Syncing Logistics</div>
               </div>
             </div>
           </div>
@@ -236,14 +235,14 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
                 <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(90deg,transparent_19px,white_20px),linear-gradient(white_1px,transparent_1px)] bg-[length:20px_20px]"></div>
               </div>
               <svg className="absolute inset-0 w-full h-full">
-                <path 
-                  d="M 100,200 L 250,150 L 400,220 L 550,120 L 700,180" 
-                  fill="none" 
-                  stroke="#38e07b" 
-                  strokeWidth="3" 
+                <path
+                  d="M 100,200 L 250,150 L 400,220 L 550,120 L 700,180"
+                  fill="none"
+                  stroke="#38e07b"
+                  strokeWidth="3"
                   strokeDasharray="1000"
                   strokeDashoffset={phase === 'routes' ? 0 : 1000}
-                  className="transition-all duration-[8000ms] ease-in-out" 
+                  className="transition-all duration-[8000ms] ease-in-out"
                 />
                 <circle cx="100" cy="200" r="4" fill="#38e07b" />
                 <circle cx="700" cy="180" r="4" fill="#38e07b" className="animate-ping" />
@@ -263,11 +262,11 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
             <div className="grid grid-cols-4 gap-4 h-[240px] md:h-[320px] mb-4">
               {[45, 80, 60, 95].map((h, i) => (
                 <div key={i} className="h-full glass-panel rounded-2xl border-white/5 flex flex-col p-4">
-                   <div className="text-[7px] font-black uppercase text-white/30 mb-2">SKU Group {i+1}</div>
-                   <div className="flex-grow flex items-end">
-                      <div className="w-full bg-[#7f1d1d]/40 border-t border-[#7f1d1d] rounded-t-lg transition-all duration-[2000ms]" style={{ height: phase === 'inventory' ? `${h}%` : '0%' }}></div>
-                   </div>
-                   <div className="text-[10px] font-black mt-2">{h}% Stock</div>
+                  <div className="text-[7px] font-black uppercase text-white/30 mb-2">SKU Group {i + 1}</div>
+                  <div className="flex-grow flex items-end">
+                    <div className="w-full bg-[#7f1d1d]/40 border-t border-[#7f1d1d] rounded-t-lg transition-all duration-[2000ms]" style={{ height: phase === 'inventory' ? `${h}%` : '0%' }}></div>
+                  </div>
+                  <div className="text-[10px] font-black mt-2">{h}% Stock</div>
                 </div>
               ))}
             </div>
@@ -279,36 +278,36 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
 
           {/* Management Phase */}
           <div className={`absolute inset-4 md:inset-6 transition-all duration-1000 ${phase === 'management' ? 'opacity-100' : 'opacity-0 scale-105 pointer-events-none'}`}>
-             <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                   <h3 className="text-sm font-black uppercase tracking-[0.2em]">Booker Target Assignment</h3>
-                   <div className="flex gap-2">
-                      <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-[8px] font-bold">Region: Lahore South</div>
-                      <div className="px-3 py-1 bg-[#38e07b]/10 text-[#38e07b] rounded-full border border-[#38e07b]/20 text-[8px] font-black">4 Active Staff</div>
-                   </div>
+            <div className="h-full flex flex-col">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-sm font-black uppercase tracking-[0.2em]">Booker Target Assignment</h3>
+                <div className="flex gap-2">
+                  <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-[8px] font-bold">Region: Lahore South</div>
+                  <div className="px-3 py-1 bg-[#38e07b]/10 text-[#38e07b] rounded-full border border-[#38e07b]/20 text-[8px] font-black">4 Active Staff</div>
                 </div>
-                <div className="space-y-2 flex-grow">
-                   {[
-                     { n: 'Raza Booker', t: 'Rs. 500k', p: '82%', r: 'Zone 4' },
-                     { n: 'Umer Salesman', t: 'Rs. 800k', p: '45%', r: 'Zone 2' },
-                     { n: 'Ali KPO', t: '120 Orders', p: '99%', r: 'HQ' }
-                   ].map((staff, i) => (
-                     <div key={i} className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-colors">
-                        <div className="flex items-center gap-4">
-                           <div className="size-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] font-black text-white/40">S{i+1}</div>
-                           <div>
-                              <div className="text-[10px] font-black">{staff.n}</div>
-                              <div className="text-[7px] text-white/30 uppercase font-bold">{staff.r}</div>
-                           </div>
-                        </div>
-                        <div className="text-right">
-                           <div className="text-[9px] font-black text-[#38e07b]">{staff.p}</div>
-                           <div className="text-[6px] text-white/40 uppercase font-black">{staff.t} Target</div>
-                        </div>
-                     </div>
-                   ))}
-                </div>
-             </div>
+              </div>
+              <div className="space-y-2 flex-grow">
+                {[
+                  { n: 'Raza Booker', t: 'Rs. 500k', p: '82%', r: 'Zone 4' },
+                  { n: 'Umer Salesman', t: 'Rs. 800k', p: '45%', r: 'Zone 2' },
+                  { n: 'Ali KPO', t: '120 Orders', p: '99%', r: 'HQ' }
+                ].map((staff, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="size-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] font-black text-white/40">S{i + 1}</div>
+                      <div>
+                        <div className="text-[10px] font-black">{staff.n}</div>
+                        <div className="text-[7px] text-white/30 uppercase font-bold">{staff.r}</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[9px] font-black text-[#38e07b]">{staff.p}</div>
+                      <div className="text-[6px] text-white/40 uppercase font-black">{staff.t} Target</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

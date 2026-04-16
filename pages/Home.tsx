@@ -12,8 +12,16 @@ import DeviceFrame from '../components/DeviceFrame';
 import PakAsianShopMockup from '../components/PakAsianShopMockup';
 import FinanceProMockup from '../components/FinanceProMockup';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 const Home: React.FC = () => {
+  useSEO({
+    title: 'DualSync Agency | ERP Software, AI Agents & Custom Enterprise Solutions',
+    description: 'DualSync is a founder-led software engineering agency specializing in custom ERP systems, autonomous AI agents, and enterprise-grade digital infrastructure. Talk directly to the technical founders.',
+    canonical: '/',
+    keywords: 'DualSync Agency, ERP Software, AI Agents, Custom Software Development, Enterprise ERP, Business Automation, Software Agency Lahore',
+  });
+
   return (
     <>
       <Hero />
