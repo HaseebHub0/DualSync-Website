@@ -533,7 +533,7 @@ const Work: React.FC = () => {
                     <div className="h-px bg-white/10 flex-grow"></div>
                     <div className="flex items-center gap-4">
                       <img
-                        src="/assets/sajid.jpeg"
+                        src="/assets/sajid_rahim.jpeg"
                         alt="Sajid Rahim"
                         className="w-10 h-10 rounded-full object-cover border border-amber-500/30 grayscale"
                       />

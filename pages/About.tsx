@@ -17,8 +17,8 @@ const team: TeamMember[] = [
   },
   {
     name: "Muhammad Siddique",
-    role: "Co-Founder & Chief Technology Officer (CTO)",
-    bio: "A seasoned Systems Architect with a core expertise in Django backend development and high-performance database management. Siddique leads our technical infrastructure and client acquisition strategy. He is responsible for ensuring that our enterprise-level solutions are scalable, secure, and engineered to handle high-traffic business demands.",
+    role: "Backend Developer",
+    bio: "The backbone of DualSync's server-side architecture. Siddique specializes in Django backend development and high-performance database engineering. A trusted technical partner who ensures our enterprise systems are rock-solid, scalable, and built to handle real-world demand.",
     image: "/assets/siddique.jpeg",
     linkedin: "https://www.linkedin.com/in/muhammad-siddique-88aa98284/"
   },
@@ -33,7 +33,7 @@ const team: TeamMember[] = [
     name: "Sajid Rahim",
     role: "3D Artist & Animator",
     bio: "The visual dimension of DualSync. Sajid brings ideas to life in three dimensions — from hyper-realistic product renders and character animation to game-ready 3D assets built in Unreal Engine. His work sits at the intersection of art and technical precision, delivering cinematic quality for products, brands, and interactive experiences.",
-    image: "/assets/sajid.jpeg",
+    image: "/assets/sajid_rahim.jpeg",
     behance: "https://www.behance.net/MotionstudioArts"
   }
 ];
@@ -45,9 +45,9 @@ const team: TeamMember[] = [
 const About: React.FC = () => {
   useSEO({
     title: 'About DualSync | Founder-Led Software Engineering Team',
-    description: 'Meet the DualSync team — Muhammad Haseeb (Founder & CEO), Muhammad Siddique (CTO), Kiran Haroon, and Sajid Rahim. A hands-on technical team building ERP systems and AI agents.',
+    description: 'Meet the DualSync team — Muhammad Haseeb (Founder & CEO), Muhammad Siddique (Backend Developer), Kiran Haroon, and Sajid Rahim. A hands-on technical team building ERP systems and AI agents.',
     canonical: '/about',
-    keywords: 'DualSync Team, Muhammad Haseeb, Muhammad Siddique, Software Engineering Team, ERP Founders, AI Agency Pakistan',
+    keywords: 'DualSync Team, Muhammad Haseeb, Muhammad Siddique, Backend Developer, Software Engineering Team, AI Agency Pakistan',
   });
 
   return (
@@ -64,7 +64,7 @@ const About: React.FC = () => {
                   Founder-led. <span className="text-primary">Code-driven</span>.
                 </h1>
                 <p className="text-xl text-white/80 leading-relaxed mb-8">
-                  We are a hands-on technical team. When you partner with DualSync, you talk directly to the founders who are designing your architecture and writing your code.
+                  We are a hands-on technical team. When you partner with DualSync, you talk directly to the founder who is personally designing your architecture, writing your code, and invested in your success.
                 </p>
               </div>
               <div className="relative group">
@@ -278,10 +278,10 @@ const About: React.FC = () => {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/30 to-transparent z-10" />
                 {/* Badge */}
-                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10 z-20">Co-Founder</div>
+                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10 z-20">Backend Dev</div>
                 {/* Content */}
                 <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
-                  <p className="text-primary text-[9px] font-black uppercase tracking-[0.2em] mb-1">Co-Founder & CTO</p>
+                  <p className="text-primary text-[9px] font-black uppercase tracking-[0.2em] mb-1">Backend Developer</p>
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">Muhammad Siddique</h3>
                     <a href="https://www.linkedin.com/in/muhammad-siddique-88aa98284/" target="_blank" rel="noopener noreferrer"
@@ -289,7 +289,7 @@ const About: React.FC = () => {
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" /></svg>
                     </a>
                   </div>
-                  <p className="text-white/60 text-xs leading-relaxed mt-2 line-clamp-2">Systems Architect. Django backend & high-performance database specialist.</p>
+                  <p className="text-white/60 text-xs leading-relaxed mt-2 line-clamp-2">Django specialist & database architect powering DualSync's backend infrastructure.</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -322,7 +322,7 @@ const About: React.FC = () => {
                 {/* Side image panel */}
                 <div className="md:w-72 lg:w-96 flex-shrink-0 relative overflow-hidden" style={{ height: '320px' }}>
                   <div className="absolute inset-0 md:grayscale group-hover:grayscale-0 transition-all duration-700">
-                    <img src="/assets/sajid.jpeg" alt="Sajid Rahim" className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000" loading="lazy" />
+                    <img src="/assets/sajid_rahim.jpeg" alt="Sajid Rahim" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000" loading="lazy" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background-dark/60 z-10 hidden md:block" />
                 </div>
