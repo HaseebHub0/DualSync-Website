@@ -227,6 +227,9 @@ const Contact: React.FC = () => {
                   <option>Mobile Application</option>
                   <option>UI/UX Design</option>
                   <option>Custom Software Solution</option>
+                  <option>AI Calling Agent</option>
+                  <option>n8n Workflow Automation</option>
+                  <option>WhatsApp Automation</option>
                   <option>Other</option>
                 </select>
               </div>

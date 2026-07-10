@@ -16,6 +16,33 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
     details: ['Custom LLM Fine-tuning', 'Autonomous Customer Support Agents', 'Workflow Automation & Integration', 'Data Science & Visualizations']
   },
   {
+    icon: 'settings_voice',
+    title: 'AI Calling Agents',
+    description: 'Deploy human-like voice agents for inbound and outbound calling. Automate support, cold outreach, and customer qualification with realistic AI.',
+    tags: ['VAPI', 'Bland.ai', 'Voice AI', 'CRM Sync'],
+    features: ['Voice Agents (VAPI/Bland)', 'Outbound/Inbound Calling', 'CRM Integrations'],
+    color: 'border-green-500/20',
+    details: ['Inbound customer support voice agents', 'Outbound sales & lead qualification calls', 'Custom voice cloning and latency optimization', 'Direct integration with HubSpot, Salesforce & custom ERPs']
+  },
+  {
+    icon: 'hub',
+    title: 'n8n Automation',
+    description: 'Seamlessly connect your tools and databases. We build secure, self-hosted, complex n8n workflows that eliminate manual data entry.',
+    tags: ['n8n', 'Workflows', 'API Integrations', 'Self-Hosted'],
+    features: ['Self-Hosted n8n Setup', 'API & Webhook Integrations', 'Custom Workflow Syncs'],
+    color: 'border-orange-500/20',
+    details: ['Custom n8n nodes & JavaScript transformations', 'Automated lead routing & CRM updating', 'Invoice, reporting, and email automation', 'Secure self-hosted instances on AWS or Hetzner']
+  },
+  {
+    icon: 'forum',
+    title: 'WhatsApp Automation',
+    description: 'Scale your communications via WhatsApp. We integrate the official WhatsApp Cloud API for automated support, campaigns, and chatbot flows.',
+    tags: ['WhatsApp API', 'Chatbots', 'Meta Business', 'Customer Support'],
+    features: ['WhatsApp Cloud API', 'Interactive Chatbots', 'Broadcast Campaigns'],
+    color: 'border-emerald-500/20',
+    details: ['Automated order confirmations & shipping updates', 'Interactive buttons & list menu routing', 'Multi-agent shared inbox configuration', 'Bulk marketing broadcast campaigns with analytics']
+  },
+  {
     icon: 'language',
     title: 'Web Development',
     description: 'Fast, scalable web applications that convert visitors into customers. Built for performance and optimized for SEO.',
@@ -52,33 +79,6 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
     details: ['Interactive Prototypes', 'Dashboard layouts', 'Mobile-First Design', 'User Journey Mapping']
   },
   {
-    icon: 'campaign',
-    title: 'Social Media Marketing',
-    description: 'Data-driven social strategies that build community and drive engagement. We handle everything from content creation to analytics.',
-    tags: ['Instagram', 'LinkedIn', 'Content Creation', 'Analytics'],
-    features: ['Reels & Shorts', 'Copywriting', 'Growth Hacking'],
-    color: 'border-orange-500/20',
-    details: ['Short-form Video Production', 'LinkedIn Authority Building', 'Community Management', 'Performance Analytics']
-  },
-  {
-    icon: 'brush',
-    title: 'Graphics Designing',
-    description: 'Compelling visual identities that resonate with your audience. From logos to full brand guidelines, we craft designs that speak.',
-    tags: ['Photoshop', 'Canva', 'Illustrator', 'Branding'],
-    features: ['Logo Design', 'Social Media Assets', 'Brand Kits'],
-    color: 'border-pink-500/20',
-    details: ['Visual Identity Systems', 'Marketing Collateral', 'User Interface Elements', 'Presentation Design']
-  },
-  {
-    icon: 'ads_click',
-    title: 'Performance Marketing',
-    description: 'Scale your revenue with high-ROAS paid advertising campaigns. We dominate the feed on TikTok, Meta, and Instagram to bring you ready-to-buy customers.',
-    tags: ['TikTok Ads', 'Meta Ads', 'Instagram', 'PPC'],
-    features: ['Campaign Scaling', 'Creative Strategy', 'Pixel Conversions'],
-    color: 'border-yellow-500/20',
-    details: ['Viral Ad Creatives', 'Audience Retargeting', 'Shopify/WooCommerce Integration', 'Real-time ROAS Tracking']
-  },
-  {
     icon: 'view_in_ar',
     title: '3D Art & Animation',
     description: 'Cinematic 3D visuals that transform how your brand is perceived. From hyper-realistic product renders to character animation, we deliver premium 3D production.',
@@ -97,9 +97,9 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
 const ServicesPage: React.FC = () => {
   useSEO({
     title: 'Services | DualSync Agency — ERP, AI, Web & Mobile Development',
-    description: 'DualSync offers custom ERP development, autonomous AI agents, web & mobile apps, UI/UX design, 3D animation, and performance marketing. Founder-led engineering for enterprise needs.',
+    description: 'DualSync offers custom ERP development, autonomous AI agents, AI calling agents, n8n & WhatsApp workflow automations, web & mobile apps, UI/UX design, and 3D animation. Founder-led engineering.',
     canonical: '/services',
-    keywords: 'ERP Development, AI Agents, React Native, Django, Web Development, UI UX Design, 3D Animation, Performance Marketing, Pakistan Software Agency',
+    keywords: 'ERP Development, AI Agents, AI Calling Agents, n8n Automation, WhatsApp Automation, React Native, Django, Web Development, UI UX Design, 3D Animation, Pakistan Software Agency',
   });
 
   return (
