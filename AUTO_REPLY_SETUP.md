@@ -25,3 +25,8 @@ To enable the automatic response for your clients, follow these steps:
 
 ## 3. Restart
 1. Restart your terminal (`npm run dev`) for the new key to load.
+
+
+
+
+https://script.google.com/macros/s/AKfycbw_Kc_xM6EnUF_ZnTJ-xSisTO5DukNBgdFrTItGlEmo8rRNVcvjqCPq_Z5RViaGbuU/exec

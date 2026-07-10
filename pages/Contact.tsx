@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import ScrollReveal from '../components/ScrollReveal';
 import FAQ from '../components/FAQ';
 import { useSEO } from '../hooks/useSEO';
@@ -31,42 +30,31 @@ const Contact: React.FC = () => {
     setStatus('loading');
 
     try {
-      // EmailJS configuration
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
 
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS configuration missing. Check .env.local');
+      if (!scriptUrl) {
+        throw new Error('Google Apps Script URL missing. Check .env.local (VITE_GOOGLE_SCRIPT_URL)');
       }
 
-      console.log('Sending via EmailJS...', { serviceId, templateId, publicKey });
-
-      // 1. Send Admin Notification
-      const adminParams = {
-        name: formData.name,
-        email: formData.email,
-        project_type: formData.projectType,
-        message: formData.message,
-        reply_to: formData.email
-      };
-
-      const adminPromise = emailjs.send(serviceId, templateId, adminParams, publicKey);
-
-      // 2. Send Auto-Reply (if configured)
-      const autoReplyTemplateId = import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID;
-      let autoReplyPromise = Promise.resolve(null as any);
-
-      if (autoReplyTemplateId) {
-        const autoReplyParams = {
+      const response = await fetch(scriptUrl, {
+        method: 'POST',
+        // Send as plain text to avoid CORS preflight issues with Google Apps Script
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
           name: formData.name,
-          email: formData.email, // This sends it TO the user
-          project_type: formData.projectType
-        };
-        autoReplyPromise = emailjs.send(serviceId, autoReplyTemplateId, autoReplyParams, publicKey);
-      }
+          email: formData.email,
+          projectType: formData.projectType,
+          message: formData.message
+        }),
+      });
 
-      await Promise.all([adminPromise, autoReplyPromise]);
+      const result = await response.json();
+
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'Error from server');
+      }
 
       setConfirmationId(Math.random().toString(36).substr(2, 9).toUpperCase());
       setStatus('success');
