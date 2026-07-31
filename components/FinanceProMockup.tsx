@@ -22,7 +22,7 @@ const FinanceProMockup: React.FC = () => {
   ];
 
   return (
-    <div className="w-full h-full bg-[#0a0f0d] relative overflow-hidden font-sans text-white select-none flex flex-col">
+    <div className="finance-mockup w-full h-full bg-[#0a0f0d] relative overflow-hidden font-sans text-white select-none flex flex-col">
       {/* App Header - Reduced Padding */}
       <div className="pt-8 pb-3 px-4 flex justify-between items-center border-b border-white/5 bg-black/20 backdrop-blur-md">
         <div>

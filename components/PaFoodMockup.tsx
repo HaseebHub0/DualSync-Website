@@ -51,7 +51,7 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
 
   if (viewType === 'mobile') {
     return (
-      <div className="w-full h-full bg-[#0a0a0a] relative overflow-hidden font-sans text-white select-none flex flex-col">
+      <div className="pafood-mockup w-full h-full bg-[#0a0a0a] relative overflow-hidden font-sans text-white select-none flex flex-col">
         {/* Mobile Header - Compact */}
         <div className="pt-7 pb-2 px-2 flex justify-between items-center bg-[#7f1d1d] border-b border-white/10 shrink-0">
           <div className="flex items-center gap-1 overflow-hidden">
@@ -151,7 +151,7 @@ const PaFoodMockup: React.FC<PaFoodMockupProps> = ({ viewType }) => {
 
   // LAPTOP VIEW (ADMIN/KPO)
   return (
-    <div className="w-full h-full bg-[#050505] relative overflow-hidden font-sans text-white select-none flex">
+    <div className="pafood-mockup w-full h-full bg-[#050505] relative overflow-hidden font-sans text-white select-none flex">
       {/* Sidebar - Pro Layout */}
       <div className="w-10 md:w-16 border-r border-white/5 flex flex-col items-center py-4 gap-4 bg-[#0a0a0a]">
         <div className="size-6 md:size-10 bg-[#7f1d1d] rounded-lg flex items-center justify-center border border-white/10 shadow-[0_0_15px_rgba(127,29,29,0.5)]">

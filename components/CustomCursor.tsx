@@ -14,6 +14,19 @@ const CustomCursor: React.FC = () => {
     const [hovered, setHovered] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark');
+        };
+        checkTheme();
+
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -69,16 +82,15 @@ const CustomCursor: React.FC = () => {
                     translateX: '-50%',
                     translateY: '-50%',
                     borderRadius: '9999px',
-                    border: '1.5px solid rgba(255,255,255,0.7)',
+                    border: theme === 'light' ? '1.5px solid rgba(18, 32, 23, 0.3)' : '1.5px solid rgba(255,255,255,0.4)',
                     pointerEvents: 'none',
                     zIndex: 9999,
-                    mixBlendMode: 'difference',
                 }}
                 animate={{
                     width: hovered ? 56 : 32,
                     height: hovered ? 56 : 32,
                     opacity: hidden ? 0 : 0.65,
-                    borderColor: hovered ? '#38e07b' : 'rgba(255,255,255,0.7)',
+                    borderColor: hovered ? '#38e07b' : (theme === 'light' ? 'rgba(18, 32, 23, 0.3)' : 'rgba(255,255,255,0.4)'),
                 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 200 }}
             />
