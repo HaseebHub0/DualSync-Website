@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import Aurora from './backgrounds/Aurora';
+import Particles from './backgrounds/Particles';
+import ShimmerButton from './ui/ShimmerButton';
+import ShinyText from './ui/ShinyText';
 
 const wordPairs = [
   { first: 'Business', second: 'ERP' },
@@ -196,16 +200,12 @@ const Hero: React.FC = () => {
   return (
     <div className="flex-grow flex flex-col justify-center pt-32 md:pt-44 pb-12 px-4 sm:px-8 relative overflow-hidden min-h-screen bg-background-dark transition-colors duration-1000">
 
-      {/* Enhanced Ambient Background Lights */}
+      {/* Ambient layer: aurora mesh + constellation particles */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Base Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,224,123,0.15),transparent_60%)]"></div>
+        <Aurora intensity={phase === 'chaos' ? 0.45 : 1} speed={26} />
+        <Particles count={64} linkDistance={128} />
 
-        {/* Drifting Blobs */}
-        <div className={`absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full transition-all duration-1000 ${phase === 'chaos' ? 'opacity-20 scale-75' : 'opacity-100 animate-drift'}`}></div>
-        <div className={`absolute top-1/2 -right-1/4 w-1/3 h-1/3 bg-primary/10 blur-[100px] rounded-full transition-all duration-1000 delay-300 ${phase === 'chaos' ? 'opacity-0' : 'opacity-80'}`}></div>
-
-        {/* Bottom Fade-out to Section Below */}
+        {/* Bottom fade into the next section */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background-dark to-transparent"></div>
       </div>
 
@@ -224,7 +224,9 @@ const Hero: React.FC = () => {
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] transition-all duration-700 ${phase === 'chaos' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-primary/10 border-primary/20 text-primary'}`}
           >
             <span className={`w-2 h-2 rounded-full animate-pulse ${phase === 'chaos' ? 'bg-red-500' : 'bg-primary'}`}></span>
-            <span>{phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}</span>
+            <ShinyText speed={5} disabled={phase === 'chaos'}>
+              {phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}
+            </ShinyText>
           </motion.div>
 
           <motion.h1
@@ -263,13 +265,13 @@ const Hero: React.FC = () => {
           >
             {/* Router-aware links. Raw `#contact` / `#work` fragments collided with
                 HashRouter's own hash and did not reliably navigate. */}
-            <Link to="/contact" className="group relative px-8 py-3 bg-primary text-background-dark font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white transition-colors duration-300 shadow-[0_0_20px_rgba(56,224,123,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2">
-              <span>Start a project</span>
-              <span aria-hidden="true" className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </Link>
-            <Link to="/work" className="px-8 py-3 bg-white/5 border border-white/10 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors flex items-center gap-2 backdrop-blur-md">
-              <span>See the systems</span>
-            </Link>
+            <ShimmerButton as={Link} to="/contact" variant="primary" speed={3}>
+              Start a project
+              <span aria-hidden="true" className="material-symbols-outlined text-base">arrow_forward</span>
+            </ShimmerButton>
+            <ShimmerButton as={Link} to="/work" variant="dark" speed={4.5}>
+              See the systems
+            </ShimmerButton>
           </motion.div>
         </motion.div>
 

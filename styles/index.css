@@ -102,6 +102,272 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 /* ==========================================================================
+   Premium effects
+   Shiny/gradient text, shimmer buttons, aurora backdrop, spotlight cards.
+   All compositor-driven (transform / opacity / background-position) so they
+   stay off the main thread. Brand palette only: #38e07b on #122017.
+   ========================================================================== */
+
+/* Registered so the conic gradient angle can be animated rather than stepped. */
+@property --shimmer-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* --- Shiny text ---------------------------------------------------------- */
+
+.shiny-text {
+    background: linear-gradient(110deg,
+            currentColor 0%,
+            currentColor 38%,
+            #ffffff 48%,
+            #eafff2 52%,
+            currentColor 62%,
+            currentColor 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation-name: shiny-sweep;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.shiny-text--off {
+    animation: none;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: inherit;
+}
+
+@keyframes shiny-sweep {
+    0% { background-position: 160% 0; }
+    100% { background-position: -60% 0; }
+}
+
+/* --- Gradient text ------------------------------------------------------- */
+
+.gradient-text {
+    background: linear-gradient(90deg, #38e07b, #ffffff, #7ef0ab, #38e07b);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation-name: gradient-pan;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes gradient-pan {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+/* --- Shimmer button ------------------------------------------------------ */
+
+.shimmer-btn {
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    border-radius: 9999px;
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shimmer-btn:hover { transform: translateY(-2px); }
+.shimmer-btn:active { transform: translateY(0); }
+
+/* Light orbiting the border. */
+.shimmer-btn__ring {
+    position: absolute;
+    inset: -140%;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 300deg,
+            #ffffff 340deg,
+            #38e07b 350deg,
+            transparent 360deg);
+    animation: shimmer-orbit var(--shimmer-speed, 3s) linear infinite;
+}
+
+@keyframes shimmer-orbit {
+    to { --shimmer-angle: 360deg; }
+}
+
+.shimmer-btn__face {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 2rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.shimmer-btn--primary .shimmer-btn__face {
+    background: #38e07b;
+    color: #122017;
+    box-shadow: 0 0 24px rgba(56, 224, 123, 0.32);
+}
+
+.shimmer-btn--dark .shimmer-btn__face {
+    background: #0d1a13;
+    color: #ffffff;
+}
+
+.shimmer-btn__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Diagonal shine sweeping the face on hover. */
+.shimmer-btn__shine {
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent);
+    transform: skewX(-18deg);
+    z-index: 1;
+}
+
+.shimmer-btn:hover .shimmer-btn__shine {
+    animation: shimmer-shine 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes shimmer-shine {
+    to { left: 130%; }
+}
+
+/* --- Aurora backdrop ----------------------------------------------------- */
+
+.aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aurora__layer {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: calc(0.5 * var(--aurora-intensity, 1));
+    will-change: transform;
+}
+
+.aurora__layer--1 {
+    top: -22%;
+    left: -12%;
+    width: 62%;
+    height: 62%;
+    background: radial-gradient(circle, rgba(56, 224, 123, 0.55), transparent 68%);
+    animation: aurora-drift-1 var(--aurora-speed, 24s) ease-in-out infinite;
+}
+
+.aurora__layer--2 {
+    top: 8%;
+    right: -18%;
+    width: 55%;
+    height: 66%;
+    background: radial-gradient(circle, rgba(126, 240, 171, 0.4), transparent 70%);
+    animation: aurora-drift-2 calc(var(--aurora-speed, 24s) * 1.35) ease-in-out infinite;
+}
+
+.aurora__layer--3 {
+    bottom: -26%;
+    left: 22%;
+    width: 60%;
+    height: 55%;
+    background: radial-gradient(circle, rgba(30, 140, 90, 0.45), transparent 70%);
+    animation: aurora-drift-3 calc(var(--aurora-speed, 24s) * 1.7) ease-in-out infinite;
+}
+
+.aurora__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes aurora-drift-1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(14%, 10%, 0) scale(1.18); }
+}
+
+@keyframes aurora-drift-2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+    50% { transform: translate3d(-16%, 14%, 0) scale(0.92); }
+}
+
+@keyframes aurora-drift-3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    50% { transform: translate3d(12%, -12%, 0) scale(1.2); }
+}
+
+/* --- Spotlight card ------------------------------------------------------ */
+
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.spotlight-card__glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: var(--spot-opacity, 0);
+    transition: opacity 0.35s ease;
+    background: radial-gradient(var(--spot-radius, 320px) circle at var(--spot-x, 50%) var(--spot-y, 50%),
+            rgba(56, 224, 123, 0.16),
+            transparent 62%);
+}
+
+/* --- Reduced motion ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .shiny-text,
+    .gradient-text,
+    .shimmer-btn__ring,
+    .aurora__layer {
+        animation: none !important;
+    }
+
+    .shiny-text {
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        color: inherit;
+    }
+
+    .shimmer-btn:hover { transform: none; }
+    .shimmer-btn:hover .shimmer-btn__shine { animation: none; }
+}
+
+/* ==========================================================================
    Light theme overrides
    NOTE: this block is a known liability (audit F-30) — ~200 lines of
    !important rules targeting escaped Tailwind utility selectors, which breaks

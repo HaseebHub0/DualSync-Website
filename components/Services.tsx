@@ -3,6 +3,7 @@ import React from 'react';
 import { ServiceItem } from '../types';
 import ScrollReveal from './ScrollReveal';
 import { Link } from 'react-router-dom';
+import SpotlightCard from './ui/SpotlightCard';
 
 const services: ServiceItem[] = [
   {
@@ -96,7 +97,7 @@ const Services: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
-              <div className={`glass-card p-10 rounded-[2.5rem] flex flex-col h-full group border-2 ${service.color} hover:bg-white/[0.04] transition-all duration-500 relative overflow-hidden`}>
+              <SpotlightCard className={`glass-card p-10 rounded-[2.5rem] flex flex-col h-full group border-2 ${service.color} hover:bg-white/[0.04] transition-all duration-500`}>
                 {/* Background Glow */}
                 <div className={`absolute -top-24 -right-24 size-48 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity ${
                   service.title === 'AI Integration' ? 'bg-rose-500' :
@@ -138,9 +139,9 @@ const Services: React.FC = () => {
                   'text-purple-400'
                 }`}>
                   Get Started
-                  <span className="material-symbols-outlined text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                  <span aria-hidden="true" className="material-symbols-outlined text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
                 </Link>
-              </div>
+              </SpotlightCard>
             </ScrollReveal>
           ))}
         </div>
