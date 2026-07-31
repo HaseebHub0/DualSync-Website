@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from './ScrollReveal';
 
 interface FAQItemProps {
@@ -136,15 +137,15 @@ const FAQ: React.FC = () => {
         <ScrollReveal delay={400}>
           <div className="mt-10 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <p className="text-white/35 text-sm">Still have questions?</p>
-            <a
-              href="#/contact"
+            <Link
+              to="/contact"
               className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-white transition-colors group"
             >
               Talk to a founder directly
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </a>
+            </Link>
           </div>
         </ScrollReveal>
       </div>

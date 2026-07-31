@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -70,9 +70,12 @@ const AnimatedRoutes: React.FC = () => {
   );
 };
 
+// BrowserRouter, not HashRouter: fragment URLs (/#/about) are not part of the
+// indexed URL, so every route collapsed into a single page for crawlers. The
+// SPA fallback that BrowserRouter needs is already set in netlify.toml.
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       {/* Fixed chrome — must stay OUTSIDE the smooth-scroll wrapper */}
       <CustomCursor />
       <ScrollProgress />
@@ -89,7 +92,7 @@ const App: React.FC = () => {
           <Footer />
         </div>
       </SmoothScroll>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
