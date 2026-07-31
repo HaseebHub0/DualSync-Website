@@ -1,9 +1,12 @@
 import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
+import ScrollProgress from './components/ScrollProgress';
+import SmoothScroll from './components/anim/SmoothScroll';
+import { ScrollSmoother, ScrollTrigger } from './lib/gsap';
 import Home from './pages/Home';
 import About from './pages/About';
 import ServicesPage from './pages/ServicesPage';
@@ -14,7 +17,7 @@ import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 
-const pageVariants = {
+const pageVariants: Variants = {
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
   exit: { opacity: 0, y: -12, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } },
@@ -24,7 +27,21 @@ const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
 
   React.useEffect(() => {
-    window.scrollTo(0, 0);
+    // Reset to top through the smoother (falls back to native scroll).
+    const smoother = ScrollSmoother.get();
+    if (smoother) {
+      smoother.scrollTo(0, false);
+    } else {
+      window.scrollTo(0, 0);
+    }
+    // New page content changes layout — recalc all trigger positions once it's
+    // painted (and again after the enter transition settles).
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    const t = setTimeout(() => ScrollTrigger.refresh(), 650);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+    };
   }, [location.pathname]);
 
   return (
@@ -56,21 +73,22 @@ const AnimatedRoutes: React.FC = () => {
 const App: React.FC = () => {
   return (
     <HashRouter>
+      {/* Fixed chrome — must stay OUTSIDE the smooth-scroll wrapper */}
       <CustomCursor />
-      <div className="relative z-10 flex min-h-screen flex-col">
-        {/* Ambient Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="bg-noise"></div>
-        </div>
-
-        <Navbar />
-
-        <main className="flex flex-col flex-grow">
-          <AnimatedRoutes />
-        </main>
-
-        <Footer />
+      <ScrollProgress />
+      <Navbar />
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="bg-noise"></div>
       </div>
+
+      <SmoothScroll>
+        <div className="relative z-10 flex min-h-screen flex-col">
+          <main className="flex flex-col flex-grow">
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </div>
+      </SmoothScroll>
     </HashRouter>
   );
 };

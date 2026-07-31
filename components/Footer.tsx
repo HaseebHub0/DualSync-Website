@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
 
   const handleSubscribe = async () => {
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      alert('Please enter a valid email address.');
+      setStatus('error');
       return;
     }
 
@@ -56,7 +56,6 @@ const Footer: React.FC = () => {
     } catch (e) {
       console.error('EmailJS Error:', e);
       setStatus('error');
-      alert('Failed to subscribe. Please try again or check console for details.');
     }
   };
 
@@ -64,46 +63,82 @@ const Footer: React.FC = () => {
     <footer className="py-20 px-4 sm:px-8 border-t border-white/5" id="contact">
       <div className="max-w-4xl mx-auto text-center">
 
-        {/* CTA Card - Only show if NOT on contact page */}
+        {/* Primary close: one unambiguous ask, routed to the real enquiry flow.
+            The newsletter is a separate, de-emphasised action below — previously
+            this CTA promised a consultation but performed a mailing-list signup. */}
         {!isContactPage && (
           <div className="glass-card rounded-[3rem] p-10 md:p-16 relative overflow-hidden mb-12">
             <div className="relative z-10 flex flex-col items-center gap-6">
-              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">Ready to Sync?</h2>
-              <p className="text-white/70 text-lg max-w-lg mx-auto">Let's discuss how DualSync can elevate your digital presence. Schedule a free consultation today.</p>
+              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">Tell us what's breaking.</h2>
+              <p className="text-white/70 text-lg max-w-lg mx-auto">
+                Two questions and your email. One of the founders replies within one business day —
+                not a form response, not a sales script.
+              </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-4">
-                {status === 'success' ? (
-                  <div className="bg-primary/20 border border-primary text-primary px-8 py-3 rounded-full font-bold flex items-center gap-2">
-                    <span className="material-symbols-outlined">check_circle</span>
-                    Subscribed Successfully!
-                  </div>
-                ) : (
-                  <>
-                    <input
-                      className="h-12 px-6 rounded-full bg-background-dark/50 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-auto min-w-[280px]"
-                      placeholder="Enter your email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={status === 'loading'}
-                    />
-                    <button
-                      onClick={handleSubscribe}
-                      disabled={status === 'loading'}
-                      className="bg-primary text-background-dark font-bold h-12 px-8 rounded-full hover:bg-white hover:scale-105 transition-all shadow-lg shadow-primary/20 whitespace-nowrap disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
-                    >
-                      {status === 'loading' ? 'Sending...' : 'Get in Touch'}
-                    </button>
-                  </>
-                )}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
+                <Link
+                  to="/contact"
+                  className="bg-primary text-background-dark font-bold h-12 px-8 rounded-full hover:bg-white transition-all shadow-lg shadow-primary/20 whitespace-nowrap flex items-center justify-center gap-2"
+                >
+                  Start a project
+                </Link>
+                <Link
+                  to="/work"
+                  className="border border-white/10 bg-white/5 text-white font-bold h-12 px-8 rounded-full hover:bg-white/10 transition-all whitespace-nowrap flex items-center justify-center"
+                >
+                  See the systems
+                </Link>
               </div>
             </div>
           </div>
         )}
 
+        {/* Newsletter — a distinct, lower-commitment action. */}
+        <div className="mb-12 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="text-white/50 text-sm sm:text-right sm:max-w-[16rem]">
+              <span className="block text-white/70 font-medium">Engineering notes, monthly.</span>
+              What we shipped and what broke.
+            </div>
+            {status === 'success' ? (
+              <p role="status" className="text-primary text-sm font-bold px-4">
+                Subscribed — check your inbox.
+              </p>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+                <input
+                  id="newsletter-email"
+                  className="h-11 px-5 rounded-full bg-background-dark/50 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full sm:w-auto min-w-[240px]"
+                  placeholder="you@company.com"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); if (status === 'error') setStatus('idle'); }}
+                  disabled={status === 'loading'}
+                  aria-describedby={status === 'error' ? 'newsletter-error' : undefined}
+                  aria-invalid={status === 'error' || undefined}
+                />
+                <button
+                  onClick={handleSubscribe}
+                  disabled={status === 'loading'}
+                  className="h-11 px-6 rounded-full border border-white/15 text-white text-sm font-bold hover:bg-white/10 transition-all whitespace-nowrap disabled:opacity-50"
+                >
+                  {status === 'loading' ? 'Sending…' : 'Subscribe'}
+                </button>
+              </div>
+            )}
+          </div>
+          {status === 'error' && (
+            <p id="newsletter-error" role="alert" className="text-red-400 text-xs mt-3">
+              That didn't go through. Check the address and try again, or email contact@dualsyncagency.com.
+            </p>
+          )}
+        </div>
+
         {/* Footer Links */}
         <div className={`flex flex-col md:flex-row justify-between items-center text-white/60 text-sm ${isContactPage ? 'pt-0' : 'mt-12'}`}>
-          <p>© 2025 DualSync. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} DualSync. All rights reserved.</p>
           <div className="flex flex-col md:flex-row items-center gap-6 mt-4 md:mt-0">
             <div className="flex gap-6 order-2 md:order-1">
               <Link className="hover:text-primary transition-colors" to="/privacy">Privacy Policy</Link>

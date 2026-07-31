@@ -63,7 +63,7 @@ export const blogPosts: BlogPost[] = [
       <h3 class="text-2xl font-bold text-white mb-4">Memoization Strategies</h3>
       <p class="mb-6">React's re-renders can be expensive. Using <code>useMemo</code> and <code>useCallback</code> correctly can prevent unnecessary computations and re-renders, especially when dealing with complex filtering logic on product listing pages.</p>
       
-      <p>By applying these techniques, we've helped clients reduce their Time to Interactive (TTI) by over 40%, directly correlating to increased revenue.</p>
+      <p>Applied together, these techniques cut Time to Interactive substantially — but the honest answer is that the size of the win depends entirely on what the app was doing wrong first. Measure before you optimise, and measure the same way afterwards.</p>
     `
   },
   {

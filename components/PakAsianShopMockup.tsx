@@ -25,7 +25,7 @@ const PakAsianShopMockup: React.FC<{ isMobile?: boolean }> = ({ isMobile = false
     }, []);
 
     return (
-        <div className="w-full h-full bg-[#991b1b] relative overflow-hidden font-sans text-white select-none">
+        <div className="pakasian-mockup w-full h-full bg-[#991b1b] relative overflow-hidden font-sans text-white select-none">
             {/* Header - Scaled Down */}
             <div className={`absolute top-0 left-0 right-0 h-8 md:h-10 bg-white/10 backdrop-blur-md border-b border-white/10 px-3 flex items-center justify-between z-30 transition-all duration-500 ${phase === 'ordered' || phase === 'delivered' ? 'opacity-0 -translate-y-full' : 'opacity-100'}`}>
                 <div className="flex items-center gap-1.5">
@@ -120,8 +120,10 @@ const PakAsianShopMockup: React.FC<{ isMobile?: boolean }> = ({ isMobile = false
                     </div>
 
                     <div className="h-10 w-full bg-white/5 rounded-lg border border-white/10 flex items-center px-3 gap-2">
-                        <div className="size-6 rounded-full bg-white/10 overflow-hidden shrink-0 border border-white/10">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=60" alt="Rider" className="w-full h-full object-cover" />
+                        {/* CSS-only avatar: previously hot-linked a stock stranger's
+                            photo into a mockup of a live client system. */}
+                        <div aria-hidden="true" className="size-6 rounded-full bg-primary/15 shrink-0 border border-primary/20 flex items-center justify-center text-primary text-[8px] font-bold">
+                            H
                         </div>
                         <div className="overflow-hidden">
                             <div className="text-[8px] font-bold truncate">Haseeb (Rider)</div>

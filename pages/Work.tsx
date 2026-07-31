@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ProjectItem } from '../types';
 import ScrollReveal from '../components/ScrollReveal';
 import DeviceFrame from '../components/DeviceFrame';
@@ -126,7 +126,7 @@ const projects: ProjectItem[] = [
   }
 ];
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: (i: number) => ({
     opacity: 1,

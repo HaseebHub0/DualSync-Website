@@ -9,7 +9,7 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
   {
     icon: 'psychology',
     title: 'AI Integration',
-    description: 'Boost efficiency with intelligent automation. We build custom AI solutions that reduce costs by 40% and increase productivity.',
+    description: 'Intelligent automation for the work that eats your team\'s week. We build AI systems that close a loop end to end, not demos.',
     tags: ['NLP', 'Computer Vision', 'Generative AI', 'Agentic Workflows'],
     features: ['Chatbots & Automation', 'Predictive Analytics', 'ML Models'],
     color: 'border-rose-500/20',
@@ -63,7 +63,7 @@ const detailedServices: (ServiceItem & { details: string[]; features: string[]; 
   {
     icon: 'code',
     title: 'Custom Software',
-    description: 'Tailor-made solutions that solve your unique business challenges. Save 60% compared to off-the-shelf alternatives.',
+    description: 'Software shaped to how your business actually runs, instead of bending your operations to fit someone else\'s product.',
     tags: ['Microservices', 'API Design', 'Python', 'DevOps'],
     features: ['SaaS Platforms', 'Internal Tools', 'API Development'],
     color: 'border-primary/20',
