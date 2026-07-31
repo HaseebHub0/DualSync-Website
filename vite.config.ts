@@ -17,6 +17,19 @@ export default defineConfig(() => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            // Split long-lived vendor code from app code so a copy change does
+            // not invalidate the whole bundle in users' caches.
+            manualChunks: {
+              react: ['react', 'react-dom', 'react-router-dom'],
+              gsap: ['gsap', 'gsap/ScrollTrigger', 'gsap/ScrollSmoother', 'gsap/SplitText'],
+              motion: ['framer-motion'],
+            },
+          },
+        },
       }
     };
 });

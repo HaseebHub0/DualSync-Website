@@ -7,15 +7,26 @@ import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import SmoothScroll from './components/anim/SmoothScroll';
 import { ScrollSmoother, ScrollTrigger } from './lib/gsap';
+// Home is eager — it is the landing route and lazy-loading it would only add a
+// round trip before first paint. Every other route is split out.
 import Home from './pages/Home';
-import About from './pages/About';
-import ServicesPage from './pages/ServicesPage';
-import Work from './pages/Work';
-import Blog from './pages/Blog';
-import BlogPostDetail from './pages/BlogPostDetail';
-import Contact from './pages/Contact';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
+
+const About = React.lazy(() => import('./pages/About'));
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const Work = React.lazy(() => import('./pages/Work'));
+const Blog = React.lazy(() => import('./pages/Blog'));
+const BlogPostDetail = React.lazy(() => import('./pages/BlogPostDetail'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
+const Terms = React.lazy(() => import('./pages/Terms'));
+
+/** Minimal route fallback — height-stable so lazy loading cannot shift layout. */
+const RouteFallback: React.FC = () => (
+  <div className="min-h-screen flex items-center justify-center" role="status" aria-live="polite">
+    <span className="sr-only">Loading page</span>
+    <span aria-hidden="true" className="size-8 rounded-full border-2 border-white/10 border-t-primary animate-spin" />
+  </div>
+);
 
 const pageVariants: Variants = {
   initial: { opacity: 0, y: 18 },
@@ -45,28 +56,34 @@ const AnimatedRoutes: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        className="flex-grow z-10 relative"
-      >
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPostDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+    // Suspense must sit OUTSIDE AnimatePresence. With it inside, a lazy route
+    // suspends while `mode="wait"` is still holding the outgoing page, the swap
+    // never commits, and the router changes the URL while the previous page
+    // stays on screen indefinitely.
+    <React.Suspense fallback={<RouteFallback />}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="flex-grow z-10 relative"
+        >
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPostDetail />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+    </React.Suspense>
   );
 };
 
