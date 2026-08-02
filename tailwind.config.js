@@ -20,6 +20,15 @@ export default {
         'background-dark': '#122017',
         glass: 'rgba(255, 255, 255, 0.05)',
         'glass-border': 'rgba(255, 255, 255, 0.1)',
+        // Semantic, theme-aware tokens (see :root / .light in styles/index.css).
+        // These flip automatically, so `text-ink/60` is correct in both themes.
+        canvas: 'rgb(var(--canvas) / <alpha-value>)',
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        rule: 'rgb(var(--rule) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        // Brand green for TEXT — darkens in light mode so it stays legible.
+        // Use `primary` for fills and `accent` for type.
+        accent: 'rgb(var(--accent) / <alpha-value>)',
       },
       fontFamily: {
         display: ['Outfit', 'sans-serif'],
@@ -39,6 +48,9 @@ export default {
         'spin-slow': 'spin 12s linear infinite',
         gradient: 'textGradient 6s ease infinite',
         drift: 'drift 20s linear infinite',
+        // Required by the React Bits StarBorder component.
+        'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
+        'star-movement-top': 'star-movement-top linear infinite alternate',
       },
       keyframes: {
         fadeInUp: {
@@ -70,6 +82,14 @@ export default {
           '0%': { transform: 'translateY(0)', opacity: '1' },
           '60%': { transform: 'translateY(10px)', opacity: '0.2' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'star-movement-bottom': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
+        },
+        'star-movement-top': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
         },
       },
     },

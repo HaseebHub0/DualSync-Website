@@ -8,7 +8,7 @@
     <meta name="description"
         content="DualSync is a founder-led software engineering agency specializing in custom ERP systems, autonomous AI agents, and enterprise-grade digital infrastructure. Talk directly to the technical founders." />
     <meta name="keywords"
-        content="DualSync Agency, ERP Software Pakistan, AI Agents, Custom Software Development, Enterprise ERP, Autonomous AI, Business Automation, Software Agency Lahore, Django React Native, Muhammad Haseeb" />
+        content="DualSync Agency, ERP Software Pakistan, AI Agents, Custom Software Development, Enterprise ERP, Autonomous AI, Business Automation, Remote Software Agency, Django React Native, Muhammad Haseeb" />
     <meta name="author" content="DualSync" />
     <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
@@ -57,14 +57,9 @@
         "numberOfEmployees": { "@type": "QuantitativeValue", "value": 4 },
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Lahore",
           "addressCountry": "PK"
         },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 31.5204,
-          "longitude": 74.3587
-        },
+        "areaServed": "Worldwide",
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer support",
@@ -157,10 +152,26 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <script>
+        // Resolve the theme before first paint so the page never flashes the
+        // wrong one. Must stay inline and blocking; useTheme() reads the class
+        // this sets as its source of truth.
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var theme = stored === 'light' || stored === 'dark'
+                    ? stored
+                    : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                var root = document.documentElement;
+                root.classList.toggle('light', theme === 'light');
+                root.classList.toggle('dark', theme !== 'light');
+            } catch (e) { /* keep the default dark class from the html tag */ }
+        })();
+    </script>
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-sans text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-background-dark overflow-x-hidden">
+    class="font-sans antialiased selection:bg-primary selection:text-background-dark overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

@@ -5,7 +5,9 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
+import ClickSpark from './components/reactbits/ClickSpark';
 import SmoothScroll from './components/anim/SmoothScroll';
+import Ambient from './components/v2/Ambient';
 import { ScrollSmoother, ScrollTrigger } from './lib/gsap';
 // Home is eager — it is the landing route and lazy-loading it would only add a
 // round trip before first paint. Every other route is split out.
@@ -13,6 +15,8 @@ import Home from './pages/Home';
 
 const About = React.lazy(() => import('./pages/About'));
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const Process = React.lazy(() => import('./pages/Process'));
+const Careers = React.lazy(() => import('./pages/Careers'));
 const Work = React.lazy(() => import('./pages/Work'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPostDetail = React.lazy(() => import('./pages/BlogPostDetail'));
@@ -74,6 +78,8 @@ const AnimatedRoutes: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<ServicesPage />} />
+            <Route path="/process" element={<Process />} />
+            <Route path="/careers" element={<Careers />} />
             <Route path="/work" element={<Work />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPostDetail />} />
@@ -95,11 +101,12 @@ const App: React.FC = () => {
     <BrowserRouter>
       {/* Fixed chrome — must stay OUTSIDE the smooth-scroll wrapper */}
       <CustomCursor />
+      <ClickSpark />
       <ScrollProgress />
       <Navbar />
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="bg-noise"></div>
-      </div>
+      {/* Replaces the old flat noise sheet — mesh, grid, beam and grain, all
+          tuned per theme (see --amb-* tokens). */}
+      <Ambient />
 
       <SmoothScroll>
         <div className="relative z-10 flex min-h-screen flex-col">

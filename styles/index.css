@@ -3,6 +3,89 @@
 @tailwind utilities;
 
 /* ==========================================================================
+   Design tokens
+   The theme is defined here once, as channel triplets, and consumed through
+   Tailwind's semantic colours (canvas / ink / rule / surface). Components
+   never name a literal colour, so light mode works by construction instead
+   of by the !important override block further down.
+   ========================================================================== */
+
+:root {
+    color-scheme: dark;
+    --canvas: 18 32 23;
+    /* #122017 */
+    --ink: 255 255 255;
+    --rule: 255 255 255;
+    --surface: 255 255 255;
+    /* Decorative glow — always the brand green, in both themes. */
+    --glow: 56 224 123;
+    /* Brand green as *text*. On the dark canvas #38e07b reads at ~9:1. */
+    --accent: 56 224 123;
+
+    /* Ambient backdrop mix. On dark, light is additive — keep it restrained
+       or the page glows like a screensaver. */
+    --amb-2: 126 240 171;
+    --amb-3: 30 140 90;
+    --amb-a: 0.16;
+    --amb-b: 0.11;
+    --amb-c: 0.13;
+    --amb-grid: 0.03;
+    --amb-beam: 0.05;
+    --amb-grain: 0.05;
+    --amb-grain-blend: overlay;
+
+    /* Shiny-text highlight. On dark, a white specular reads correctly.
+       The base must sit BELOW the highlight or there is nothing to see —
+       white-on-white is not a sweep. Keep the gap SMALL — a big base/highlight
+       delta reads as a wipe revealing the text, not as a gleam. */
+    --shine: 255 255 255;
+    --shine-2: 214 255 231;
+    --shine-base: rgb(255 255 255 / 0.68);
+}
+
+.light {
+    color-scheme: light;
+    --canvas: 246 248 247;
+    /* #f6f8f7 */
+    --ink: 18 32 23;
+    --rule: 18 32 23;
+    --surface: 18 32 23;
+    --glow: 56 224 123;
+    /* #38e07b on a near-white page is only 1.6:1 — unreadable. Text uses a
+       darkened brand green (#0d7a3f, ~4.9:1) while fills, glows and the dot
+       field keep the original #38e07b, so the identity is unchanged. */
+    --accent: 13 122 63;
+
+    /* Light mode needs MORE atmosphere, not less — on white, a faint wash
+       reads as "unfinished" rather than as depth. Blobs are pushed toward
+       teal/sage so the page has hue variation instead of flat grey, the grid
+       is ~3x stronger, and grain switches to multiply (overlay is invisible
+       on a light surface). */
+    --amb-2: 56 189 160;
+    --amb-3: 122 200 150;
+    --amb-a: 0.30;
+    --amb-b: 0.22;
+    --amb-c: 0.24;
+    --amb-grid: 0.09;
+    --amb-beam: 0.10;
+    --amb-grain: 0.035;
+    --amb-grain-blend: multiply;
+
+    /* On light, sweeping to white would erase the letters — go green.
+       Base stays full-strength ink. The band is the *darker* green, not the
+       bright one — bright green over dark ink was a wipe, not a shine. */
+    --shine: 56 224 123;
+    --shine-2: 13 122 63;
+    --shine-base: rgb(18 32 23);
+}
+
+html,
+body {
+    background-color: rgb(var(--canvas));
+    color: rgb(var(--ink));
+}
+
+/* ==========================================================================
    Base
    Previously inline in index.html alongside the Tailwind Play CDN. Moved here
    so styles are compiled at build time instead of in the browser.
@@ -117,14 +200,23 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* --- Shiny text ---------------------------------------------------------- */
 
+/* The sweep colour is a token, not a literal. A white highlight over dark
+   text on a light page makes the letters momentarily disappear, so light
+   mode sweeps to the brand green instead of to white. */
 .shiny-text {
+    /* NOT currentColor: this rule sets `color: transparent` for the
+       background-clip, and currentColor resolves against that same computed
+       colour — so the base stops came out fully transparent and the text was
+       invisible except for the moving highlight band. Override
+       --shine-base to tint an individual instance. */
+    --shine-base: rgb(var(--ink));
     background: linear-gradient(110deg,
-            currentColor 0%,
-            currentColor 38%,
-            #ffffff 48%,
-            #eafff2 52%,
-            currentColor 62%,
-            currentColor 100%);
+            var(--shine-base) 0%,
+            var(--shine-base) 38%,
+            rgb(var(--shine)) 48%,
+            rgb(var(--shine-2)) 52%,
+            var(--shine-base) 62%,
+            var(--shine-base) 100%);
     background-size: 260% 100%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -272,9 +364,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     position: absolute;
     border-radius: 50%;
     filter: blur(90px);
+    /* The mesh is tuned for the dark canvas; on light it needs to sit back
+       further or it muddies the page. */
     opacity: calc(0.5 * var(--aurora-intensity, 1));
     will-change: transform;
 }
+
+.light .aurora__layer { opacity: calc(0.28 * var(--aurora-intensity, 1)); }
+
+.light .aurora__grain { opacity: 0.06; }
 
 .aurora__layer--1 {
     top: -22%;
@@ -368,188 +466,543 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 /* ==========================================================================
-   Light theme overrides
-   NOTE: this block is a known liability (audit F-30) — ~200 lines of
-   !important rules targeting escaped Tailwind utility selectors, which breaks
-   silently whenever a utility changes. It is preserved verbatim here so the
-   CDN removal is behaviour-neutral; replacing it with semantic tokens is a
-   separate, isolated change.
+   V2 design language — "Precision Studio"
+   Editorial type, hairline rules, mono engineering labels. Everything here
+   is compositor-friendly (transform/opacity) or static.
    ========================================================================== */
 
-.light {
-    color-scheme: light;
+/* Engineering label: tiny, tracked-out, monospaced. */
+.mono-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
 }
 
-.light body {
-    background-color: #f3f7f5 !important;
-    background-image: radial-gradient(circle at 50% 0%, rgba(56, 224, 123, 0.08), transparent 50%) !important;
-    color: #122017 !important;
+/* Ghost display type — huge outlined words. */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
 }
 
-.light h1,
-.light h2,
-.light h3,
-.light h4,
-.light h5,
-.light h6,
-.light .font-heading {
-    color: #122017 !important;
+.text-outline--primary {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--accent) / 0.85);
 }
 
-.light p,
-.light li,
-.light span:not(.material-symbols-outlined):not(.text-primary):not(.bg-primary) {
-    color: rgba(18, 32, 23, 0.72) !important;
+.text-outline { -webkit-text-stroke-color: rgb(var(--ink) / 0.28); }
+
+/* Capability index rows */
+.cap-row {
+    position: relative;
+    isolation: isolate;
 }
 
-.light .text-white { color: #122017 !important; }
-.light .text-white\/90 { color: rgba(18, 32, 23, 0.9) !important; }
-.light .text-white\/80 { color: rgba(18, 32, 23, 0.8) !important; }
-.light .text-white\/70 { color: rgba(18, 32, 23, 0.7) !important; }
-.light .text-white\/60 { color: rgba(18, 32, 23, 0.6) !important; }
-.light .text-white\/50 { color: rgba(18, 32, 23, 0.5) !important; }
-.light .text-white\/40 { color: rgba(18, 32, 23, 0.45) !important; }
-.light .text-white\/30 { color: rgba(18, 32, 23, 0.35) !important; }
-.light .text-white\/20 { color: rgba(18, 32, 23, 0.2) !important; }
-.light .text-white\/10 { color: rgba(18, 32, 23, 0.1) !important; }
-
-.light .bg-primary .text-background-dark,
-.light button.bg-primary,
-.light a.bg-primary,
-.light .text-background-dark {
-    color: #122017 !important;
+.cap-row::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(56, 224, 123, 0.07), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.light .bg-background-dark { background-color: #f3f7f5 !important; }
-.light .bg-background-dark\/30 { background-color: rgba(243, 247, 245, 0.3) !important; }
-.light .bg-background-dark\/60 { background-color: rgba(243, 247, 245, 0.6) !important; }
-.light .bg-background-dark\/80 { background-color: rgba(243, 247, 245, 0.8) !important; }
-.light .bg-background-dark\/90 { background-color: rgba(243, 247, 245, 0.9) !important; }
-.light .bg-background-dark\/95 { background-color: rgba(243, 247, 245, 0.95) !important; }
+.cap-row:hover::after { opacity: 1; }
 
-.light .bg-\[\#0c120e\]\/95 { background-color: rgba(255, 255, 255, 0.95) !important; }
-.light .bg-\[\#0c140e\] { background-color: #ffffff !important; }
-
-.light .glass-panel {
-    background: rgba(255, 255, 255, 0.8) !important;
-    border-top: 1px solid rgba(18, 32, 23, 0.08) !important;
-    border-left: 1px solid rgba(18, 32, 23, 0.08) !important;
-    border-right: 1px solid rgba(18, 32, 23, 0.03) !important;
-    border-bottom: 1px solid rgba(18, 32, 23, 0.03) !important;
-    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.05) !important;
+.cap-row__title {
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
 }
 
-.light .glass-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.7) 100%) !important;
-    border-top: 1px solid rgba(18, 32, 23, 0.08) !important;
-    border-left: 1px solid rgba(18, 32, 23, 0.08) !important;
-    border-right: 1px solid rgba(18, 32, 23, 0.03) !important;
-    border-bottom: 1px solid rgba(18, 32, 23, 0.03) !important;
-    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.05) !important;
+@media (min-width: 768px) {
+    .cap-row:hover .cap-row__title { transform: translateX(1.25rem); }
 }
 
-.light .border-white\/5 { border-color: rgba(18, 32, 23, 0.05) !important; }
-.light .border-white\/10 { border-color: rgba(18, 32, 23, 0.08) !important; }
-.light .border-white\/15 { border-color: rgba(18, 32, 23, 0.12) !important; }
-.light .border-white\/20 { border-color: rgba(18, 32, 23, 0.15) !important; }
-.light .border-white\/30 { border-color: rgba(18, 32, 23, 0.22) !important; }
-
-.light .bg-white\/5 { background-color: rgba(18, 32, 23, 0.04) !important; }
-.light .bg-white\/10 { background-color: rgba(18, 32, 23, 0.08) !important; }
-.light .bg-white\/20 { background-color: rgba(18, 32, 23, 0.15) !important; }
-.light .bg-white\/\[0\.02\] { background-color: rgba(18, 32, 23, 0.01) !important; }
-.light .bg-white\/\[0\.03\] { background-color: rgba(18, 32, 23, 0.02) !important; }
-.light .bg-white\/\[0\.04\] { background-color: rgba(18, 32, 23, 0.03) !important; }
-.light .bg-white\/\[0\.05\] { background-color: rgba(18, 32, 23, 0.04) !important; }
-
-.light input, .light textarea, .light select {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    border-color: rgba(18, 32, 23, 0.15) !important;
-    color: #122017 !important;
+.cap-row__arrow {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.light input::placeholder, .light textarea::placeholder {
-    color: rgba(18, 32, 23, 0.45) !important;
+.cap-row:hover .cap-row__arrow {
+    opacity: 1;
+    transform: translateX(0);
 }
 
-.light .bg-primary\/5 { background-color: rgba(56, 224, 123, 0.12) !important; }
-.light .bg-primary\/10 { background-color: rgba(56, 224, 123, 0.18) !important; }
-.light .bg-primary\/20 { background-color: rgba(56, 224, 123, 0.25) !important; }
+/* Scrub-revealed manifesto words start dim; GSAP drives them to full. */
+.manifesto-word { opacity: 0.12; }
 
-.light .backdrop-blur-md {
-    background-color: rgba(255, 255, 255, 0.8) !important;
+/* --- Bento (React Bits MagicBento pattern) -------------------------------
+   Each card carries a pointer-tracked radial glow. The position is written
+   as --glow-x/--glow-y by the component; CSS owns the look. */
+
+.bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.4s ease;
+    background: radial-gradient(220px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+            rgb(var(--glow) / 0.14),
+            transparent 70%);
 }
 
-.light .bg-noise { opacity: 0.015; }
+/* Hairline that lights up along the pointer edge. */
+.bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    padding: 1px;
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.4s ease;
+    background: radial-gradient(260px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+            rgb(var(--glow) / 0.65),
+            transparent 65%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+}
 
-.light ::selection {
-    background: rgba(56, 224, 123, 0.3);
+@media (prefers-reduced-motion: reduce) {
+
+    .bento-card::before,
+    .bento-card::after { display: none; }
+}
+
+/* --- ShimmerButton (squared) ---------------------------------------------
+   Same mechanics as the rounded .shimmer-btn further down, rebuilt on the
+   semantic tokens and squared to match the one-radius button rule. */
+
+.shimmer-sq {
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shimmer-sq:hover { transform: translateY(-2px); }
+.shimmer-sq:active { transform: translateY(0); }
+
+.shimmer-sq__ring {
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 300deg,
+            #ffffff 340deg,
+            #38e07b 350deg,
+            transparent 360deg);
+    animation: shimmer-orbit var(--shimmer-speed, 3s) linear infinite;
+}
+
+.shimmer-sq__face {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: var(--btn-h, 3.5rem);
+    padding: 0 var(--btn-px, 2.5rem);
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.shimmer-sq--primary .shimmer-sq__face {
+    background: #38e07b;
     color: #122017;
 }
 
-/* --- Mockups --- */
-
-.light .finance-mockup {
-    background-color: #f3f7f5 !important;
-    color: #122017 !important;
+.shimmer-sq--dark .shimmer-sq__face,
+.shimmer-sq--line .shimmer-sq__face {
+    background: rgb(var(--canvas));
+    color: rgb(var(--ink));
+    box-shadow: inset 0 0 0 1px rgb(var(--rule) / 0.14);
 }
-.light .finance-mockup .border-white\/5,
-.light .finance-mockup .border-white\/10 { border-color: rgba(18, 32, 23, 0.08) !important; }
-.light .finance-mockup .bg-white\/5,
-.light .finance-mockup .bg-white\/10,
-.light .finance-mockup .bg-white\/\[0\.02\] { background-color: rgba(18, 32, 23, 0.04) !important; }
-.light .finance-mockup .bg-black\/20,
-.light .finance-mockup .bg-black\/40 { background-color: rgba(18, 32, 23, 0.03) !important; }
-.light .finance-mockup .text-white\/40,
-.light .finance-mockup .text-white\/30,
-.light .finance-mockup .text-white\/20,
-.light .finance-mockup .text-white\/60,
-.light .finance-mockup .text-white { color: rgba(18, 32, 23, 0.7) !important; }
-.light .finance-mockup h3,
-.light .finance-mockup .font-black:not(.text-primary):not(.text-red-400) { color: #122017 !important; }
 
-.light .pakasian-mockup .bg-\[\#0a0f0d\] {
-    background-color: #f3f7f5 !important;
-    color: #122017 !important;
+.shimmer-sq--line:hover .shimmer-sq__face { color: rgb(var(--accent)); }
+
+/* The primary face keeps dark text on brand green in both themes. */
+.shimmer-sq--primary:hover .shimmer-sq__face { background: #ffffff; }
+
+.shimmer-sq:disabled,
+.shimmer-sq[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
 }
-.light .pakasian-mockup .border-white\/10,
-.light .pakasian-mockup .border-white\/5 { border-color: rgba(18, 32, 23, 0.08) !important; }
-.light .pakasian-mockup .bg-white\/5,
-.light .pakasian-mockup .bg-white\/10 { background-color: rgba(18, 32, 23, 0.04) !important; }
-.light .pakasian-mockup .text-white\/60,
-.light .pakasian-mockup .text-white\/30,
-.light .pakasian-mockup .text-white { color: rgba(18, 32, 23, 0.7) !important; }
-.light .pakasian-mockup h3,
-.light .pakasian-mockup .font-bold:not(.text-primary) { color: #122017 !important; }
-.light .pakasian-mockup .bg-white\/20 { background-color: rgba(18, 32, 23, 0.1) !important; }
 
+.shimmer-sq__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shimmer-sq__shine {
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent);
+    transform: skewX(-18deg);
+    z-index: 1;
+}
+
+.shimmer-sq:hover .shimmer-sq__shine {
+    animation: shimmer-shine 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-sq__ring { animation: none; }
+    .shimmer-sq:hover { transform: none; }
+    .shimmer-sq:hover .shimmer-sq__shine { animation: none; }
+}
+
+/* --- Shimmer card -------------------------------------------------------
+   The button's orbiting border light, applied to a card. Drawn as a
+   gradient ring via the mask-composite trick rather than an extra wrapper
+   element, so it overlays any background without touching layout. It sits
+   below the card's own `relative z-10` content and never eats pointer
+   events. Reveals on hover so a grid of cards is not all pulsing at rest. */
+
+.shimmer-card { position: relative; }
+
+.shimmer-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    padding: 1.5px;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 298deg,
+            rgb(var(--glow)) 340deg,
+            #ffffff 351deg,
+            transparent 360deg);
+    /* Punch out the interior so only the rim paints. */
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    animation: shimmer-orbit var(--shimmer-speed, 6s) linear infinite;
+    animation-play-state: paused;
+}
+
+.shimmer-card:hover::before {
+    opacity: 1;
+    animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-card::before { animation: none; }
+}
+
+/* --- Glare hover ---------------------------------------------------------
+   A soft specular sweep that follows the pointer across a card. */
+
+.glare {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%),
+            rgb(var(--ink) / 0.1),
+            transparent 60%);
+}
+
+.group:hover>.glare,
+.glare-host:hover .glare { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .glare { display: none; }
+}
+
+/* --- Shine heading -------------------------------------------------------
+   A static specular sheen across display type. Deliberately NOT animated: a
+   repeating sweep reads as the word being wiped/revealed over and over, which
+   is distracting on a page full of headings. The highlight simply sits in the
+   type.
+
+   Both stops are tokens rather than literals. On the dark canvas a white
+   gleam works; on the light canvas a white band over dark ink would make the
+   word vanish, so light mode sheens toward the brand green instead. */
+
+.shine {
+    /* NOT currentColor — this rule sets `color: transparent` for the
+       background-clip, so currentColor would resolve to transparent and the
+       heading would disappear entirely. --shine-base is themed at :root. */
+    background-image: linear-gradient(105deg,
+            var(--shine-base) 0%,
+            var(--shine-base) 40%,
+            rgb(var(--shine)) 48%,
+            rgb(var(--shine-2)) 52%,
+            var(--shine-base) 60%,
+            var(--shine-base) 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* `alternate` sends the glint left→right then back right→left. The TEXT
+       never moves — only the highlight band travels across it. A narrow band
+       plus a strong base is what keeps this a glint rather than the wipe /
+       reveal it looked like at wider settings. */
+    animation: shine-glint var(--shine-speed, 5s) ease-in-out infinite alternate;
+}
+
+@keyframes shine-glint {
+    from { background-position: 120% 0; }
+    to { background-position: -20% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shine { animation: none; }
+}
+
+/* SplitText/SplitReveal moves each word into its own transformed child, which
+   escapes the parent's background box — with color:transparent that renders as
+   *invisible text*. Never let .shine clip a split heading. */
+.shine:has(.split-line),
+.shine:has([data-split]),
+.split-line .shine {
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: inherit;
+}
+
+/* For headings set in the brand green rather than ink. */
+.shine--accent { --shine-base: rgb(var(--accent)); }
+
+/* --- Ambient backdrop ----------------------------------------------------
+   Layered page atmosphere. Values are tuned separately per theme: light mode
+   needs *more* tint than dark, because white space reads as empty rather
+   than as depth. */
+
+.ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ambient__mesh {
+    position: absolute;
+    inset: -20%;
+}
+
+.ambient__blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    filter: blur(100px);
+    will-change: transform;
+}
+
+.ambient__blob--1 {
+    top: -8%;
+    left: -6%;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, rgb(var(--glow) / var(--amb-a)), transparent 68%);
+    animation: amb-drift-1 34s ease-in-out infinite;
+}
+
+.ambient__blob--2 {
+    top: 22%;
+    right: -12%;
+    width: 48vw;
+    height: 48vw;
+    background: radial-gradient(circle, rgb(var(--amb-2) / var(--amb-b)), transparent 70%);
+    animation: amb-drift-2 44s ease-in-out infinite;
+}
+
+.ambient__blob--3 {
+    bottom: -14%;
+    left: 26%;
+    width: 52vw;
+    height: 52vw;
+    background: radial-gradient(circle, rgb(var(--amb-3) / var(--amb-c)), transparent 70%);
+    animation: amb-drift-3 52s ease-in-out infinite;
+}
+
+@keyframes amb-drift-1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(10%, 8%, 0) scale(1.15); }
+}
+
+@keyframes amb-drift-2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+    50% { transform: translate3d(-12%, 10%, 0) scale(0.9); }
+}
+
+@keyframes amb-drift-3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    50% { transform: translate3d(9%, -9%, 0) scale(1.18); }
+}
+
+/* Engineering graph paper, fading out toward the edges. */
+.ambient__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgb(var(--rule) / var(--amb-grid)) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(var(--rule) / var(--amb-grid)) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+}
+
+/* One slow diagonal shaft of light. */
+.ambient__beam {
+    position: absolute;
+    top: -40%;
+    left: -30%;
+    width: 60%;
+    height: 200%;
+    transform: rotate(18deg);
+    background: linear-gradient(90deg,
+            transparent,
+            rgb(var(--glow) / var(--amb-beam)),
+            transparent);
+    filter: blur(70px);
+    animation: amb-beam 26s ease-in-out infinite;
+}
+
+@keyframes amb-beam {
+    0%, 100% { transform: rotate(18deg) translateX(0); opacity: 0.5; }
+    50% { transform: rotate(18deg) translateX(120%); opacity: 1; }
+}
+
+.ambient__grain {
+    position: absolute;
+    inset: 0;
+    opacity: var(--amb-grain);
+    mix-blend-mode: var(--amb-grain-blend);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ambient__blob,
+    .ambient__beam { animation: none !important; }
+}
+
+/* Horizontal rails that scroll without showing a bar. */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* --- Animated SVG glyphs -------------------------------------------------
+   Stroke-based illustrations traced by GSAP DrawSVG. Nodes are filled, flow
+   paths carry a marching dash, and hovering the parent .group lifts the
+   whole scene. */
+
+.g-root {
+    overflow: visible;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.g-node,
+.g-pulse,
+.g-node-fill {
+    fill: #38e07b;
+    stroke: none;
+}
+
+.g-pulse { opacity: 0.55; }
+
+.g-layer { opacity: 0.45; }
+
+.g-bar { stroke-width: 3; }
+
+.g-flow {
+    stroke-dasharray: 6 8;
+    opacity: 0.7;
+}
+
+.group:hover .g-root { transform: scale(1.06) rotate(-1.5deg); }
+
+.group:hover .g-layer { opacity: 0.8; }
+
+.group:hover .g-pulse { opacity: 0.9; }
+
+@media (prefers-reduced-motion: reduce) {
+    .group:hover .g-root { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .manifesto-word { opacity: 1; }
+    .cap-row:hover .cap-row__title { transform: none; }
+}
+
+
+/* ==========================================================================
+   Light theme — legacy surfaces
+   Audit F-30 is resolved: the ~200-line block of !important rules targeting
+   escaped Tailwind utilities is gone. Site chrome and page content now use
+   the semantic tokens at the top of this file and need no overrides at all.
+
+   What remains is scoped to the three product mockups, which deliberately
+   render a *dark product UI* inside a device frame. Those keep their literal
+   colours; only their surrounding chrome is lightened so the frame still
+   reads on a light page.
+   ========================================================================== */
+
+.light .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-color: rgba(18, 32, 23, 0.08);
+    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.08);
+}
+
+.light .glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.7) 100%);
+    border-color: rgba(18, 32, 23, 0.08);
+    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.08);
+}
+
+.light .bg-noise { opacity: 0.02; }
+
+/* Mockups: keep the dark product UI, soften the shell. */
+.light .finance-mockup,
+.light .pakasian-mockup,
 .light .pafood-mockup {
-    background-color: #f3f7f5 !important;
-    color: #122017 !important;
+    --mockup-shell: rgba(18, 32, 23, 0.06);
 }
-.light .pafood-mockup .bg-\[\#0a0a0a\],
-.light .pafood-mockup .bg-\[\#050505\] {
-    background-color: #f3f7f5 !important;
-    color: #122017 !important;
-}
-.light .pafood-mockup .border-white\/5,
-.light .pafood-mockup .border-white\/10 { border-color: rgba(18, 32, 23, 0.08) !important; }
-.light .pafood-mockup .bg-white\/5,
-.light .pafood-mockup .bg-white\/10,
-.light .pafood-mockup .bg-white\/\[0\.03\] { background-color: rgba(18, 32, 23, 0.04) !important; }
-.light .pafood-mockup .bg-black\/80,
-.light .pafood-mockup .bg-\[\#0a0a0a\]\/50 { background-color: rgba(243, 247, 245, 0.9) !important; }
-.light .pafood-mockup .text-white\/50,
-.light .pafood-mockup .text-white\/30,
-.light .pafood-mockup .text-white\/20,
-.light .pafood-mockup .text-white\/40,
-.light .pafood-mockup .text-white\/60,
-.light .pafood-mockup .text-white { color: rgba(18, 32, 23, 0.7) !important; }
-.light .pafood-mockup .font-bold:not(.text-\[\#38e07b\]):not(.text-primary) { color: #122017 !important; }
-.light .pafood-mockup .font-black:not(.text-\[\#38e07b\]):not(.text-primary) { color: #122017 !important; }
-.light .pafood-mockup svg path[fill="none"] { stroke: #38e07b !important; }
-.light .pafood-mockup .bg-\[\#0a0a0a\] { background-color: #e9ecea !important; }
-.light .pafood-mockup .opacity-\[0\.03\] { opacity: 0.15 !important; }
-.light .pafood-mockup .bg-\[linear-gradient\(90deg\,transparent_19px\,white_20px\)\,linear-gradient\(white_1px\,transparent_1px\)\] {
-    background-image: linear-gradient(90deg, transparent 19px, rgba(18, 32, 23, 0.1) 20px), linear-gradient(rgba(18, 32, 23, 0.1) 1px, transparent 1px) !important;
+
+.light .finance-mockup .glass-panel,
+.light .pakasian-mockup .glass-panel,
+.light .pafood-mockup .glass-panel {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
 }
