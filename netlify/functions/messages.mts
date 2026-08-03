@@ -113,39 +113,12 @@ export default async function handler(req: Request, context: Context) {
     return json({ token: issueToken(secret), expiresInHours: SESSION_HOURS });
   }
 
-  // ── Submit (public) ─────────────────────────────────────────────────────
-  if (req.method === 'POST') {
-    const body = await req.json().catch(() => null);
-    if (!body) return json({ error: 'Invalid JSON.' }, 400);
-
-    const email = clean(body.email);
-    const message = clean(body.message);
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return json({ error: 'A valid email is required.' }, 400);
-    if (!message) return json({ error: 'A message is required.' }, 400);
-    // Honeypot: real users never fill this.
-    if (clean(body.company)) return json({ ok: true, id: randomUUID() });
-
-    const record: Message = {
-      id: randomUUID(),
-      name: clean(body.name) || 'Anonymous',
-      email,
-      projectType: clean(body.projectType) || 'Unspecified',
-      message,
-      createdAt: new Date().toISOString(),
-      read: false,
-      source: clean(body.source) || 'contact',
-      ip: context.ip,
-    };
-
-    await store.setJSON(record.id, record);
-    return json({ ok: true, id: record.id });
-  }
-
-  // ── Everything below requires a valid session ───────────────────────────
-  if (!authed()) return json({ error: 'Unauthorized.' }, 401);
-
   // ── Reply (admin) ───────────────────────────────────────────────────────
+  // MUST be matched before the public submit branch below, which otherwise
+  // swallows every remaining POST and makes this route unreachable.
   if (req.method === 'POST' && url.searchParams.get('a') === 'reply') {
+    if (!authed()) return json({ error: 'Unauthorized.' }, 401);
+
     const host = process.env.SMTP_HOST;
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
@@ -179,7 +152,7 @@ export default async function handler(req: Request, context: Context) {
         from: `DualSync <${from}>`,
         to: original.email,
         replyTo: from,
-        subject: `Re: your message to DualSync`,
+        subject: 'Re: your message to DualSync',
         text: `${replyBody}\n\n—\nDualSync\n\n\nOn ${new Date(original.createdAt).toUTCString()} you wrote:\n> ${original.message.replace(/\n/g, '\n> ')}`,
       });
     } catch (err) {
@@ -194,6 +167,37 @@ export default async function handler(req: Request, context: Context) {
     await store.setJSON(original.id, { ...original, replies, read: true });
     return json({ ok: true, replies });
   }
+
+  // ── Submit (public) ─────────────────────────────────────────────────────
+  if (req.method === 'POST') {
+    const body = await req.json().catch(() => null);
+    if (!body) return json({ error: 'Invalid JSON.' }, 400);
+
+    const email = clean(body.email);
+    const message = clean(body.message);
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return json({ error: 'A valid email is required.' }, 400);
+    if (!message) return json({ error: 'A message is required.' }, 400);
+    // Honeypot: real users never fill this.
+    if (clean(body.company)) return json({ ok: true, id: randomUUID() });
+
+    const record: Message = {
+      id: randomUUID(),
+      name: clean(body.name) || 'Anonymous',
+      email,
+      projectType: clean(body.projectType) || 'Unspecified',
+      message,
+      createdAt: new Date().toISOString(),
+      read: false,
+      source: clean(body.source) || 'contact',
+      ip: context.ip,
+    };
+
+    await store.setJSON(record.id, record);
+    return json({ ok: true, id: record.id });
+  }
+
+  // ── Everything below requires a valid session ───────────────────────────
+  if (!authed()) return json({ error: 'Unauthorized.' }, 401);
 
   if (req.method === 'GET') {
     const { blobs } = await store.list();
