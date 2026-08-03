@@ -41,6 +41,8 @@ const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [confirmationId, setConfirmationId] = useState('');
+  // Honeypot — hidden from people, irresistible to bots.
+  const [honeypot, setHoneypot] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -54,24 +56,21 @@ const Contact: React.FC = () => {
     setErrorMessage('');
 
     try {
-      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
-      if (!scriptUrl) {
-        throw new Error('Google Apps Script URL missing. Check .env.local (VITE_GOOGLE_SCRIPT_URL)');
-      }
-
-      const response = await fetch(scriptUrl, {
+      // Posts to our own Netlify function, which stores the message and
+      // serves it to /admin. `company` is a honeypot — bots fill it, people
+      // never see it.
+      const response = await fetch('/api/messages', {
         method: 'POST',
-        // Plain text avoids a CORS preflight against Google Apps Script.
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(formData),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...formData, company: honeypot, source: 'contact' }),
       });
 
       const result = await response.json();
-      if (result.status !== 'success') {
-        throw new Error(result.message || 'The server rejected the submission.');
+      if (!response.ok) {
+        throw new Error(result.error || 'The server rejected the submission.');
       }
 
-      setConfirmationId(Math.random().toString(36).slice(2, 11).toUpperCase());
+      setConfirmationId(String(result.id ?? '').slice(0, 8).toUpperCase());
       setStatus('success');
       setFormData({ name: '', email: '', projectType: projectTypes[0], message: '' });
     } catch (error) {
@@ -145,6 +144,21 @@ const Contact: React.FC = () => {
           {/* Form */}
           <div className="lg:col-span-7">
             <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+              {/* Honeypot: off-screen rather than display:none, which some
+                  bots detect and skip. */}
+              <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                <label htmlFor="company">Company (leave blank)</label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                   <label htmlFor="name" className="mono-label text-ink/60 block mb-3">

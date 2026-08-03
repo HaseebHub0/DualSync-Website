@@ -2,7 +2,29 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
+# API first — otherwise the SPA catch-all below would swallow /api/*.
+[[redirects]]
+  from = "/api/messages"
+  to = "/.netlify/functions/messages"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# The admin inbox must never be indexed or cached.
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

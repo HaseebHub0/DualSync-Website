@@ -1,5 +1,4 @@
 import React from 'react';
-import emailjs from '@emailjs/browser';
 import { useLocation, Link } from 'react-router-dom';
 
 const navLinks = [
@@ -59,7 +58,8 @@ const socials = [
 
 /**
  * Footer v2 — editorial close. Ruled grid, mono labels, and the wordmark
- * at ground level. Newsletter keeps the existing EmailJS flow untouched.
+ * at ground level. Newsletter signups post to the same /api/messages inbox
+ * as the contact form, so everything lands in one place.
  */
 const Footer: React.FC = () => {
   const location = useLocation();
@@ -76,38 +76,25 @@ const Footer: React.FC = () => {
 
     setStatus('loading');
     try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      // Same inbox as the contact form, tagged by source, so every signup
+      // lands in /admin instead of a separate mail provider.
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Newsletter subscriber',
+          email,
+          projectType: 'Newsletter',
+          message: `Subscribed to engineering notes from ${email}.`,
+          source: 'newsletter',
+        }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? 'Subscription failed');
 
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS not configured');
-      }
-
-      const adminParams = {
-        email: email,
-        message: 'New Footer Subscription from ' + email,
-        project_type: 'Newsletter Subscription',
-        name: 'Subscriber',
-      };
-      const adminPromise = emailjs.send(serviceId, templateId, adminParams, publicKey);
-
-      const autoReplyTemplateId = import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID;
-      let autoReplyPromise = Promise.resolve(null as any);
-      if (autoReplyTemplateId) {
-        const autoReplyParams = {
-          name: 'Subscriber',
-          email: email,
-          project_type: 'Newsletter',
-        };
-        autoReplyPromise = emailjs.send(serviceId, autoReplyTemplateId, autoReplyParams, publicKey);
-      }
-
-      await Promise.all([adminPromise, autoReplyPromise]);
       setStatus('success');
       setEmail('');
     } catch (e) {
-      console.error('EmailJS Error:', e);
+      console.error('Newsletter subscription failed:', e);
       setStatus('error');
     }
   };

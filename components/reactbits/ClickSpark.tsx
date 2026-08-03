@@ -40,8 +40,16 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     let running = false;
 
     const resize = () => {
-      canvas.width = Math.round(window.innerWidth * dpr);
-      canvas.height = Math.round(window.innerHeight * dpr);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      // A canvas is a replaced element: `inset-0` does NOT stretch it, so
+      // without an explicit CSS size it renders at its backing-store size —
+      // twice the viewport on a 2x screen, which put every spark at the wrong
+      // spot and left an oversized layer for the compositor to handle.
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();

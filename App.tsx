@@ -17,6 +17,7 @@ const About = React.lazy(() => import('./pages/About'));
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
 const Process = React.lazy(() => import('./pages/Process'));
 const Careers = React.lazy(() => import('./pages/Careers'));
+const Admin = React.lazy(() => import('./pages/Admin'));
 const Work = React.lazy(() => import('./pages/Work'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPostDetail = React.lazy(() => import('./pages/BlogPostDetail'));
@@ -96,9 +97,25 @@ const AnimatedRoutes: React.FC = () => {
 // BrowserRouter, not HashRouter: fragment URLs (/#/about) are not part of the
 // indexed URL, so every route collapsed into a single page for crawlers. The
 // SPA fallback that BrowserRouter needs is already set in netlify.toml.
-const App: React.FC = () => {
+/**
+ * The admin inbox is a private tool, not a page of the marketing site — it
+ * gets no navbar, footer, smooth-scroll or decorative chrome, so it stays
+ * fast and cannot be navigated into from the public nav.
+ */
+const Shell: React.FC = () => {
+  const { pathname } = useLocation();
+  if (pathname.startsWith('/admin')) {
+    return (
+      <React.Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </React.Suspense>
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <>
       {/* Fixed chrome — must stay OUTSIDE the smooth-scroll wrapper */}
       <CustomCursor />
       <ClickSpark />
@@ -116,6 +133,17 @@ const App: React.FC = () => {
           <Footer />
         </div>
       </SmoothScroll>
+    </>
+  );
+};
+
+// BrowserRouter, not HashRouter: fragment URLs (/#/about) are not part of the
+// indexed URL, so every route collapsed into a single page for crawlers. The
+// SPA fallback that BrowserRouter needs is already set in netlify.toml.
+const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <Shell />
     </BrowserRouter>
   );
 };

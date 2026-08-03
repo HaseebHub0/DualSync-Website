@@ -913,6 +913,29 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     .ambient__beam { animation: none !important; }
 }
 
+/* PERF: on phones three 55vw blobs at blur(100px) plus a blurred beam is far
+   more compositing than a mid-range GPU wants, and it was a major source of
+   scroll jank. Drop the beam, halve the blur radius, and stop animating the
+   blobs — the mesh still reads as atmosphere when it is static. */
+@media (max-width: 767px) {
+    .ambient__beam { display: none; }
+
+    .ambient__blob {
+        filter: blur(55px);
+        animation: none !important;
+    }
+
+    .ambient__blob--3 { display: none; }
+
+    .ambient__grid { background-size: 56px 56px; }
+}
+
+/* Coarse pointers cannot hover, so the card ring can never be revealed —
+   never pay for the animation there. */
+@media (hover: none) {
+    .shimmer-card::before { display: none; }
+}
+
 /* Horizontal rails that scroll without showing a bar. */
 .no-scrollbar {
     -ms-overflow-style: none;

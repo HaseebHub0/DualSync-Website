@@ -10,7 +10,8 @@ const links: [string, string, string][] = [
   ['/work', 'Work', '02'],
   ['/process', 'Process', '03'],
   ['/about', 'Team', '04'],
-  ['/blog', 'Journal', '05'],
+  ['/careers', 'Careers', '05'],
+  ['/blog', 'Journal', '06'],
 ];
 
 /**
