@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 
 interface SEOOptions {
@@ -9,8 +10,6 @@ interface SEOOptions {
   ogImage?: string;
   keywords?: string;
   schema?: object;
-  /** Keep this route out of search results (e.g. the admin inbox). */
-  noindex?: boolean;
 }
 
 const BASE_URL = 'https://dualsyncagency.com';
@@ -25,7 +24,6 @@ export function useSEO({
   ogImage = DEFAULT_OG_IMAGE,
   keywords,
   schema,
-  noindex = false,
 }: SEOOptions) {
   useEffect(() => {
     // Title
@@ -86,13 +84,5 @@ export function useSEO({
       }
       scriptEl.textContent = JSON.stringify(schema);
     }
-
-    // Robots. This is a single-page app, so the tag has to be restored on
-    // unmount — otherwise visiting a noindex route would leave every page
-    // navigated to afterwards marked noindex for the rest of the session.
-    setMeta('meta[name="robots"]', noindex ? 'noindex, nofollow' : 'index, follow');
-    return () => {
-      if (noindex) setMeta('meta[name="robots"]', 'index, follow');
-    };
-  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema, noindex]);
+  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema]);
 }
