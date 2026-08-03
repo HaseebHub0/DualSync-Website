@@ -1,0 +1,1008 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Design tokens
+   The theme is defined here once, as channel triplets, and consumed through
+   Tailwind's semantic colours (canvas / ink / rule / surface). Components
+   never name a literal colour, so light mode works by construction instead
+   of by the !important override block further down.
+   ========================================================================== */
+
+:root {
+    color-scheme: dark;
+    --canvas: 18 32 23;
+    /* #122017 */
+    --ink: 255 255 255;
+    --rule: 255 255 255;
+    --surface: 255 255 255;
+    /* Decorative glow — always the brand green, in both themes. */
+    --glow: 56 224 123;
+    /* Brand green as *text*. On the dark canvas #38e07b reads at ~9:1. */
+    --accent: 56 224 123;
+
+    /* Ambient backdrop mix. On dark, light is additive — keep it restrained
+       or the page glows like a screensaver. */
+    --amb-2: 126 240 171;
+    --amb-3: 30 140 90;
+    --amb-a: 0.16;
+    --amb-b: 0.11;
+    --amb-c: 0.13;
+    --amb-grid: 0.03;
+    --amb-beam: 0.05;
+    --amb-grain: 0.05;
+    --amb-grain-blend: overlay;
+
+    /* Shiny-text highlight. On dark, a white specular reads correctly.
+       The base must sit BELOW the highlight or there is nothing to see —
+       white-on-white is not a sweep. Keep the gap SMALL — a big base/highlight
+       delta reads as a wipe revealing the text, not as a gleam. */
+    --shine: 255 255 255;
+    --shine-2: 214 255 231;
+    --shine-base: rgb(255 255 255 / 0.68);
+}
+
+.light {
+    color-scheme: light;
+    --canvas: 246 248 247;
+    /* #f6f8f7 */
+    --ink: 18 32 23;
+    --rule: 18 32 23;
+    --surface: 18 32 23;
+    --glow: 56 224 123;
+    /* #38e07b on a near-white page is only 1.6:1 — unreadable. Text uses a
+       darkened brand green (#0d7a3f, ~4.9:1) while fills, glows and the dot
+       field keep the original #38e07b, so the identity is unchanged. */
+    --accent: 13 122 63;
+
+    /* Light mode needs MORE atmosphere, not less — on white, a faint wash
+       reads as "unfinished" rather than as depth. Blobs are pushed toward
+       teal/sage so the page has hue variation instead of flat grey, the grid
+       is ~3x stronger, and grain switches to multiply (overlay is invisible
+       on a light surface). */
+    --amb-2: 56 189 160;
+    --amb-3: 122 200 150;
+    --amb-a: 0.30;
+    --amb-b: 0.22;
+    --amb-c: 0.24;
+    --amb-grid: 0.09;
+    --amb-beam: 0.10;
+    --amb-grain: 0.035;
+    --amb-grain-blend: multiply;
+
+    /* On light, sweeping to white would erase the letters — go green.
+       Base stays full-strength ink. The band is the *darker* green, not the
+       bright one — bright green over dark ink was a wipe, not a shine. */
+    --shine: 56 224 123;
+    --shine-2: 13 122 63;
+    --shine-base: rgb(18 32 23);
+}
+
+html,
+body {
+    background-color: rgb(var(--canvas));
+    color: rgb(var(--ink));
+}
+
+/* ==========================================================================
+   Base
+   Previously inline in index.html alongside the Tailwind Play CDN. Moved here
+   so styles are compiled at build time instead of in the browser.
+   ========================================================================== */
+
+html {
+    /* scroll-behavior is owned by GSAP ScrollSmoother; native smooth scroll
+       fights the plugin, so it is intentionally omitted. */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', 'Poppins', sans-serif;
+    letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+::selection {
+    background: rgba(56, 224, 123, 0.25);
+    color: #fff;
+}
+
+:focus-visible {
+    outline: 2px solid rgba(56, 224, 123, 0.6);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   Surfaces
+   ========================================================================== */
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bg-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+
+/* 3D helpers used by the Hero scene. */
+.preserve-3d { transform-style: preserve-3d; }
+.rotate-X-20 { transform: rotateX(20deg) rotateY(-10deg); }
+.rotate-X-10 { transform: rotateX(10deg) rotateY(-5deg); }
+
+/* ==========================================================================
+   GSAP support (ScrollSmoother / ScrollTrigger / SplitText)
+   ========================================================================== */
+
+#smooth-wrapper { overflow: hidden; }
+#smooth-content { will-change: transform; }
+.split-line { will-change: transform; }
+
+[data-speed],
+[data-lag] { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+    #smooth-content { will-change: auto; }
+
+    [data-speed],
+    [data-lag] { transform: none !important; }
+}
+
+/* ==========================================================================
+   Premium effects
+   Shiny/gradient text, shimmer buttons, aurora backdrop, spotlight cards.
+   All compositor-driven (transform / opacity / background-position) so they
+   stay off the main thread. Brand palette only: #38e07b on #122017.
+   ========================================================================== */
+
+/* Registered so the conic gradient angle can be animated rather than stepped. */
+@property --shimmer-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* --- Shiny text ---------------------------------------------------------- */
+
+/* The sweep colour is a token, not a literal. A white highlight over dark
+   text on a light page makes the letters momentarily disappear, so light
+   mode sweeps to the brand green instead of to white. */
+.shiny-text {
+    /* NOT currentColor: this rule sets `color: transparent` for the
+       background-clip, and currentColor resolves against that same computed
+       colour — so the base stops came out fully transparent and the text was
+       invisible except for the moving highlight band. Override
+       --shine-base to tint an individual instance. */
+    --shine-base: rgb(var(--ink));
+    background: linear-gradient(110deg,
+            var(--shine-base) 0%,
+            var(--shine-base) 38%,
+            rgb(var(--shine)) 48%,
+            rgb(var(--shine-2)) 52%,
+            var(--shine-base) 62%,
+            var(--shine-base) 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation-name: shiny-sweep;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.shiny-text--off {
+    animation: none;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: inherit;
+}
+
+@keyframes shiny-sweep {
+    0% { background-position: 160% 0; }
+    100% { background-position: -60% 0; }
+}
+
+/* --- Gradient text ------------------------------------------------------- */
+
+.gradient-text {
+    background: linear-gradient(90deg, #38e07b, #ffffff, #7ef0ab, #38e07b);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation-name: gradient-pan;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes gradient-pan {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+/* --- Shimmer button ------------------------------------------------------ */
+
+.shimmer-btn {
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    border-radius: 9999px;
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shimmer-btn:hover { transform: translateY(-2px); }
+.shimmer-btn:active { transform: translateY(0); }
+
+/* Light orbiting the border. */
+.shimmer-btn__ring {
+    position: absolute;
+    inset: -140%;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 300deg,
+            #ffffff 340deg,
+            #38e07b 350deg,
+            transparent 360deg);
+    animation: shimmer-orbit var(--shimmer-speed, 3s) linear infinite;
+}
+
+@keyframes shimmer-orbit {
+    to { --shimmer-angle: 360deg; }
+}
+
+.shimmer-btn__face {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 2rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.shimmer-btn--primary .shimmer-btn__face {
+    background: #38e07b;
+    color: #122017;
+    box-shadow: 0 0 24px rgba(56, 224, 123, 0.32);
+}
+
+.shimmer-btn--dark .shimmer-btn__face {
+    background: #0d1a13;
+    color: #ffffff;
+}
+
+.shimmer-btn__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Diagonal shine sweeping the face on hover. */
+.shimmer-btn__shine {
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent);
+    transform: skewX(-18deg);
+    z-index: 1;
+}
+
+.shimmer-btn:hover .shimmer-btn__shine {
+    animation: shimmer-shine 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes shimmer-shine {
+    to { left: 130%; }
+}
+
+/* --- Aurora backdrop ----------------------------------------------------- */
+
+.aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aurora__layer {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    /* The mesh is tuned for the dark canvas; on light it needs to sit back
+       further or it muddies the page. */
+    opacity: calc(0.5 * var(--aurora-intensity, 1));
+    will-change: transform;
+}
+
+.light .aurora__layer { opacity: calc(0.28 * var(--aurora-intensity, 1)); }
+
+.light .aurora__grain { opacity: 0.06; }
+
+.aurora__layer--1 {
+    top: -22%;
+    left: -12%;
+    width: 62%;
+    height: 62%;
+    background: radial-gradient(circle, rgba(56, 224, 123, 0.55), transparent 68%);
+    animation: aurora-drift-1 var(--aurora-speed, 24s) ease-in-out infinite;
+}
+
+.aurora__layer--2 {
+    top: 8%;
+    right: -18%;
+    width: 55%;
+    height: 66%;
+    background: radial-gradient(circle, rgba(126, 240, 171, 0.4), transparent 70%);
+    animation: aurora-drift-2 calc(var(--aurora-speed, 24s) * 1.35) ease-in-out infinite;
+}
+
+.aurora__layer--3 {
+    bottom: -26%;
+    left: 22%;
+    width: 60%;
+    height: 55%;
+    background: radial-gradient(circle, rgba(30, 140, 90, 0.45), transparent 70%);
+    animation: aurora-drift-3 calc(var(--aurora-speed, 24s) * 1.7) ease-in-out infinite;
+}
+
+.aurora__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes aurora-drift-1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(14%, 10%, 0) scale(1.18); }
+}
+
+@keyframes aurora-drift-2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+    50% { transform: translate3d(-16%, 14%, 0) scale(0.92); }
+}
+
+@keyframes aurora-drift-3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    50% { transform: translate3d(12%, -12%, 0) scale(1.2); }
+}
+
+/* --- Spotlight card ------------------------------------------------------ */
+
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.spotlight-card__glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: var(--spot-opacity, 0);
+    transition: opacity 0.35s ease;
+    background: radial-gradient(var(--spot-radius, 320px) circle at var(--spot-x, 50%) var(--spot-y, 50%),
+            rgba(56, 224, 123, 0.16),
+            transparent 62%);
+}
+
+/* --- Reduced motion ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .shiny-text,
+    .gradient-text,
+    .shimmer-btn__ring,
+    .aurora__layer {
+        animation: none !important;
+    }
+
+    .shiny-text {
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        color: inherit;
+    }
+
+    .shimmer-btn:hover { transform: none; }
+    .shimmer-btn:hover .shimmer-btn__shine { animation: none; }
+}
+
+/* ==========================================================================
+   V2 design language — "Precision Studio"
+   Editorial type, hairline rules, mono engineering labels. Everything here
+   is compositor-friendly (transform/opacity) or static.
+   ========================================================================== */
+
+/* Engineering label: tiny, tracked-out, monospaced. */
+.mono-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+/* Ghost display type — huge outlined words. */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
+}
+
+.text-outline--primary {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--accent) / 0.85);
+}
+
+.text-outline { -webkit-text-stroke-color: rgb(var(--ink) / 0.28); }
+
+/* Capability index rows */
+.cap-row {
+    position: relative;
+    isolation: isolate;
+}
+
+.cap-row::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(56, 224, 123, 0.07), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cap-row:hover::after { opacity: 1; }
+
+.cap-row__title {
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+}
+
+@media (min-width: 768px) {
+    .cap-row:hover .cap-row__title { transform: translateX(1.25rem); }
+}
+
+.cap-row__arrow {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cap-row:hover .cap-row__arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scrub-revealed manifesto words start dim; GSAP drives them to full. */
+.manifesto-word { opacity: 0.12; }
+
+/* --- Bento (React Bits MagicBento pattern) -------------------------------
+   Each card carries a pointer-tracked radial glow. The position is written
+   as --glow-x/--glow-y by the component; CSS owns the look. */
+
+.bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.4s ease;
+    background: radial-gradient(220px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+            rgb(var(--glow) / 0.14),
+            transparent 70%);
+}
+
+/* Hairline that lights up along the pointer edge. */
+.bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    padding: 1px;
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.4s ease;
+    background: radial-gradient(260px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+            rgb(var(--glow) / 0.65),
+            transparent 65%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .bento-card::before,
+    .bento-card::after { display: none; }
+}
+
+/* --- ShimmerButton (squared) ---------------------------------------------
+   Same mechanics as the rounded .shimmer-btn further down, rebuilt on the
+   semantic tokens and squared to match the one-radius button rule. */
+
+.shimmer-sq {
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shimmer-sq:hover { transform: translateY(-2px); }
+.shimmer-sq:active { transform: translateY(0); }
+
+.shimmer-sq__ring {
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 300deg,
+            #ffffff 340deg,
+            #38e07b 350deg,
+            transparent 360deg);
+    animation: shimmer-orbit var(--shimmer-speed, 3s) linear infinite;
+}
+
+.shimmer-sq__face {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: var(--btn-h, 3.5rem);
+    padding: 0 var(--btn-px, 2.5rem);
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.shimmer-sq--primary .shimmer-sq__face {
+    background: #38e07b;
+    color: #122017;
+}
+
+.shimmer-sq--dark .shimmer-sq__face,
+.shimmer-sq--line .shimmer-sq__face {
+    background: rgb(var(--canvas));
+    color: rgb(var(--ink));
+    box-shadow: inset 0 0 0 1px rgb(var(--rule) / 0.14);
+}
+
+.shimmer-sq--line:hover .shimmer-sq__face { color: rgb(var(--accent)); }
+
+/* The primary face keeps dark text on brand green in both themes. */
+.shimmer-sq--primary:hover .shimmer-sq__face { background: #ffffff; }
+
+.shimmer-sq:disabled,
+.shimmer-sq[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.shimmer-sq__label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shimmer-sq__shine {
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent);
+    transform: skewX(-18deg);
+    z-index: 1;
+}
+
+.shimmer-sq:hover .shimmer-sq__shine {
+    animation: shimmer-shine 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-sq__ring { animation: none; }
+    .shimmer-sq:hover { transform: none; }
+    .shimmer-sq:hover .shimmer-sq__shine { animation: none; }
+}
+
+/* --- Shimmer card -------------------------------------------------------
+   The button's orbiting border light, applied to a card. Drawn as a
+   gradient ring via the mask-composite trick rather than an extra wrapper
+   element, so it overlays any background without touching layout. It sits
+   below the card's own `relative z-10` content and never eats pointer
+   events. Reveals on hover so a grid of cards is not all pulsing at rest. */
+
+.shimmer-card { position: relative; }
+
+.shimmer-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    padding: 1.5px;
+    background: conic-gradient(from var(--shimmer-angle),
+            transparent 0deg,
+            transparent 298deg,
+            rgb(var(--glow)) 340deg,
+            #ffffff 351deg,
+            transparent 360deg);
+    /* Punch out the interior so only the rim paints. */
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    animation: shimmer-orbit var(--shimmer-speed, 6s) linear infinite;
+    animation-play-state: paused;
+}
+
+.shimmer-card:hover::before {
+    opacity: 1;
+    animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-card::before { animation: none; }
+}
+
+/* --- Glare hover ---------------------------------------------------------
+   A soft specular sweep that follows the pointer across a card. */
+
+.glare {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%),
+            rgb(var(--ink) / 0.1),
+            transparent 60%);
+}
+
+.group:hover>.glare,
+.glare-host:hover .glare { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .glare { display: none; }
+}
+
+/* --- Shine heading -------------------------------------------------------
+   A static specular sheen across display type. Deliberately NOT animated: a
+   repeating sweep reads as the word being wiped/revealed over and over, which
+   is distracting on a page full of headings. The highlight simply sits in the
+   type.
+
+   Both stops are tokens rather than literals. On the dark canvas a white
+   gleam works; on the light canvas a white band over dark ink would make the
+   word vanish, so light mode sheens toward the brand green instead. */
+
+.shine {
+    /* NOT currentColor — this rule sets `color: transparent` for the
+       background-clip, so currentColor would resolve to transparent and the
+       heading would disappear entirely. --shine-base is themed at :root. */
+    background-image: linear-gradient(105deg,
+            var(--shine-base) 0%,
+            var(--shine-base) 40%,
+            rgb(var(--shine)) 48%,
+            rgb(var(--shine-2)) 52%,
+            var(--shine-base) 60%,
+            var(--shine-base) 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* `alternate` sends the glint left→right then back right→left. The TEXT
+       never moves — only the highlight band travels across it. A narrow band
+       plus a strong base is what keeps this a glint rather than the wipe /
+       reveal it looked like at wider settings. */
+    animation: shine-glint var(--shine-speed, 5s) ease-in-out infinite alternate;
+}
+
+@keyframes shine-glint {
+    from { background-position: 120% 0; }
+    to { background-position: -20% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shine { animation: none; }
+}
+
+/* SplitText/SplitReveal moves each word into its own transformed child, which
+   escapes the parent's background box — with color:transparent that renders as
+   *invisible text*. Never let .shine clip a split heading. */
+.shine:has(.split-line),
+.shine:has([data-split]),
+.split-line .shine {
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: inherit;
+}
+
+/* For headings set in the brand green rather than ink. */
+.shine--accent { --shine-base: rgb(var(--accent)); }
+
+/* --- Ambient backdrop ----------------------------------------------------
+   Layered page atmosphere. Values are tuned separately per theme: light mode
+   needs *more* tint than dark, because white space reads as empty rather
+   than as depth. */
+
+.ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ambient__mesh {
+    position: absolute;
+    inset: -20%;
+}
+
+.ambient__blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    filter: blur(100px);
+    will-change: transform;
+}
+
+.ambient__blob--1 {
+    top: -8%;
+    left: -6%;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, rgb(var(--glow) / var(--amb-a)), transparent 68%);
+    animation: amb-drift-1 34s ease-in-out infinite;
+}
+
+.ambient__blob--2 {
+    top: 22%;
+    right: -12%;
+    width: 48vw;
+    height: 48vw;
+    background: radial-gradient(circle, rgb(var(--amb-2) / var(--amb-b)), transparent 70%);
+    animation: amb-drift-2 44s ease-in-out infinite;
+}
+
+.ambient__blob--3 {
+    bottom: -14%;
+    left: 26%;
+    width: 52vw;
+    height: 52vw;
+    background: radial-gradient(circle, rgb(var(--amb-3) / var(--amb-c)), transparent 70%);
+    animation: amb-drift-3 52s ease-in-out infinite;
+}
+
+@keyframes amb-drift-1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(10%, 8%, 0) scale(1.15); }
+}
+
+@keyframes amb-drift-2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+    50% { transform: translate3d(-12%, 10%, 0) scale(0.9); }
+}
+
+@keyframes amb-drift-3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    50% { transform: translate3d(9%, -9%, 0) scale(1.18); }
+}
+
+/* Engineering graph paper, fading out toward the edges. */
+.ambient__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgb(var(--rule) / var(--amb-grid)) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(var(--rule) / var(--amb-grid)) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+}
+
+/* One slow diagonal shaft of light. */
+.ambient__beam {
+    position: absolute;
+    top: -40%;
+    left: -30%;
+    width: 60%;
+    height: 200%;
+    transform: rotate(18deg);
+    background: linear-gradient(90deg,
+            transparent,
+            rgb(var(--glow) / var(--amb-beam)),
+            transparent);
+    filter: blur(70px);
+    animation: amb-beam 26s ease-in-out infinite;
+}
+
+@keyframes amb-beam {
+    0%, 100% { transform: rotate(18deg) translateX(0); opacity: 0.5; }
+    50% { transform: rotate(18deg) translateX(120%); opacity: 1; }
+}
+
+.ambient__grain {
+    position: absolute;
+    inset: 0;
+    opacity: var(--amb-grain);
+    mix-blend-mode: var(--amb-grain-blend);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ambient__blob,
+    .ambient__beam { animation: none !important; }
+}
+
+/* Horizontal rails that scroll without showing a bar. */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* --- Animated SVG glyphs -------------------------------------------------
+   Stroke-based illustrations traced by GSAP DrawSVG. Nodes are filled, flow
+   paths carry a marching dash, and hovering the parent .group lifts the
+   whole scene. */
+
+.g-root {
+    overflow: visible;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.g-node,
+.g-pulse,
+.g-node-fill {
+    fill: #38e07b;
+    stroke: none;
+}
+
+.g-pulse { opacity: 0.55; }
+
+.g-layer { opacity: 0.45; }
+
+.g-bar { stroke-width: 3; }
+
+.g-flow {
+    stroke-dasharray: 6 8;
+    opacity: 0.7;
+}
+
+.group:hover .g-root { transform: scale(1.06) rotate(-1.5deg); }
+
+.group:hover .g-layer { opacity: 0.8; }
+
+.group:hover .g-pulse { opacity: 0.9; }
+
+@media (prefers-reduced-motion: reduce) {
+    .group:hover .g-root { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .manifesto-word { opacity: 1; }
+    .cap-row:hover .cap-row__title { transform: none; }
+}
+
+
+/* ==========================================================================
+   Light theme — legacy surfaces
+   Audit F-30 is resolved: the ~200-line block of !important rules targeting
+   escaped Tailwind utilities is gone. Site chrome and page content now use
+   the semantic tokens at the top of this file and need no overrides at all.
+
+   What remains is scoped to the three product mockups, which deliberately
+   render a *dark product UI* inside a device frame. Those keep their literal
+   colours; only their surrounding chrome is lightened so the frame still
+   reads on a light page.
+   ========================================================================== */
+
+.light .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-color: rgba(18, 32, 23, 0.08);
+    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.08);
+}
+
+.light .glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.7) 100%);
+    border-color: rgba(18, 32, 23, 0.08);
+    box-shadow: 0 10px 40px -10px rgba(18, 32, 23, 0.08);
+}
+
+.light .bg-noise { opacity: 0.02; }
+
+/* Mockups: keep the dark product UI, soften the shell. */
+.light .finance-mockup,
+.light .pakasian-mockup,
+.light .pafood-mockup {
+    --mockup-shell: rgba(18, 32, 23, 0.06);
+}
+
+.light .finance-mockup .glass-panel,
+.light .pakasian-mockup .glass-panel,
+.light .pafood-mockup .glass-panel {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+}

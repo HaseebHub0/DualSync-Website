@@ -9,9 +9,32 @@ const testimonials: TestimonialItem[] = [
     role: "Director of Strategy",
     company: "Pak Asian Foods",
     content: "DualSync is our most trusted technical partner. They have successfully engineered 3 major systems for Pak Asian Foods, and we are currently co-developing several more. Their ability to sync complex business logic with high-end code is why they handle our entire digital infrastructure.",
-    image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&auto=format&fit=crop"
+    // No photo: this previously used a stock stranger's portrait, which
+    // misattributes a real person. Use a monogram until a real, permitted
+    // photo is supplied.
+    image: ""
   }
 ];
+
+/** Initials monogram — honest stand-in for a portrait we don't have rights to. */
+const Monogram: React.FC<{ name: string }> = ({ name }) => {
+  const initials = name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase();
+
+  return (
+    <div
+      aria-hidden="true"
+      className="size-16 md:size-20 rounded-full border border-primary/30 bg-primary/10 flex items-center justify-center text-primary font-bold text-xl md:text-2xl tracking-tight shrink-0"
+    >
+      {initials}
+    </div>
+  );
+};
 
 const Testimonials: React.FC = () => {
   const item = testimonials[0];
@@ -37,12 +60,18 @@ const Testimonials: React.FC = () => {
               </p>
 
               <div className="flex items-center gap-5 pt-6 border-t border-white/5">
-                <div className="relative">
-                  <img src={item.image} alt={item.name} className="size-16 md:size-20 rounded-full object-cover border-2 border-primary/30 group-hover:border-primary transition-colors" />
-                  <div className="absolute -bottom-1 -right-1 size-6 bg-primary rounded-full flex items-center justify-center border-2 border-background-dark">
-                    <span className="material-symbols-outlined text-[12px] text-background-dark font-black">verified</span>
-                  </div>
-                </div>
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={`${item.name}, ${item.role} at ${item.company}`}
+                    width={80}
+                    height={80}
+                    loading="lazy"
+                    className="size-16 md:size-20 rounded-full object-cover border-2 border-primary/30 group-hover:border-primary transition-colors shrink-0"
+                  />
+                ) : (
+                  <Monogram name={item.name} />
+                )}
                 <div>
                   <h4 className="text-white font-bold text-xl">{item.name}</h4>
                   <p className="text-white/40 text-xs font-bold uppercase tracking-wider">{item.role}, {item.company}</p>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="dark" lang="en">
 
 <head>
@@ -8,7 +8,7 @@
     <meta name="description"
         content="DualSync is a founder-led software engineering agency specializing in custom ERP systems, autonomous AI agents, and enterprise-grade digital infrastructure. Talk directly to the technical founders." />
     <meta name="keywords"
-        content="DualSync Agency, ERP Software Pakistan, AI Agents, Custom Software Development, Enterprise ERP, Autonomous AI, Business Automation, Software Agency Lahore, Django React Native, Muhammad Haseeb" />
+        content="DualSync Agency, ERP Software Pakistan, AI Agents, Custom Software Development, Enterprise ERP, Autonomous AI, Business Automation, Remote Software Agency, Django React Native, Muhammad Haseeb" />
     <meta name="author" content="DualSync" />
     <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
@@ -57,14 +57,9 @@
         "numberOfEmployees": { "@type": "QuantitativeValue", "value": 4 },
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Lahore",
           "addressCountry": "PK"
         },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 31.5204,
-          "longitude": 74.3587
-        },
+        "areaServed": "Worldwide",
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer support",
@@ -108,12 +103,7 @@
         "url": "https://dualsyncagency.com",
         "name": "DualSync Agency",
         "description": "Founder-led software engineering. Custom ERP, AI agents & enterprise systems.",
-        "publisher": { "@id": "https://dualsyncagency.com/#organization" },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://dualsyncagency.com/#/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "publisher": { "@id": "https://dualsyncagency.com/#organization" }
       },
       {
         "@context": "https://schema.org",
@@ -162,155 +152,26 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,aspect-ratio"></script>
     <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#38e07b",
-                        "background-light": "#f6f8f7",
-                        "background-dark": "#122017",
-                        "glass": "rgba(255, 255, 255, 0.05)",
-                        "glass-border": "rgba(255, 255, 255, 0.1)",
-                    },
-                    fontFamily: {
-                        "display": ["Garet", "Outfit", "sans-serif"],
-                        "sans": ["Inter", "Poppins", "sans-serif"],
-                        "inter": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "2xl": "4rem", "full": "9999px" },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'float': 'float 6s ease-in-out infinite',
-                        'spin-slow': 'spin 12s linear infinite',
-                        'gradient': 'textGradient 6s ease infinite',
-                        'drift': 'drift 20s linear infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        textGradient: {
-                            '0%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' },
-                            '100%': { backgroundPosition: '0% 50%' },
-                        },
-                        drift: {
-                            '0%': { transform: 'translate(0, 0) rotate(0deg)' },
-                            '50%': { transform: 'translate(20px, 30px) rotate(10deg)' },
-                            '100%': { transform: 'translate(0, 0) rotate(0deg)' },
-                        }
-                    }
-                },
-            },
-        }
+        // Resolve the theme before first paint so the page never flashes the
+        // wrong one. Must stay inline and blocking; useTheme() reads the class
+        // this sets as its source of truth.
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var theme = stored === 'light' || stored === 'dark'
+                    ? stored
+                    : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                var root = document.documentElement;
+                root.classList.toggle('light', theme === 'light');
+                root.classList.toggle('dark', theme !== 'light');
+            } catch (e) { /* keep the default dark class from the html tag */ }
+        })();
     </script>
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body {
-            font-family: 'Inter', 'Poppins', sans-serif;
-            letter-spacing: -0.01em;
-        }
-
-        h1, h2, h3, h4, h5, h6, .font-heading {
-            font-family: 'Garet', 'Outfit', 'Inter', sans-serif;
-            letter-spacing: -0.02em;
-        }
-
-        /* Premium selection color */
-        ::selection {
-            background: rgba(56, 224, 123, 0.25);
-            color: #fff;
-        }
-
-        /* Smoother focus rings */
-        :focus-visible {
-            outline: 2px solid rgba(56, 224, 123, 0.6);
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .bg-noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        .animate-delay-100 {
-            animation-delay: 100ms;
-        }
-
-        .animate-delay-200 {
-            animation-delay: 200ms;
-        }
-
-        .animate-delay-300 {
-            animation-delay: 300ms;
-        }
-    </style>
-    <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react/": "https://esm.sh/react@18.2.0/",
-    "react-dom": "https://esm.sh/react-dom@18.2.0?deps=react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?deps=react@18.2.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?deps=react@18.2.0,react-dom@18.2.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0"
-  }
-}
-</script>
-    <link rel="stylesheet" href="/index.css">
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-sans text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-background-dark overflow-x-hidden">
+    class="font-sans antialiased selection:bg-primary selection:text-background-dark overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

@@ -23,7 +23,7 @@ const steps = [
     number: "03",
     title: "Continuous Sync",
     label: "Phase: Growth",
-    description: "Launch is only the beginning. We provide long-term technical guardianship, ensuring your infrastructure evolves alongside your users. Your success is our primary data point.",
+    description: "Launch is the start, not the finish. Code, docs and credentials are yours on delivery. We stay on because you want us to, not because you cannot leave.",
     icon: "sync_saved_locally",
     color: "from-purple-500/20 to-transparent"
   }

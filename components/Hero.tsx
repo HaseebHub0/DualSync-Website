@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import Aurora from './backgrounds/Aurora';
+import Particles from './backgrounds/Particles';
+import ShimmerButton from './ui/ShimmerButton';
+import ShinyText from './ui/ShinyText';
 
 const wordPairs = [
   { first: 'Business', second: 'ERP' },
@@ -9,15 +14,127 @@ const wordPairs = [
   { first: 'Logic', second: 'Software' }
 ];
 
+const AnimatedSalesCountMobile: React.FC<{ phase: 'chaos' | 'syncing' | 'active' }> = ({ phase }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (phase === 'chaos') {
+      setCount(0);
+    } else if (phase === 'active') {
+      let active = true;
+      const target = 42890;
+      const duration = 3000;
+      const startTime = Date.now();
+
+      const timer = setInterval(() => {
+        if (!active) return;
+        const now = Date.now();
+        const progress = Math.min((now - startTime) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 4);
+        setCount(Math.floor(easedProgress * target));
+        if (progress === 1) clearInterval(timer);
+      }, 16);
+
+      return () => {
+        active = false;
+        clearInterval(timer);
+      };
+    }
+  }, [phase]);
+
+  return <span>{phase === 'active' ? `$${count.toLocaleString()}` : '$--'}</span>;
+};
+
+const AnimatedGrowthMetrics: React.FC<{ phase: 'chaos' | 'syncing' | 'active' }> = ({ phase }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (phase === 'chaos') {
+      setCount(0);
+    } else if (phase === 'active') {
+      let active = true;
+      const target = 42890;
+      const duration = 3000;
+      const startTime = Date.now();
+
+      const timer = setInterval(() => {
+        if (!active) return;
+        const now = Date.now();
+        const progress = Math.min((now - startTime) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 4);
+        setCount(Math.floor(easedProgress * target));
+        if (progress === 1) clearInterval(timer);
+      }, 16);
+
+      return () => {
+        active = false;
+        clearInterval(timer);
+      };
+    }
+  }, [phase]);
+
+  return (
+    <div className="text-2xl font-black tabular-nums text-primary">
+      {phase === 'active' ? `+${(count / 1000).toFixed(1)}k` : '--'}
+    </div>
+  );
+};
+
+const AnimatedStressLevelMobile: React.FC<{ phase: 'chaos' | 'syncing' | 'active' }> = ({ phase }) => {
+  const [stress, setStress] = useState(100);
+
+  useEffect(() => {
+    if (phase === 'chaos') {
+      setStress(100);
+    } else if (phase === 'syncing') {
+      const timer = setInterval(() => {
+        setStress(prev => Math.max(0, prev - 2));
+      }, 30);
+      return () => clearInterval(timer);
+    } else if (phase === 'active') {
+      setStress(0);
+    }
+  }, [phase]);
+
+  const color = stress > 50 ? 'text-red-400' : 'text-primary';
+  return (
+    <span className={`text-[10px] font-bold ${color}`}>
+      {phase === 'chaos' ? '--' : `${stress}%`}
+    </span>
+  );
+};
+
+const AnimatedStressLevelDesktop: React.FC<{ phase: 'chaos' | 'syncing' | 'active' }> = ({ phase }) => {
+  const [stress, setStress] = useState(100);
+
+  useEffect(() => {
+    if (phase === 'chaos') {
+      setStress(100);
+    } else if (phase === 'syncing') {
+      const timer = setInterval(() => {
+        setStress(prev => Math.max(0, prev - 2));
+      }, 30);
+      return () => clearInterval(timer);
+    } else if (phase === 'active') {
+      setStress(0);
+    }
+  }, [phase]);
+
+  const color = stress > 50 ? 'text-red-400' : 'text-primary';
+  return (
+    <div className={`text-2xl font-black tabular-nums ${color}`}>
+      {phase === 'chaos' ? '--' : `${stress}%`}
+    </div>
+  );
+};
+
 const Hero: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
   // Animation Phases: 'chaos' -> 'syncing' -> 'active'
   const [phase, setPhase] = useState<'chaos' | 'syncing' | 'active'>('chaos');
-  const [salesCount, setSalesCount] = useState(0);
   const [cursorPos, setCursorPos] = useState({ x: 50, y: 50 });
-  const [stressLevel, setStressLevel] = useState(100);
 
   // Generate random "messy" document positions for the 'Stress' phase
   const messyDocs = useMemo(() => Array.from({ length: 15 }).map((_, i) => ({
@@ -31,59 +148,51 @@ const Hero: React.FC = () => {
   })), []);
 
   useEffect(() => {
+    const timeouts: any[] = [];
+
     // Word cycler
     const wordInterval = setInterval(() => {
       setIsVisible(false);
-      setTimeout(() => {
+      const t1 = setTimeout(() => {
         setIndex((prevIndex) => (prevIndex + 1) % wordPairs.length);
         setIsVisible(true);
       }, 500);
+      timeouts.push(t1);
     }, 4500);
 
     // Sequence loop: Stress (Chaos) -> Transformation -> Relief (Active)
+    let sequenceTimeout: any;
     const runSequence = () => {
       setPhase('chaos');
-      setStressLevel(100);
-      setSalesCount(0);
 
       // Phase 1: Messy state lasts for 4 seconds
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         setPhase('syncing');
-        // Reduce stress level during sync
-        const stressTimer = setInterval(() => {
-          setStressLevel(prev => Math.max(0, prev - 2));
-        }, 30);
-        setTimeout(() => clearInterval(stressTimer), 1500);
       }, 4000);
+      timeouts.push(t2);
 
       // Phase 2: Transformation to Active (Relief)
-      setTimeout(() => {
+      const t3 = setTimeout(() => {
         setPhase('active');
-        // Sales growth animation
-        let count = 0;
-        const target = 42890;
-        const duration = 3000;
-        const startTime = Date.now();
-
-        const countTimer = setInterval(() => {
-          const now = Date.now();
-          const progress = Math.min((now - startTime) / duration, 1);
-          const easedProgress = 1 - Math.pow(1 - progress, 4);
-          setSalesCount(Math.floor(easedProgress * target));
-          if (progress === 1) clearInterval(countTimer);
-        }, 16);
 
         // Move cursor in active phase
-        setTimeout(() => setCursorPos({ x: 75, y: 25 }), 500);
-        setTimeout(() => setCursorPos({ x: 30, y: 60 }), 1500);
+        const t4 = setTimeout(() => setCursorPos({ x: 75, y: 25 }), 500);
+        const t5 = setTimeout(() => setCursorPos({ x: 30, y: 60 }), 1500);
+        timeouts.push(t4, t5);
       }, 5500);
+      timeouts.push(t3);
 
-      // Repeat after 15 seconds
-      setTimeout(runSequence, 16000);
+      // Repeat after 16 seconds
+      sequenceTimeout = setTimeout(runSequence, 16000);
     };
 
     runSequence();
-    return () => clearInterval(wordInterval);
+
+    return () => {
+      clearInterval(wordInterval);
+      clearTimeout(sequenceTimeout);
+      timeouts.forEach(clearTimeout);
+    };
   }, []);
 
   const currentPair = wordPairs[index];
@@ -91,16 +200,12 @@ const Hero: React.FC = () => {
   return (
     <div className="flex-grow flex flex-col justify-center pt-32 md:pt-44 pb-12 px-4 sm:px-8 relative overflow-hidden min-h-screen bg-background-dark transition-colors duration-1000">
 
-      {/* Enhanced Ambient Background Lights */}
+      {/* Ambient layer: aurora mesh + constellation particles */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Base Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,224,123,0.15),transparent_60%)]"></div>
+        <Aurora intensity={phase === 'chaos' ? 0.45 : 1} speed={26} />
+        <Particles count={64} linkDistance={128} />
 
-        {/* Drifting Blobs */}
-        <div className={`absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full transition-all duration-1000 ${phase === 'chaos' ? 'opacity-20 scale-75' : 'opacity-100 animate-drift'}`}></div>
-        <div className={`absolute top-1/2 -right-1/4 w-1/3 h-1/3 bg-primary/10 blur-[100px] rounded-full transition-all duration-1000 delay-300 ${phase === 'chaos' ? 'opacity-0' : 'opacity-80'}`}></div>
-
-        {/* Bottom Fade-out to Section Below */}
+        {/* Bottom fade into the next section */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background-dark to-transparent"></div>
       </div>
 
@@ -119,7 +224,9 @@ const Hero: React.FC = () => {
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] transition-all duration-700 ${phase === 'chaos' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-primary/10 border-primary/20 text-primary'}`}
           >
             <span className={`w-2 h-2 rounded-full animate-pulse ${phase === 'chaos' ? 'bg-red-500' : 'bg-primary'}`}></span>
-            <span>{phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}</span>
+            <ShinyText speed={5} disabled={phase === 'chaos'}>
+              {phase === 'chaos' ? 'System Overload' : 'Harmonized Infrastructure'}
+            </ShinyText>
           </motion.div>
 
           <motion.h1
@@ -156,18 +263,20 @@ const Hero: React.FC = () => {
             variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <a href="#contact" className="group relative px-8 py-3 bg-primary text-background-dark font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white transition-colors duration-300 shadow-[0_0_20px_rgba(56,224,123,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2">
-              <span>Start Project</span>
-              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </a>
-            <a href="#work" className="px-8 py-3 bg-white/5 border border-white/10 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors flex items-center gap-2 backdrop-blur-md">
-              <span>View Work</span>
-            </a>
+            {/* Router-aware links. Raw `#contact` / `#work` fragments collided with
+                HashRouter's own hash and did not reliably navigate. */}
+            <ShimmerButton as={Link} to="/contact" variant="primary" speed={3}>
+              Start a project
+              <span aria-hidden="true" className="material-symbols-outlined text-base">arrow_forward</span>
+            </ShimmerButton>
+            <ShimmerButton as={Link} to="/work" variant="dark" speed={4.5}>
+              See the systems
+            </ShimmerButton>
           </motion.div>
         </motion.div>
 
         {/* 3D Visual Scene */}
-        <div className="w-full max-w-5xl h-[400px] md:h-[600px] relative preserve-3d perspective-[2000px] flex justify-center items-center">
+        <div data-speed="0.88" className="w-full max-w-5xl h-[400px] md:h-[600px] relative preserve-3d perspective-[2000px] flex justify-center items-center">
 
           {/* Chaos Phase: Messy, Jittery Documents */}
           <div className={`absolute inset-0 z-30 pointer-events-none transition-all duration-1000 ${phase === 'chaos' ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}>
@@ -222,7 +331,7 @@ const Hero: React.FC = () => {
                 <div className="flex flex-col gap-1 mb-6">
                   <div className="text-[9px] text-white/40 font-bold uppercase tracking-widest">Active Revenue</div>
                   <div className="text-3xl font-black text-white tabular-nums tracking-tighter">
-                    {phase === 'active' ? `$${salesCount.toLocaleString()}` : '$--'}
+                    <AnimatedSalesCountMobile phase={phase} />
                   </div>
                 </div>
 
@@ -244,16 +353,18 @@ const Hero: React.FC = () => {
                   </div>
 
                   <div className="space-y-2">
-                    {[
-                      { l: 'Stress Level', v: `${stressLevel}%`, c: stressLevel > 50 ? 'text-red-400' : 'text-primary' },
-                      { l: 'Structure', v: 'Optimal', c: 'text-white' },
-                      { l: 'Mental Focus', v: 'High', c: 'text-white' }
-                    ].map((s, i) => (
-                      <div key={i} className="flex justify-between items-center p-2.5 rounded-lg bg-white/5 border border-white/5">
-                        <span className="text-[8px] font-bold uppercase text-white/20 tracking-widest">{s.l}</span>
-                        <span className={`text-[10px] font-bold ${s.c}`}>{phase === 'active' ? s.v : '--'}</span>
-                      </div>
-                    ))}
+                    <div className="flex justify-between items-center p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-[8px] font-bold uppercase text-white/20 tracking-widest">Stress Level</span>
+                      <AnimatedStressLevelMobile phase={phase} />
+                    </div>
+                    <div className="flex justify-between items-center p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-[8px] font-bold uppercase text-white/20 tracking-widest">Structure</span>
+                      <span className="text-[10px] font-bold text-white">{phase === 'active' ? 'Optimal' : '--'}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-[8px] font-bold uppercase text-white/20 tracking-widest">Mental Focus</span>
+                      <span className="text-[10px] font-bold text-white">{phase === 'active' ? 'High' : '--'}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -304,16 +415,21 @@ const Hero: React.FC = () => {
 
                 <div className="col-span-9 flex flex-col gap-6">
                   <div className="grid grid-cols-3 gap-6">
-                    {[
-                      { l: 'Growth Metrics', v: `+${(salesCount / 1000).toFixed(1)}k`, c: 'text-primary' },
-                      { l: 'Efficiency', v: '98.4%', c: 'text-white' },
-                      { l: 'Operational Stress', v: `${stressLevel}%`, c: stressLevel > 50 ? 'text-red-400' : 'text-primary' }
-                    ].map((s, i) => (
-                      <div key={i} className={`glass-panel p-6 rounded-3xl border-white/10 transition-all duration-1000 ${phase === 'active' ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: `${i * 150}ms` }}>
-                        <div className="text-[9px] font-bold uppercase text-white/30 tracking-[0.2em] mb-2">{s.l}</div>
-                        <div className={`text-2xl font-black tabular-nums ${s.c}`}>{phase === 'active' ? s.v : '--'}</div>
-                      </div>
-                    ))}
+                    {/* Growth Metrics */}
+                    <div className={`glass-panel p-6 rounded-3xl border-white/10 transition-all duration-1000 ${phase === 'active' ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '0ms' }}>
+                      <div className="text-[9px] font-bold uppercase text-white/30 tracking-[0.2em] mb-2">Growth Metrics</div>
+                      <AnimatedGrowthMetrics phase={phase} />
+                    </div>
+                    {/* Efficiency */}
+                    <div className={`glass-panel p-6 rounded-3xl border-white/10 transition-all duration-1000 ${phase === 'active' ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '150ms' }}>
+                      <div className="text-[9px] font-bold uppercase text-white/30 tracking-[0.2em] mb-2">Efficiency</div>
+                      <div className="text-2xl font-black tabular-nums text-white">{phase === 'active' ? '98.4%' : '--'}</div>
+                    </div>
+                    {/* Operational Stress */}
+                    <div className={`glass-panel p-6 rounded-3xl border-white/10 transition-all duration-1000 ${phase === 'active' ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '300ms' }}>
+                      <div className="text-[9px] font-bold uppercase text-white/30 tracking-[0.2em] mb-2">Operational Stress</div>
+                      <AnimatedStressLevelDesktop phase={phase} />
+                    </div>
                   </div>
 
                   <div className={`flex-grow glass-panel rounded-[2.5rem] border-white/10 p-8 relative overflow-hidden transition-all duration-1000 ${phase === 'active' ? 'opacity-100' : 'opacity-0'}`}>
@@ -374,6 +490,15 @@ const Hero: React.FC = () => {
           }
         `}} />
 
+      </div>
+
+      {/* Scroll cue */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-2 pointer-events-none">
+        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
+        <div className="w-[22px] h-9 rounded-full border border-white/15 flex justify-center p-1.5">
+          <div className="w-1 h-2 rounded-full bg-primary animate-[scrollcue_1.8s_ease-in-out_infinite]"></div>
+        </div>
+        <style dangerouslySetInnerHTML={{ __html: `@keyframes scrollcue { 0%{transform:translateY(0);opacity:1} 60%{transform:translateY(10px);opacity:0.2} 100%{transform:translateY(0);opacity:1} }` }} />
       </div>
     </div>
   );

@@ -1,281 +1,278 @@
-
 import React, { useState } from 'react';
-import ScrollReveal from '../components/ScrollReveal';
+import { Link } from 'react-router-dom';
+import PageHero from '../components/v2/PageHero';
 import FAQ from '../components/FAQ';
+import Glyph from '../components/v2/Glyph';
+import Button from '../components/v2/Button';
+import Reveal from '../components/anim/Reveal';
 import { useSEO } from '../hooks/useSEO';
+
+const projectTypes = [
+  'AI Agent / Automation',
+  'Voice AI',
+  'Custom SaaS Platform',
+  'Enterprise System (ERP / CRM)',
+  'Web Application',
+  'Mobile Application',
+  'Product Design',
+  '3D & Motion',
+  'Something else',
+];
+
+const field =
+  'w-full bg-transparent border-b border-rule/15 h-14 text-ink text-base focus:outline-none focus:border-primary transition-colors placeholder:text-ink/25';
 
 const Contact: React.FC = () => {
   useSEO({
-    title: 'Contact DualSync Agency | Start Your Project Today',
-    description: 'Ready to build your ERP system or AI agent? Contact DualSync Agency directly. Talk to the technical founders who will design and build your solution.',
+    title: 'Contact DualSync | Talk to the Founders',
+    description:
+      'Start a project with DualSync. Two questions and your email — a founder replies within one business day. AI agents, SaaS platforms, and enterprise systems.',
     canonical: '/contact',
-    keywords: 'Contact DualSync, Hire ERP Developer, AI Agent Agency, Software Project Inquiry Pakistan',
+    keywords:
+      'Contact DualSync, Hire AI Agency, Custom SaaS Development, ERP Developer, Software Project Inquiry Pakistan',
   });
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'Full Website Development',
-    message: ''
+    projectType: projectTypes[0],
+    message: '',
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [confirmationId, setConfirmationId] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [confirmationId, setConfirmationId] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     try {
       const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
-
       if (!scriptUrl) {
         throw new Error('Google Apps Script URL missing. Check .env.local (VITE_GOOGLE_SCRIPT_URL)');
       }
 
       const response = await fetch(scriptUrl, {
         method: 'POST',
-        // Send as plain text to avoid CORS preflight issues with Google Apps Script
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          projectType: formData.projectType,
-          message: formData.message
-        }),
+        // Plain text avoids a CORS preflight against Google Apps Script.
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
-
       if (result.status !== 'success') {
-        throw new Error(result.message || 'Error from server');
+        throw new Error(result.message || 'The server rejected the submission.');
       }
 
-      setConfirmationId(Math.random().toString(36).substr(2, 9).toUpperCase());
+      setConfirmationId(Math.random().toString(36).slice(2, 11).toUpperCase());
       setStatus('success');
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        projectType: 'Full Website Development',
-        message: ''
-      });
-    } catch (error: any) {
-      console.error("Transmission failed:", error);
+      setFormData({ name: '', email: '', projectType: projectTypes[0], message: '' });
+    } catch (error) {
+      console.error('Contact submission failed:', error);
+      // Surfaced inline rather than in an alert() — an alert dumped raw JSON
+      // at the user and blocked the page.
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Something went wrong sending your message.'
+      );
       setStatus('error');
-      // Show the exact error text to the user for debugging
-      alert(`Transmission Error: ${JSON.stringify(error)}`);
     }
   };
 
   if (status === 'success') {
     return (
-      <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up min-h-screen flex flex-col justify-center">
-        <div className="max-w-3xl mx-auto w-full">
-          <ScrollReveal>
-            <div className="glass-card p-10 md:p-16 rounded-[3rem] border-primary/30 text-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,224,123,0.1),transparent_70%)]"></div>
-
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="size-20 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-8 animate-float">
-                  <span className="material-symbols-outlined text-5xl">task_alt</span>
-                </div>
-
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Signal Transmitted</h2>
-                <p className="text-primary font-bold text-sm uppercase tracking-[0.3em] mb-8">Synchronization Initialized</p>
-
-                <div className="w-full h-px bg-white/10 mb-8"></div>
-
-                <div className="text-left w-full space-y-6">
-                  <div>
-                    <div className="text-white/30 text-[10px] font-black uppercase tracking-widest mb-2">Status Update</div>
-                    <div className="text-white/80 text-lg leading-relaxed italic border-l-2 border-primary/50 pl-6">
-                      "Thank you for reaching out! We've received your message and will sync with you soon."
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="glass-panel p-4 rounded-2xl bg-white/5">
-                      <div className="text-white/30 text-[8px] font-bold uppercase mb-1">Confirmation ID</div>
-                      <div className="text-white font-mono text-xs">DS-{confirmationId}</div>
-                    </div>
-                    <div className="glass-panel p-4 rounded-2xl bg-white/5">
-                      <div className="text-white/30 text-[8px] font-bold uppercase mb-1">Priority Status</div>
-                      <div className="text-primary font-bold text-xs uppercase">Founder Review</div>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="mt-12 text-white/50 hover:text-primary transition-colors text-sm font-bold flex items-center gap-2 group"
-                >
-                  <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                  Send another transmission
-                </button>
-              </div>
+      <section className="min-h-screen flex items-center px-6 sm:px-10 pt-36 pb-24">
+        <div className="max-w-[90rem] mx-auto w-full">
+          <div className="max-w-3xl">
+            <div className="mono-label text-accent mb-8 flex items-center gap-2">
+              <span className="inline-block size-1.5 rounded-full bg-primary animate-pulse" />
+              Message received
             </div>
-          </ScrollReveal>
+            <h1 className="font-display font-black tracking-tighter text-ink text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.92] mb-10">
+              We’ll be in touch.
+            </h1>
+            <p className="text-ink/55 text-lg leading-relaxed max-w-xl mb-12">
+              A founder reads every message personally and replies within one
+              business day — usually sooner.
+            </p>
+
+            <dl className="grid grid-cols-2 gap-px bg-surface/10 border border-rule/10 max-w-md mb-12">
+              <div className="bg-canvas p-6">
+                <dt className="mono-label text-ink/60 mb-2">Reference</dt>
+                <dd className="text-ink font-mono text-sm">DS-{confirmationId}</dd>
+              </div>
+              <div className="bg-canvas p-6">
+                <dt className="mono-label text-ink/60 mb-2">Queue</dt>
+                <dd className="text-accent font-bold text-sm">Founder review</dd>
+              </div>
+            </dl>
+
+            <div className="flex flex-wrap gap-8">
+              <button
+                onClick={() => setStatus('idle')}
+                className="mono-label text-ink/50 hover:text-accent transition-colors"
+              >
+                ← Send another message
+              </button>
+              <Link to="/work" className="mono-label text-accent hover:text-ink transition-colors">
+                See the work ↗
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up min-h-screen flex flex-col justify-center">
-      <div className="max-w-7xl mx-auto w-full">
+    <>
+      <PageHero
+        label="Contact"
+        title="Tell us what’s"
+        titleOutline="breaking."
+        lead="Two questions and your email. A founder replies within one business day — not a form response, not a sales script."
+        meta={[['Reply time', '1 day']]}
+      />
 
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Initialize Sequence</h1>
-          <p className="text-white/60 text-lg">Tell us about your vision. We'll handle the reality.</p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-
-          {/* Left Column: The Dual Meaning */}
-          <div className="space-y-8">
-            <div className="glass-panel p-8 rounded-[2.5rem] relative overflow-hidden group">
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-background-dark text-lg font-bold">D</span>
-                The Dual Philosophy
-              </h3>
-
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-1 bg-gradient-to-b from-primary to-transparent rounded-full"></div>
-                  <div>
-                    <h4 className="text-white font-bold text-lg">Vision + Reality</h4>
-                    <p className="text-white/60 text-sm leading-relaxed mt-1">
-                      We don't just write code; we interpret dreams. "Dual" represents the partnership between your strategic vision and our technical execution.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-1 bg-gradient-to-b from-blue-400 to-transparent rounded-full"></div>
-                  <div>
-                    <h4 className="text-white font-bold text-lg">Design + Engineering</h4>
-                    <p className="text-white/60 text-sm leading-relaxed mt-1">
-                      A beautiful product that doesn't work is art. A functional product that's ugly is a tool. We build <strong>Experiences</strong> by syncing both.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="glass-panel p-8 rounded-[2.5rem] flex items-center justify-between">
-              <div>
-                <div className="text-white/40 text-xs font-bold uppercase tracking-wider mb-1">Direct Line</div>
-                <div className="text-white text-xl font-bold">info@dualsyncagency.com</div>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-white/5 flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">mail</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: The Sync Form */}
-          <div className="glass-card p-8 md:p-10 rounded-[3rem] border-t border-white/20 shadow-2xl relative">
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-2 relative z-10">
-              <span className="material-symbols-outlined text-primary">sync_alt</span>
-              Sync With Us
-            </h3>
-
-            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-white/60 uppercase tracking-wider ml-4">Name</label>
+      <section className="px-6 sm:px-10 py-20 md:py-28">
+        <div className="max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* Form */}
+          <div className="lg:col-span-7">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                  <label htmlFor="name" className="mono-label text-ink/60 block mb-3">
+                    01 — Your name
+                  </label>
                   <input
+                    id="name"
                     required
                     name="name"
+                    type="text"
+                    autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
-                    type="text"
-                    className="w-full bg-background-dark/60 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20"
-                    placeholder="John Doe"
+                    className={field}
+                    placeholder="Jane Cooper"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-white/60 uppercase tracking-wider ml-4">Email</label>
+                <div>
+                  <label htmlFor="email" className="mono-label text-ink/60 block mb-3">
+                    02 — Email
+                  </label>
                   <input
+                    id="email"
                     required
                     name="email"
+                    type="email"
+                    autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
-                    type="email"
-                    className="w-full bg-background-dark/60 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20"
-                    placeholder="john@company.com"
+                    className={field}
+                    placeholder="jane@company.com"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/60 uppercase tracking-wider ml-4">Project Type</label>
+              <div>
+                <label htmlFor="projectType" className="mono-label text-ink/60 block mb-3">
+                  03 — What do you need built?
+                </label>
                 <select
+                  id="projectType"
                   name="projectType"
                   value={formData.projectType}
                   onChange={handleChange}
-                  className="w-full bg-background-dark/60 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none cursor-pointer"
+                  className={`${field} appearance-none cursor-pointer`}
                 >
-                  <option>Full Website Development</option>
-                  <option>Mobile Application</option>
-                  <option>UI/UX Design</option>
-                  <option>Custom Software Solution</option>
-                  <option>AI Calling Agent</option>
-                  <option>n8n Workflow Automation</option>
-                  <option>WhatsApp Automation</option>
-                  <option>Other</option>
+                  {projectTypes.map((t) => (
+                    <option key={t} className="bg-canvas">
+                      {t}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/60 uppercase tracking-wider ml-4">Message</label>
+              <div>
+                <label htmlFor="message" className="mono-label text-ink/60 block mb-3">
+                  04 — What’s the problem?
+                </label>
                 <textarea
+                  id="message"
                   required
                   name="message"
+                  rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  rows={4}
-                  className="w-full bg-background-dark/60 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20 resize-none"
-                  placeholder="Tell us about your project goals..."
-                ></textarea>
+                  className="w-full bg-transparent border-b border-rule/15 py-4 text-ink text-base focus:outline-none focus:border-primary transition-colors placeholder:text-ink/25 resize-none"
+                  placeholder="The part of your operation that keeps breaking, or the thing you wish existed…"
+                />
               </div>
 
-              <button
-                disabled={status === 'loading'}
-                className="w-full bg-primary disabled:bg-primary/50 text-background-dark font-bold text-lg h-14 rounded-2xl hover:bg-white transition-all shadow-[0_0_20px_rgba(56,224,123,0.2)] hover:shadow-[0_0_30px_rgba(56,224,123,0.4)] flex items-center justify-center gap-2 group"
-              >
-                {status === 'loading' ? (
-                  <>
-                    <div className="size-5 border-2 border-background-dark/30 border-t-background-dark rounded-full animate-spin"></div>
-                    <span>Transmitting...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Transmit Signal</span>
-                    <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>
-                  </>
-                )}
-              </button>
+              <div className="flex flex-wrap items-center gap-6">
+                <Button type="submit" disabled={status === 'loading'} arrow={status !== 'loading'}>
+                  {status === 'loading' ? (
+                    <>
+                      <span className="size-4 border-2 border-background-dark/30 border-t-background-dark rounded-full animate-spin" />
+                      Sending
+                    </>
+                  ) : (
+                    'Send message'
+                  )}
+                </Button>
+                <span className="mono-label text-ink/60">No sales sequence. Ever.</span>
+              </div>
 
               {status === 'error' && (
-                <p className="text-red-400 text-xs text-center font-bold">Transmission failed. Please check your signal and try again.</p>
+                <p role="alert" className="text-red-400 text-sm border-l-2 border-red-400/50 pl-4">
+                  That didn’t send. {errorMessage} You can also email us directly at
+                  info@dualsyncagency.com.
+                </p>
               )}
             </form>
           </div>
 
-        </div>
+          {/* Aside */}
+          <aside className="lg:col-span-5 lg:pl-8">
+            <Reveal y={30}>
+              <div className="size-24 mb-10 border border-rule/10 p-3">
+                <Glyph name="chat" className="w-full h-full" />
+              </div>
 
-        {/* FAQ Section Integrated into Contact Page */}
-        <FAQ />
-      </div>
-    </div>
+              <div className="mono-label text-accent mb-6">Direct line</div>
+              <a
+                href="mailto:info@dualsyncagency.com"
+                className="font-display font-bold tracking-tight text-ink text-xl md:text-2xl hover:text-accent transition-colors break-all"
+              >
+                info@dualsyncagency.com
+              </a>
+
+              <dl className="mt-12 border-t border-rule/10">
+                {[
+                  ['Where', 'Fully remote — working worldwide'],
+                  ['Reply', 'Within one business day'],
+                  ['Who answers', 'A founder, not a chatbot'],
+                  ['Availability', 'Booking Q4 2026'],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-6 py-4 border-b border-rule/10">
+                    <dt className="mono-label text-ink/60 shrink-0">{k}</dt>
+                    <dd className="text-ink/70 text-sm text-right">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </aside>
+        </div>
+      </section>
+
+      <FAQ />
+    </>
   );
 };
 

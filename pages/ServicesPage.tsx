@@ -1,242 +1,290 @@
 import React from 'react';
-import { ServiceItem, RoadmapItem } from '../types';
-import ScrollReveal from '../components/ScrollReveal';
+import { Link } from 'react-router-dom';
+import PageHero from '../components/v2/PageHero';
+import Glyph, { type GlyphName } from '../components/v2/Glyph';
+import Reveal from '../components/anim/Reveal';
+import SplitReveal from '../components/anim/SplitReveal';
+import MagneticButton from '../components/ui/MagneticButton';
+import Button from '../components/v2/Button';
 import { useSEO } from '../hooks/useSEO';
 
+type Service = {
+  num: string;
+  glyph: GlyphName;
+  title: string;
+  line: string;
+  details: string[];
+  tags: string[];
+};
 
-// Adding features and color to the type to match the object literals and usage in JSX
-const detailedServices: (ServiceItem & { details: string[]; features: string[]; color: string })[] = [
+const services: Service[] = [
   {
-    icon: 'psychology',
-    title: 'AI Integration',
-    description: 'Boost efficiency with intelligent automation. We build custom AI solutions that reduce costs by 40% and increase productivity.',
-    tags: ['NLP', 'Computer Vision', 'Generative AI', 'Agentic Workflows'],
-    features: ['Chatbots & Automation', 'Predictive Analytics', 'ML Models'],
-    color: 'border-rose-500/20',
-    details: ['Custom LLM Fine-tuning', 'Autonomous Customer Support Agents', 'Workflow Automation & Integration', 'Data Science & Visualizations']
-  },
-  {
-    icon: 'settings_voice',
-    title: 'AI Calling Agents',
-    description: 'Deploy human-like voice agents for inbound and outbound calling. Automate support, cold outreach, and customer qualification with realistic AI.',
-    tags: ['VAPI', 'Bland.ai', 'Voice AI', 'CRM Sync'],
-    features: ['Voice Agents (VAPI/Bland)', 'Outbound/Inbound Calling', 'CRM Integrations'],
-    color: 'border-green-500/20',
-    details: ['Inbound customer support voice agents', 'Outbound sales & lead qualification calls', 'Custom voice cloning and latency optimization', 'Direct integration with HubSpot, Salesforce & custom ERPs']
-  },
-  {
-    icon: 'hub',
-    title: 'n8n Automation',
-    description: 'Seamlessly connect your tools and databases. We build secure, self-hosted, complex n8n workflows that eliminate manual data entry.',
-    tags: ['n8n', 'Workflows', 'API Integrations', 'Self-Hosted'],
-    features: ['Self-Hosted n8n Setup', 'API & Webhook Integrations', 'Custom Workflow Syncs'],
-    color: 'border-orange-500/20',
-    details: ['Custom n8n nodes & JavaScript transformations', 'Automated lead routing & CRM updating', 'Invoice, reporting, and email automation', 'Secure self-hosted instances on AWS or Hetzner']
-  },
-  {
-    icon: 'forum',
-    title: 'WhatsApp Automation',
-    description: 'Scale your communications via WhatsApp. We integrate the official WhatsApp Cloud API for automated support, campaigns, and chatbot flows.',
-    tags: ['WhatsApp API', 'Chatbots', 'Meta Business', 'Customer Support'],
-    features: ['WhatsApp Cloud API', 'Interactive Chatbots', 'Broadcast Campaigns'],
-    color: 'border-emerald-500/20',
-    details: ['Automated order confirmations & shipping updates', 'Interactive buttons & list menu routing', 'Multi-agent shared inbox configuration', 'Bulk marketing broadcast campaigns with analytics']
-  },
-  {
-    icon: 'language',
-    title: 'Web Development',
-    description: 'Fast, scalable web applications that convert visitors into customers. Built for performance and optimized for SEO.',
-    tags: ['React', 'Next.js', 'PostgreSQL', 'Cloud Native'],
-    features: ['React & Next.js', 'E-commerce', 'Enterprise Apps'],
-    color: 'border-blue-500/20',
-    details: ['Headless E-commerce Solutions', 'Enterprise Dashboards', 'Serverless Architectures', 'Performance Optimization']
-  },
-  {
-    icon: 'smartphone',
-    title: 'Mobile Apps',
-    description: "Efficient cross-platform solutions for modern businesses. We build functional, high-performance apps that solve real operational problems.",
-    tags: ['React Native', 'Expo', 'Android', 'iOS'],
-    features: ['Business Apps', 'Cross-Platform', 'Internal Tools'],
-    color: 'border-cyan-400/20',
-    details: ['Real-time Data Synchronization', 'Offline-First Architecture', 'Inventory Management Apps', 'Field Operation Tools']
-  },
-  {
-    icon: 'code',
-    title: 'Custom Software',
-    description: 'Tailor-made solutions that solve your unique business challenges. Save 60% compared to off-the-shelf alternatives.',
-    tags: ['Microservices', 'API Design', 'Python', 'DevOps'],
-    features: ['SaaS Platforms', 'Internal Tools', 'API Development'],
-    color: 'border-primary/20',
-    details: ['Complex Logistics Systems (ERP)', 'Inventory Management Platforms', 'Legacy System Modernization', 'Cloud Migration Strategies']
-  },
-  {
-    icon: 'palette',
-    title: 'UI/UX Design',
-    description: 'Clean, intuitive interfaces designed for clarity. We focus on usability and logical flows to ensure your software is easy to navigate.',
-    tags: ['Figma', 'Wireframing', 'Prototyping'],
-    features: ['User Flows', 'Information Architecture', 'Design Systems'],
-    color: 'border-purple-500/20',
-    details: ['Interactive Prototypes', 'Dashboard layouts', 'Mobile-First Design', 'User Journey Mapping']
-  },
-  {
-    icon: 'view_in_ar',
-    title: '3D Art & Animation',
-    description: 'Cinematic 3D visuals that transform how your brand is perceived. From hyper-realistic product renders to character animation, we deliver premium 3D production.',
-    tags: ['Blender', 'Unreal Engine', 'Character Design', 'Product Viz'],
-    features: ['Character Design & Rigging', 'Product Visualization', 'Game-Ready Assets'],
-    color: 'border-amber-500/20',
+    num: '01',
+    glyph: 'agent',
+    title: 'AI Agents',
+    line: 'Intelligent automation for the work that eats your team’s week. Systems that close a loop end to end — not demos.',
     details: [
-      'Photorealistic Product Renders',
-      'Character Modeling & Animation',
-      'Game-Ready Asset Production',
-      'Unreal Engine Environment Art'
-    ]
-  }
+      'Custom LLM fine-tuning',
+      'Autonomous customer support agents',
+      'Workflow automation & integration',
+      'Data science & visualisation',
+    ],
+    tags: ['OpenAI', 'Agentic Workflows', 'NLP', 'Computer Vision'],
+  },
+  {
+    num: '02',
+    glyph: 'voice',
+    title: 'Voice AI',
+    line: 'Human-sounding voice agents for inbound and outbound calling. Support, outreach, and qualification — answered every time.',
+    details: [
+      'Inbound customer support voice agents',
+      'Outbound sales & lead qualification',
+      'Voice cloning and latency optimisation',
+      'Direct CRM and ERP integration',
+    ],
+    tags: ['Retell AI', 'VAPI', 'Bland.ai', 'CRM Sync'],
+  },
+  {
+    num: '03',
+    glyph: 'automation',
+    title: 'Automation',
+    line: 'Your tools, connected. Secure self-hosted n8n workflows that delete manual data entry from the job description.',
+    details: [
+      'Custom n8n nodes & JavaScript transforms',
+      'Automated lead routing & CRM updates',
+      'Invoice, reporting and email automation',
+      'Self-hosted instances on AWS or Hetzner',
+    ],
+    tags: ['n8n', 'API Integrations', 'Webhooks', 'Self-Hosted'],
+  },
+  {
+    num: '04',
+    glyph: 'chat',
+    title: 'WhatsApp Systems',
+    line: 'Conversations at scale on the channel your customers already use, through the official Cloud API.',
+    details: [
+      'Order confirmations & shipping updates',
+      'Interactive button & list routing',
+      'Multi-agent shared inbox',
+      'Broadcast campaigns with analytics',
+    ],
+    tags: ['WhatsApp Cloud API', 'Chatbots', 'Meta Business'],
+  },
+  {
+    num: '05',
+    glyph: 'saas',
+    title: 'Custom SaaS',
+    line: 'From first sketch to paying customers. Fast, scalable platforms built for performance and found by search.',
+    details: [
+      'Headless e-commerce',
+      'Enterprise dashboards',
+      'Serverless architectures',
+      'Performance optimisation',
+    ],
+    tags: ['React', 'Next.js', 'PostgreSQL', 'Cloud Native'],
+  },
+  {
+    num: '06',
+    glyph: 'devices',
+    title: 'Mobile Apps',
+    line: 'Cross-platform apps that solve real operational problems — built to work when the signal doesn’t.',
+    details: [
+      'Real-time data synchronisation',
+      'Offline-first architecture',
+      'Inventory management apps',
+      'Field operation tools',
+    ],
+    tags: ['React Native', 'Expo', 'iOS', 'Android'],
+  },
+  {
+    num: '07',
+    glyph: 'enterprise',
+    title: 'Enterprise Systems',
+    line: 'ERP and CRM shaped to how your business actually runs, instead of bending operations to fit someone else’s product.',
+    details: [
+      'Complex logistics systems (ERP)',
+      'Inventory management platforms',
+      'Legacy system modernisation',
+      'Cloud migration strategy',
+    ],
+    tags: ['Django', 'Python', 'Microservices', 'DevOps'],
+  },
+  {
+    num: '08',
+    glyph: 'design',
+    title: 'Product Design',
+    line: 'Interfaces people don’t have to think about. Clarity first, decoration never.',
+    details: [
+      'Interactive prototypes',
+      'Dashboard layouts',
+      'Mobile-first design',
+      'User journey mapping',
+    ],
+    tags: ['Figma', 'Design Systems', 'Prototyping'],
+  },
+  {
+    num: '09',
+    glyph: 'render',
+    title: '3D & Motion',
+    line: 'Cinematic visuals that change how a brand is perceived — from product renders to character animation.',
+    details: [
+      'Photorealistic product renders',
+      'Character modelling & animation',
+      'Game-ready asset production',
+      'Unreal Engine environment art',
+    ],
+    tags: ['Blender', 'Unreal Engine', 'Product Viz'],
+  },
+];
+
+const horizons = [
+  {
+    title: 'Blockchain Systems',
+    line: 'Smart contracts, dApps, and secure ledger integrations.',
+  },
+  {
+    title: 'Technical SEO',
+    line: 'Programmatic content strategy and ranking infrastructure.',
+  },
 ];
 
 const ServicesPage: React.FC = () => {
   useSEO({
-    title: 'Services | DualSync Agency — ERP, AI, Web & Mobile Development',
-    description: 'DualSync offers custom ERP development, autonomous AI agents, AI calling agents, n8n & WhatsApp workflow automations, web & mobile apps, UI/UX design, and 3D animation. Founder-led engineering.',
+    title: 'Services | DualSync — AI Agents, Voice AI, SaaS & Enterprise Systems',
+    description:
+      'DualSync builds AI agents, voice AI, n8n and WhatsApp automation, custom SaaS, mobile apps, enterprise ERP/CRM, product design, and 3D motion. Founder-led engineering, end to end.',
     canonical: '/services',
-    keywords: 'ERP Development, AI Agents, AI Calling Agents, n8n Automation, WhatsApp Automation, React Native, Django, Web Development, UI UX Design, 3D Animation, Pakistan Software Agency',
+    keywords:
+      'AI Agents, Voice AI, Retell AI, VAPI, n8n Automation, WhatsApp Automation, Custom SaaS, ERP Development, React Native, Django, Product Design, 3D Animation',
   });
 
   return (
-    <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16 md:mb-24">
-          <ScrollReveal>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter">DualSync <br /><span className="text-primary">ERP & AI Services.</span></h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-              We provide end-to-end technical leadership, building custom ERP systems and autonomous AI software that is both beautiful and robust.
-            </p>
-          </ScrollReveal>
-        </div>
+    <>
+      <PageHero
+        label="Services"
+        title="Nine ways we"
+        titleOutline="ship."
+        lead="Every engagement is run by the founders. No account managers, no offshore relay, no handoff between the person who scoped it and the person who builds it."
+        meta={[
+          ['Disciplines', '09'],
+          ['Reply time', '1 day'],
+        ]}
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 perspective-[2000px]">
-          {detailedServices.map((service, index) => (
-            <ScrollReveal key={index} delay={index * 100}>
-              <div className={`
-                glass-card p-8 md:p-10 rounded-[2rem] border-2 ${service.color} 
-                hover:bg-white/[0.03] transition-all duration-700 
-                flex flex-col gap-8 h-full relative overflow-hidden group
-                hover:[transform:rotateX(2deg)_rotateY(-1deg)_translateZ(10px)]
-              `}>
-
-                {/* Tech Mesh Background Effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 pointer-events-none">
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(56,224,123,0.1)_1px,transparent_1px),linear-gradient(rgba(56,224,123,0.1)_1px,transparent_1px)] bg-[length:40px_40px]"></div>
+      {/* Capability detail */}
+      <section className="px-6 sm:px-10">
+        <div className="max-w-[90rem] mx-auto">
+          {services.map((s, i) => (
+            <Reveal key={s.num} y={50}>
+              <article
+                className={`group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-14 md:py-20 ${
+                  i > 0 ? 'border-t border-rule/10' : ''
+                }`}
+              >
+                {/* Glyph */}
+                <div className="lg:col-span-3 flex lg:block items-center gap-6">
+                  <div className="size-24 md:size-32 shrink-0 border border-rule/10 group-hover:border-primary/40 transition-colors p-4 md:p-5 bg-surface/[0.02]">
+                    <Glyph name={s.glyph} className="w-full h-full" />
+                  </div>
+                  <span className="mono-label text-ink/60 lg:block lg:mt-5">{s.num} / 09</span>
                 </div>
 
-                {/* AI Scan-line Animation */}
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/40 shadow-[0_0_15px_#38e07b] opacity-0 group-hover:opacity-100 group-hover:animate-[scan_3s_infinite_linear] pointer-events-none z-50"></div>
-
-                {/* Header Section with Icon and Title */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 relative z-10">
-                  {/* Interactive Icon Container */}
-                  <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white relative group-hover:border-primary/40 group-hover:shadow-[0_0_30px_rgba(56,224,123,0.1)] transition-all duration-500">
-                    <div className="animate-float group-hover:animate-none">
-                      <span className="material-symbols-outlined text-4xl group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">{service.icon}</span>
-                    </div>
-                    {/* Subtle pulsing ring behind icon */}
-                    <div className="absolute inset-0 rounded-2xl border border-primary/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
-                  </div>
-
-                  {/* Number Indicator */}
-                  <div className="text-6xl font-black text-white/[0.04] select-none group-hover:text-primary/[0.05] transition-all duration-500 absolute top-0 right-0 sm:static">0{index + 1}</div>
-                </div>
-
-                <div className="flex-grow relative z-10 flex flex-col">
-                  <div className="mb-4">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2 block opacity-80">Service Module</span>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors duration-500">{service.title}</h3>
-                  </div>
-
-                  <p className="text-lg text-white/70 mb-8 leading-relaxed transition-colors group-hover:text-white/90">{service.description}</p>
-
-                  {/* Feature Grid - Compact for Grid View */}
-                  <div className="grid grid-cols-1 gap-3 mb-8 mt-auto">
-                    {service.details.map((detail, dIndex) => (
-                      <div
-                        key={dIndex}
-                        className="flex items-center gap-3 text-white/60 group-hover:text-white/90 transition-all duration-500 group-hover:translate-x-1"
-                        style={{ transitionDelay: `${dIndex * 30}ms` }}
-                      >
-                        <div className="size-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></div>
-                        <span className="text-sm font-medium">{detail}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {service.tags.map((tag, tIndex) => (
-                      <span
-                        key={tIndex}
-                        className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-white/50 group-hover:text-white/80 group-hover:border-white/20 transition-all"
-                      >
-                        {tag}
-                      </span>
+                {/* Statement */}
+                <div className="lg:col-span-5">
+                  <h2 className="font-display font-black tracking-tighter text-ink text-3xl md:text-5xl group-hover:text-accent transition-colors shine">
+                    {s.title}
+                  </h2>
+                  <p className="text-ink/55 text-base md:text-lg leading-relaxed mt-5 max-w-md">
+                    {s.line}
+                  </p>
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 mt-7">
+                    {s.tags.map((t) => (
+                      <span key={t} className="mono-label text-ink/60">{t}</span>
                     ))}
                   </div>
                 </div>
-              </div>
-            </ScrollReveal>
+
+                {/* Deliverables */}
+                <div className="lg:col-span-4">
+                  <div className="mono-label text-ink/60 mb-5">Deliverables</div>
+                  <ul className="flex flex-col">
+                    {s.details.map((d) => (
+                      <li
+                        key={d}
+                        className="flex items-start gap-4 py-3 border-b border-rule/[0.07] text-ink/60 text-sm md:text-base"
+                      >
+                        <span aria-hidden="true" className="mt-2 size-1 shrink-0 bg-primary" />
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Expanding Horizons Section */}
-      <div className="max-w-6xl mx-auto mt-32">
-        <ScrollReveal>
-          <div className="mb-12 gap-6">
-            <div className="flex flex-col gap-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Expanding Horizons</h2>
-              <p className="text-white/80 max-w-lg">We are constantly evolving. Here is what's coming next to the DualSync ecosystem.</p>
-            </div>
+      {/* Horizons */}
+      <section className="px-6 sm:px-10 py-24 md:py-32 border-t border-rule/10">
+        <div className="max-w-[90rem] mx-auto">
+          <Reveal y={24}>
+            <div className="mono-label text-accent mb-6">Next</div>
+            <h2 className="font-display font-black tracking-tighter text-ink text-3xl md:text-5xl mb-14 shine">
+              Currently in the lab
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-surface/10 border border-rule/10">
+            {horizons.map((h, i) => (
+              <Reveal key={h.title} y={40} delay={i * 0.06}>
+                <div className="relative shimmer-card bg-canvas p-8 md:p-12 h-full group hover:bg-surface/[0.02] transition-colors">
+                  <div className="flex items-start justify-between gap-6 mb-6">
+                    <h3 className="font-display font-bold tracking-tight text-ink text-xl md:text-2xl group-hover:text-accent transition-colors">
+                      {h.title}
+                    </h3>
+                    <span className="mono-label text-accent/60 shrink-0">Soon</span>
+                  </div>
+                  <p className="text-ink/50 text-sm md:text-base leading-relaxed">{h.line}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </ScrollReveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              icon: 'token',
-              title: 'Blockchain Solutions',
-              description: 'Smart contracts, decentralized applications (dApps), and secure ledger integrations.'
-            },
-            {
-              icon: 'trending_up',
-              title: 'SEO Optimization',
-              description: 'Advanced technical SEO, programmatic content strategies, and ranking domination.'
-            }
-          ].map((item, index) => (
-            <ScrollReveal key={index} delay={index * 100} className="h-full">
-              <div className="glass-panel p-6 rounded-[2rem] border-dashed border-white/20 flex items-center gap-6 relative overflow-hidden h-full hover:border-primary/30 transition-colors group">
-                <div className="absolute right-0 top-0 bg-white/10 px-4 py-1 rounded-bl-xl text-xs font-bold text-white/80 uppercase tracking-wider backdrop-blur-md group-hover:bg-primary group-hover:text-background-dark transition-colors">Coming Soon</div>
-                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-primary/50 transition-colors">
-                  <span className="material-symbols-outlined text-white/40 text-3xl group-hover:text-primary transition-colors">{item.icon}</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-                  <p className="text-white/60 text-sm group-hover:text-white/80 transition-colors">{item.description}</p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
         </div>
-      </div>
+      </section>
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes scan {
-          0% { transform: translateY(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(600px); opacity: 0; }
-        }
-      `}} />
-    </div>
+      {/* Close */}
+      <section className="px-6 sm:px-10 py-28 md:py-40 border-t border-rule/10 text-center relative overflow-hidden">
+        <div className="max-w-[90rem] mx-auto relative z-10">
+          <SplitReveal
+            as="h2"
+            type="words"
+            stagger={0.06}
+            className="font-display font-black tracking-tighter leading-[0.95] text-ink text-[clamp(2rem,6vw,5rem)] max-w-4xl mx-auto"
+          >
+            Not sure which one you need?
+          </SplitReveal>
+          <Reveal y={24} delay={0.25}>
+            <p className="text-ink/50 text-base md:text-lg max-w-xl mx-auto mt-8">
+              Most projects cross two or three of these. Tell us the problem and
+              we’ll tell you what it actually takes.
+            </p>
+          </Reveal>
+          <Reveal y={24} delay={0.35}>
+            <div className="flex justify-center mt-12">
+              <MagneticButton strength={0.45}>
+                <Button as={Link} to="/contact">
+                  Start a project
+                </Button>
+              </MagneticButton>
+            </div>
+          </Reveal>
+        </div>
+        <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50rem] h-[16rem] bg-primary/10 blur-[130px] rounded-full pointer-events-none"
+        />
+      </section>
+    </>
   );
 };
 

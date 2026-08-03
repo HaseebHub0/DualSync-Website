@@ -12,7 +12,7 @@ const reasons = [
   {
     icon: "bolt",
     title: "AI-Accelerated Engineering",
-    description: "We leverage proprietary Generative AI workflows to eliminate boilerplate, moving 10x faster than traditional firms without sacrificing code quality.",
+    description: "We use AI to absorb the boilerplate, so our hours go into the logic that is specific to your business. Less scaffolding, more system.",
     gradient: "from-blue-500/20 to-transparent"
   },
   {

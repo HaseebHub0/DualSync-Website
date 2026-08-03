@@ -1,130 +1,178 @@
 import React, { useState } from 'react';
-import { blogPosts } from '../data/blogPosts';
-import ScrollReveal from '../components/ScrollReveal';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { blogPosts } from '../data/blogPosts';
+import PageHero from '../components/v2/PageHero';
+import Reveal from '../components/anim/Reveal';
+import GlareHover from '../components/reactbits/GlareHover';
 import { useSEO } from '../hooks/useSEO';
 
-
 const Blog: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState('All');
   useSEO({
-    title: 'Blog | DualSync Agency — Insights on ERP, AI & Software Development',
-    description: 'Read DualSync’s blog for insights on ERP systems, autonomous AI agents, software engineering best practices, and the future of enterprise technology.',
+    title: 'Journal | DualSync — Notes on AI, SaaS & Enterprise Engineering',
+    description:
+      'Engineering notes from DualSync: AI agents, SaaS architecture, enterprise systems, and what we learned shipping them.',
     canonical: '/blog',
-    keywords: 'ERP Blog, AI Software Blog, Software Engineering Insights, DualSync Journal, Tech Blog Pakistan',
+    keywords:
+      'ERP Blog, AI Software Blog, Software Engineering Insights, DualSync Journal, Tech Blog Pakistan',
   });
 
-  const categories = ["All", ...Array.from(new Set(blogPosts.map(p => p.category)))];
+  const categories = ['All', ...Array.from(new Set(blogPosts.map((p) => p.category)))];
+  const filtered =
+    activeCategory === 'All' ? blogPosts : blogPosts.filter((p) => p.category === activeCategory);
 
-  const filteredPosts = activeCategory === "All" ? blogPosts : blogPosts.filter(p => p.category === activeCategory);
-  
-  // Separate featured post (first one) from the rest for the grid layout
-  const featuredPost = filteredPosts[0];
-  const gridPosts = filteredPosts.slice(1);
+  const [lead, ...rest] = filtered;
 
   return (
-    <div className="pt-44 pb-20 px-4 sm:px-8 animate-fade-in-up">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary font-bold text-sm mb-6 uppercase tracking-wider">
-             Our Journal
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Insights & Updates</h1>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Thoughts on technology, design, and the future of digital product development.
-          </p>
-          
-          {/* Categories */}
-          <div className="flex flex-wrap justify-center gap-3 mt-8">
-            {categories.map(cat => (
-              <button 
+    <>
+      <PageHero
+        label="Journal"
+        title="What we shipped,"
+        titleOutline="and what broke."
+        lead="Engineering notes on AI agents, SaaS architecture, and enterprise systems — written by the people who built them, not a content team."
+        meta={[['Entries', String(blogPosts.length)]]}
+      />
+
+      {/* Category rail */}
+      <div className="sticky top-20 z-40 border-b border-rule/10 bg-canvas/80 backdrop-blur-xl">
+        <div className="max-w-[90rem] mx-auto px-6 sm:px-10">
+          <div className="flex gap-8 overflow-x-auto no-scrollbar py-5">
+            {categories.map((cat) => (
+              <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === cat ? 'bg-primary text-background-dark' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                className={`relative mono-label whitespace-nowrap transition-colors pb-1 ${
+                  activeCategory === cat ? 'text-accent' : 'text-ink/60 hover:text-ink/70'
+                }`}
               >
                 {cat}
+                {activeCategory === cat && (
+                  <motion.span
+                    layoutId="blog-filter-rule"
+                    className="absolute -bottom-[1.35rem] left-0 right-0 h-px bg-primary"
+                  />
+                )}
               </button>
             ))}
           </div>
         </div>
-
-        {/* Featured Post */}
-        {featuredPost && (
-          <ScrollReveal>
-            <Link to={`/blog/${featuredPost.id}`} className="block group glass-card rounded-[2.5rem] p-4 md:p-6 mb-12 hover:border-primary/30 cursor-pointer">
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-3/5 rounded-[2rem] overflow-hidden aspect-video md:aspect-auto relative">
-                    <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10"></div>
-                    <img src={featuredPost.image} alt={featuredPost.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                </div>
-                <div className="w-full md:w-2/5 flex flex-col justify-center py-4 pr-4">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 rounded-full bg-white/10 text-white/80 text-xs font-bold uppercase tracking-wider border border-white/5">{featuredPost.category}</span>
-                        <span className="text-white/40 text-xs">• {featuredPost.readTime}</span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-primary transition-colors">{featuredPost.title}</h2>
-                    <p className="text-white/60 text-lg mb-8 line-clamp-3">{featuredPost.excerpt}</p>
-                    
-                    <div className="flex items-center gap-3 mt-auto">
-                        <img src={featuredPost.author.avatar} alt={featuredPost.author.name} className="w-10 h-10 rounded-full object-cover border border-white/10" />
-                        <div>
-                            <div className="text-white font-bold text-sm">{featuredPost.author.name}</div>
-                            <div className="text-white/40 text-xs">{featuredPost.date}</div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            </Link>
-          </ScrollReveal>
-        )}
-
-        {/* Grid Posts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {gridPosts.map((post, index) => (
-            <ScrollReveal key={post.id} delay={index * 100}>
-              <Link to={`/blog/${post.id}`} className="group glass-panel rounded-[2rem] overflow-hidden flex flex-col h-full hover:bg-white/5 transition-colors cursor-pointer border border-white/5 hover:border-white/10">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider border border-white/10">
-                        {post.category}
-                    </div>
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                    <div className="text-white/40 text-xs mb-3 flex items-center gap-2">
-                        <span>{post.date}</span>
-                        <span>•</span>
-                        <span>{post.readTime}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{post.title}</h3>
-                    <p className="text-white/60 text-sm mb-6 line-clamp-2">{post.excerpt}</p>
-                    
-                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <img src={post.author.avatar} alt={post.author.name} className="w-6 h-6 rounded-full object-cover" />
-                            <span className="text-white/60 text-xs font-medium">{post.author.name}</span>
-                        </div>
-                        <span className="text-primary text-sm font-medium group-hover:translate-x-1 transition-transform flex items-center">
-                            Read <span className="material-symbols-outlined text-base ml-1">arrow_forward</span>
-                        </span>
-                    </div>
-                </div>
-              </Link>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {filteredPosts.length === 0 && (
-            <div className="text-center py-20">
-                <div className="text-white/40 text-lg">No posts found in this category.</div>
-                <button onClick={() => setActiveCategory("All")} className="mt-4 text-primary font-bold hover:underline">View All Posts</button>
-            </div>
-        )}
-
       </div>
-    </div>
+
+      <section className="px-6 sm:px-10 py-20 md:py-28">
+        <div className="max-w-[90rem] mx-auto">
+          {/* Keyed remount rather than AnimatePresence — see Work.tsx: a stalled
+              exit under mode="wait" would hold the previous category on screen. */}
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          >
+              {/* Lead entry */}
+              {lead && (
+                <Reveal y={50}>
+                  <Link
+                    to={`/blog/${lead.id}`}
+                    className="group grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center pb-16 mb-16 border-b border-rule/10"
+                  >
+                    <div className="relative lg:col-span-7 border border-rule/10 group-hover:border-primary/40 transition-colors overflow-hidden">
+                      <GlareHover />
+                      <img
+                        src={lead.image}
+                        alt={lead.title}
+                        className="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                    <div className="lg:col-span-5">
+                      <div className="flex items-center gap-4 mb-6">
+                        <span className="mono-label text-accent">{lead.category}</span>
+                        <span className="mono-label text-ink/60">{lead.readTime}</span>
+                      </div>
+                      <h2 className="font-display font-black tracking-tighter text-ink text-3xl md:text-5xl leading-[0.95] mb-6 group-hover:text-accent transition-colors shine">
+                        {lead.title}
+                      </h2>
+                      <p className="text-ink/55 text-base md:text-lg leading-relaxed mb-8">
+                        {lead.excerpt}
+                      </p>
+                      <div className="flex items-center gap-4 pt-6 border-t border-rule/10">
+                        <img
+                          src={lead.author.avatar}
+                          alt={lead.author.name}
+                          loading="lazy"
+                          className="size-9 object-cover border border-rule/10"
+                        />
+                        <div>
+                          <div className="text-ink text-sm font-bold">{lead.author.name}</div>
+                          <div className="mono-label text-ink/60 mt-1">{lead.date}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
+              )}
+
+              {/* Index */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {rest.map((post, i) => (
+                  <Reveal key={post.id} y={40} delay={i * 0.05}>
+                    <Link to={`/blog/${post.id}`} className="group flex flex-col h-full">
+                      <div className="relative border border-rule/10 group-hover:border-primary/40 transition-colors overflow-hidden mb-5">
+                        <GlareHover />
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          loading="lazy"
+                          className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      </div>
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="mono-label text-accent">{post.category}</span>
+                        <span className="mono-label text-ink/60">{post.readTime}</span>
+                      </div>
+                      <h3 className="font-display font-bold tracking-tight text-ink text-xl md:text-2xl leading-snug mb-3 group-hover:text-accent transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-ink/50 text-sm leading-relaxed mb-6 line-clamp-2">
+                        {post.excerpt}
+                      </p>
+                      <div className="mt-auto pt-5 border-t border-rule/10 flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={post.author.avatar}
+                            alt={post.author.name}
+                            loading="lazy"
+                            className="size-6 object-cover border border-rule/10"
+                          />
+                          <span className="mono-label text-ink/60">{post.date}</span>
+                        </div>
+                        <span
+                          aria-hidden="true"
+                          className="material-symbols-outlined text-accent text-base opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          north_east
+                        </span>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+
+              {filtered.length === 0 && (
+                <div className="py-24 text-center">
+                  <p className="text-ink/40 mb-5">Nothing filed under this category yet.</p>
+                  <button
+                    onClick={() => setActiveCategory('All')}
+                    className="mono-label text-accent hover:text-ink transition-colors"
+                  >
+                    View all entries
+                  </button>
+                </div>
+              )}
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 };
 
