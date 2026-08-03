@@ -1,6 +1,7 @@
 import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 import { createHmac, timingSafeEqual, randomUUID } from 'node:crypto';
+import nodemailer from 'nodemailer';
 
 /**
  * Message inbox API.
@@ -13,16 +14,27 @@ import { createHmac, timingSafeEqual, randomUUID } from 'node:crypto';
  * Routes (see netlify.toml for the /api/* rewrite):
  *   POST /api/messages              public  — submit a contact message
  *   POST /api/messages?a=login      public  — exchange password for a token
+ *   POST /api/messages?a=reply      admin   — email a reply and log it
  *   GET  /api/messages              admin   — list messages
  *   PATCH/DELETE /api/messages?id=  admin   — mark read / delete
  *
  * Required env vars (set in Netlify → Site settings → Environment):
  *   ADMIN_PASSWORD  the admin password
  *   ADMIN_SECRET    a long random string used to sign session tokens
+ *
+ * Replying additionally needs SMTP credentials. Without them the reply route
+ * returns a clear 503 rather than silently pretending the mail went out:
+ *   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+ *   REPLY_FROM      optional display address, defaults to SMTP_USER
  */
 
 const SESSION_HOURS = 12;
 const MAX_FIELD = 4000;
+
+type Reply = {
+  body: string;
+  sentAt: string;
+};
 
 type Message = {
   id: string;
@@ -34,6 +46,7 @@ type Message = {
   read: boolean;
   source: string;
   ip?: string;
+  replies?: Reply[];
 };
 
 const json = (body: unknown, status = 200) =>
@@ -130,6 +143,57 @@ export default async function handler(req: Request, context: Context) {
 
   // ── Everything below requires a valid session ───────────────────────────
   if (!authed()) return json({ error: 'Unauthorized.' }, 401);
+
+  // ── Reply (admin) ───────────────────────────────────────────────────────
+  if (req.method === 'POST' && url.searchParams.get('a') === 'reply') {
+    const host = process.env.SMTP_HOST;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    if (!host || !user || !pass) {
+      return json(
+        { error: 'Email is not configured. Set SMTP_HOST, SMTP_USER and SMTP_PASS in Netlify.' },
+        503
+      );
+    }
+
+    const { id, body } = await req.json().catch(() => ({}));
+    const replyBody = clean(body);
+    if (!id || !replyBody) return json({ error: 'A message id and reply body are required.' }, 400);
+
+    const original = (await store.get(String(id), { type: 'json' })) as Message | null;
+    if (!original) return json({ error: 'Message not found.' }, 404);
+
+    const port = Number(process.env.SMTP_PORT ?? 465);
+    const from = process.env.REPLY_FROM || user;
+
+    try {
+      const transport = nodemailer.createTransport({
+        host,
+        port,
+        // 465 is implicit TLS; 587 upgrades via STARTTLS.
+        secure: port === 465,
+        auth: { user, pass },
+      });
+
+      await transport.sendMail({
+        from: `DualSync <${from}>`,
+        to: original.email,
+        replyTo: from,
+        subject: `Re: your message to DualSync`,
+        text: `${replyBody}\n\n—\nDualSync\n\n\nOn ${new Date(original.createdAt).toUTCString()} you wrote:\n> ${original.message.replace(/\n/g, '\n> ')}`,
+      });
+    } catch (err) {
+      console.error('Reply send failed:', err);
+      return json(
+        { error: err instanceof Error ? `Could not send: ${err.message}` : 'Could not send the email.' },
+        502
+      );
+    }
+
+    const replies = [...(original.replies ?? []), { body: replyBody, sentAt: new Date().toISOString() }];
+    await store.setJSON(original.id, { ...original, replies, read: true });
+    return json({ ok: true, replies });
+  }
 
   if (req.method === 'GET') {
     const { blobs } = await store.list();

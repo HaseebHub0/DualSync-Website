@@ -31,6 +31,29 @@ node -e "console.log('ADMIN_PASSWORD=' + require('crypto').randomBytes(18).toStr
 Store both in a password manager. Changing `ADMIN_SECRET` invalidates all
 existing sessions immediately — that is the way to force a sign-out.
 
+## 1b. Enable replying (SMTP)
+
+The inbox can send a reply straight from the page. That needs mail
+credentials — without them the Send button returns a clear "Email is not
+configured" error rather than pretending the message went out.
+
+Using your existing Zoho mailbox (see `ZOHO_APP_PASSWORD_GUIDE.md` for
+generating an app password — use that, not your login password):
+
+| Key | Value |
+| --- | --- |
+| `SMTP_HOST` | `smtp.zoho.com` |
+| `SMTP_PORT` | `465` |
+| `SMTP_USER` | `info@dualsyncagency.com` |
+| `SMTP_PASS` | the Zoho **app password** |
+| `REPLY_FROM` | optional — defaults to `SMTP_USER` |
+
+Port `465` uses implicit TLS. If your provider wants STARTTLS instead, set
+`SMTP_PORT=587`; the function switches automatically.
+
+Any SMTP provider works — swap the host/port for SendGrid, Mailgun, Resend
+SMTP, etc.
+
 ## 2. Deploy
 
 Netlify picks up `netlify/functions/messages.mts` automatically. No extra
@@ -43,7 +66,12 @@ external database.
 ## 3. Use it
 
 Open `https://dualsyncagency.com/admin`, enter the password, and you get the
-inbox: filter all/unread, expand to read, reply by email, mark read, delete.
+inbox: filter all/unread, expand to read, write a reply and send it (with a
+sent/failed status and a log of every reply already sent), mark read, delete.
+
+Sent replies are stored on the message, so the list shows a "Replied" tag and
+the thread stays readable later. There is still an "Open in mail app" link if
+you would rather answer from your own client.
 
 Sessions last 12 hours and live in `sessionStorage`, so closing the tab ends
 them.

@@ -11,6 +11,8 @@ import { useSEO } from '../hooks/useSEO';
  * tab ends the session.
  */
 
+type Reply = { body: string; sentAt: string };
+
 type Message = {
   id: string;
   name: string;
@@ -20,6 +22,14 @@ type Message = {
   createdAt: string;
   read: boolean;
   source: string;
+  replies?: Reply[];
+};
+
+/** Per-message reply composer state, keyed by message id. */
+type ReplyState = {
+  body: string;
+  status: 'idle' | 'sending' | 'sent' | 'error';
+  error?: string;
 };
 
 const API = '/api/messages';
@@ -46,6 +56,13 @@ const Admin: React.FC = () => {
   const [error, setError] = useState('');
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
   const [openId, setOpenId] = useState<string | null>(null);
+  const [replies, setReplies] = useState<Record<string, ReplyState>>({});
+
+  const setReply = (id: string, patch: Partial<ReplyState>) =>
+    setReplies((prev) => ({
+      ...prev,
+      [id]: { body: '', status: 'idle', ...prev[id], ...patch },
+    }));
 
   const signOut = useCallback(() => {
     sessionStorage.removeItem(TOKEN_KEY);
@@ -99,6 +116,28 @@ const Admin: React.FC = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sign in failed.');
       setStatus('error');
+    }
+  };
+
+  const sendReply = async (id: string) => {
+    const draft = replies[id]?.body?.trim();
+    if (!token || !draft) return;
+    setReply(id, { status: 'sending', error: undefined });
+    try {
+      const res = await fetch(`${API}?a=reply`, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+        body: JSON.stringify({ id, body: draft }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Could not send the reply.');
+      setReply(id, { status: 'sent', body: '' });
+      load(token);
+    } catch (err) {
+      setReply(id, {
+        status: 'error',
+        error: err instanceof Error ? err.message : 'Could not send the reply.',
+      });
     }
   };
 
@@ -223,6 +262,12 @@ const Admin: React.FC = () => {
                     <span className="flex flex-wrap gap-x-4 mt-2">
                       <span className="mono-label text-accent">{m.projectType}</span>
                       <span className="mono-label text-ink/40">{fmt(m.createdAt)}</span>
+                      {m.replies && m.replies.length > 0 && (
+                        <span className="mono-label text-accent/80 flex items-center gap-1">
+                          <span aria-hidden="true" className="material-symbols-outlined text-sm">reply</span>
+                          Replied{m.replies.length > 1 ? ` ×${m.replies.length}` : ''}
+                        </span>
+                      )}
                     </span>
                     {!open && (
                       <span className="block text-ink/50 text-sm mt-3 line-clamp-1">{m.message}</span>
@@ -235,13 +280,72 @@ const Admin: React.FC = () => {
                     <p className="text-ink/75 text-base leading-relaxed whitespace-pre-wrap max-w-3xl">
                       {m.message}
                     </p>
-                    <div className="flex flex-wrap gap-6 mt-8">
-                      <a
-                        href={`mailto:${m.email}?subject=Re:%20your%20message%20to%20DualSync`}
-                        className="mono-label text-accent hover:text-ink transition-colors"
-                      >
-                        Reply ↗
-                      </a>
+
+                    {/* Replies already sent */}
+                    {m.replies && m.replies.length > 0 && (
+                      <div className="mt-8 max-w-3xl border-l-2 border-primary/40 pl-5">
+                        {m.replies.map((rep) => (
+                          <div key={rep.sentAt} className="mb-5 last:mb-0">
+                            <div className="mono-label text-accent mb-2">
+                              You replied · {fmt(rep.sentAt)}
+                            </div>
+                            <p className="text-ink/60 text-sm leading-relaxed whitespace-pre-wrap">
+                              {rep.body}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Composer */}
+                    <div className="mt-8 max-w-3xl">
+                      <label htmlFor={`reply-${m.id}`} className="mono-label text-ink/60 block mb-3">
+                        Reply to {m.email}
+                      </label>
+                      <textarea
+                        id={`reply-${m.id}`}
+                        rows={5}
+                        value={replies[m.id]?.body ?? ''}
+                        onChange={(e) => setReply(m.id, { body: e.target.value, status: 'idle' })}
+                        placeholder="Write your reply…"
+                        className="w-full bg-transparent border border-rule/15 p-4 text-ink text-base leading-relaxed focus:outline-none focus:border-primary transition-colors resize-y placeholder:text-ink/25"
+                      />
+
+                      <div className="flex flex-wrap items-center gap-5 mt-4">
+                        <Button
+                          onClick={() => sendReply(m.id)}
+                          disabled={
+                            !replies[m.id]?.body?.trim() || replies[m.id]?.status === 'sending'
+                          }
+                          size="sm"
+                          arrow={false}
+                        >
+                          {replies[m.id]?.status === 'sending' ? 'Sending…' : 'Send reply'}
+                        </Button>
+
+                        {/* Status */}
+                        {replies[m.id]?.status === 'sent' && (
+                          <span role="status" className="mono-label text-accent flex items-center gap-2">
+                            <span aria-hidden="true" className="material-symbols-outlined text-base">check_circle</span>
+                            Sent to {m.email}
+                          </span>
+                        )}
+                        {replies[m.id]?.status === 'error' && (
+                          <span role="alert" className="mono-label text-red-400 normal-case tracking-normal">
+                            {replies[m.id]?.error}
+                          </span>
+                        )}
+
+                        <a
+                          href={`mailto:${m.email}?subject=${encodeURIComponent('Re: your message to DualSync')}`}
+                          className="mono-label text-ink/50 hover:text-accent transition-colors"
+                        >
+                          Open in mail app
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-rule/10">
                       <button
                         onClick={() => mutate(m.id, 'PATCH', { read: !m.read })}
                         className="mono-label text-ink/50 hover:text-accent transition-colors"
