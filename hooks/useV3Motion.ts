@@ -175,14 +175,18 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
         groups.set(p, [...(groups.get(p) ?? []), b]);
       });
       groups.forEach((group, parent) => {
+        // Hero bars sit inside cards that start 140px low and rise on load,
+        // so a scroll trigger measured at load time never fires without a
+        // scroll. They play on a timer as part of the load sequence instead.
+        const inHero = !!parent.closest('.ds-hero');
         gsap.from(group, {
           scaleY: 0,
           transformOrigin: '50% 100%',
           duration: 1,
           ease: 'power3.out',
           stagger: 0.06,
-          delay: parent.closest('.ds-hero') ? 1.2 : 0,
-          scrollTrigger: { trigger: parent, start: 'top 90%', once: true },
+          delay: inHero ? 1.4 : 0,
+          ...(inHero ? {} : { scrollTrigger: { trigger: parent, start: 'top 90%', once: true } }),
         });
       });
 
