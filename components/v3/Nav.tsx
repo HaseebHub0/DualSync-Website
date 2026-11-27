@@ -1,27 +1,27 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MobileMenu, { NAV_LINKS } from './MobileMenu';
 
-/** Inner-page header (export: header.sx-nav), shared by every page except Home. */
+/**
+ * Site header for every page except Home. Uses the same markup and classes as
+ * the Home hero nav (.ds-nav) so the bar looks identical on every page.
+ * The Webflow export's pill-style inner nav (.sx-nav) is intentionally unused.
+ */
 const Nav: React.FC = () => (
-  <header className="sx-nav">
-    <Link to="/" className="sx-brand" aria-label="DualSync home">
-      <span className="sx-mark" aria-hidden="true">
-        <span className="sx-mark-a" />
-        <span className="sx-mark-b" />
-      </span>
-      <span className="sx-brand-word">DualSync</span>
+  <nav className="ds-nav" aria-label="Main">
+    <Link to="/" className="ds-logo" aria-label="DualSync home">
+      <div className="ds-logo-word">DualSync</div>
     </Link>
-    <nav className="sx-links" aria-label="Main">
+    <div className="ds-nav-links">
       {NAV_LINKS.map(([to, label]) => (
-        <NavLink key={to} to={to} className="sx-link">
+        <Link key={to} to={to} className="ds-nav-link">
           {label}
-        </NavLink>
+        </Link>
       ))}
-    </nav>
-    <Link to="/contact" className="sx-cta">Start a project</Link>
+    </div>
+    <Link to="/contact" className="ds-btn-green ds-btn-sm">Start a project</Link>
     <MobileMenu />
-  </header>
+  </nav>
 );
 
 export default Nav;

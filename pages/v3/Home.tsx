@@ -21,8 +21,7 @@ const Home: React.FC = () => {
         <div className="ds-cloud ds-cloud-b" />
         <div className="ds-cloud ds-cloud-c" />
         <nav className="ds-nav">
-          <Link to="/" className="ds-logo">
-            <div className="ds-logo-mark">DualSync logo</div>
+          <Link to="/" className="ds-logo" aria-label="DualSync home">
             <div className="ds-logo-word">DualSync</div>
           </Link>
           <div className="ds-nav-links">

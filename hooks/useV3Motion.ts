@@ -194,9 +194,11 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
       // Footer wordmark rises letter by letter.
       q('.sx-wordmark').forEach((el) => {
         // Decorative (aria-hidden in Footer.tsx); no aria-label on a <div>.
-        const split = new SplitText(el, { type: 'chars', mask: 'chars', aria: 'none' });
+        // No mask: the wordmark's 0.8 line-height would clip the "y" descender.
+        const split = new SplitText(el, { type: 'chars', aria: 'none' });
         gsap.from(split.chars, {
-          yPercent: 110,
+          yPercent: 60,
+          opacity: 0,
           duration: 1.1,
           ease: EASE,
           stagger: 0.05,

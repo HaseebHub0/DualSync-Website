@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/v3/Nav';
+import CreativeVideo from '../../components/v3/CreativeVideo';
 import Footer from '../../components/v3/Footer';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
@@ -98,23 +99,30 @@ const Projects: React.FC = () => {
           <h2 className="sx-h2 sx-h2-gap">The stories that sell the systems.</h2>
           <div className="sx-creative">
             <div className="sx-cr sx-reveal">
-              <div className="sx-cr-art sx-cr-art-1">
-                <div className="sx-play">▶</div>
-              </div>
+              <CreativeVideo className="sx-cr-art-1" src="/assets/Videos/kiran_edit_1.mp4" label="video edit by Kiran Haroon" />
               <div className="sx-cr-title">Video edits</div>
               <p className="sx-cr-p">Short-form brand and product films by Kiran Haroon.</p>
             </div>
             <div className="sx-cr sx-reveal">
-              <div className="sx-cr-art sx-cr-art-2">
-                <div className="sx-play">▶</div>
-              </div>
+              <CreativeVideo
+                className="sx-cr-art-2"
+                src="/assets/Videos/WhatsApp%20Video%202026-02-19%20at%201.22.35%20PM.mp4"
+                label="Pak Asian Foods social reel"
+              />
               <div className="sx-cr-title">Social media</div>
               <p className="sx-cr-p">Reels and edits for Pak Asian Foods.</p>
             </div>
             <div className="sx-cr sx-reveal">
-              <div className="sx-cr-art sx-cr-art-3">
+              <a
+                className="sx-cr-art sx-cr-art-3 sx-cr-link"
+                href="https://www.behance.net/gallery/205183763/3D-Realistic-Animation-And-Renderings"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="3D work by Sajid Rahim on Behance (opens in a new tab)"
+              >
                 <div className="sx-cube" />
-              </div>
+                <span className="sx-cr-badge">View on Behance ↗</span>
+              </a>
               <div className="sx-cr-title">3D &amp; animation</div>
               <p className="sx-cr-p">Product renders, character rigging and environments by Sajid Rahim.</p>
             </div>

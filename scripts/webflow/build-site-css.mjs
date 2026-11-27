@@ -124,6 +124,18 @@ const tail = `
 /* Performance: the blurred clouds drift continuously; give them their own
    compositor layer so the 18px blur is rasterised once, not every frame. */
 .ds-cloud { will-change: transform; }
+
+/* Footer wordmark: .sx-green is a soft white (made for the blue heroes), so
+   "Sync" vanished on the white footer. Pale green, same weight as "Dual". */
+.sx-wordmark .sx-green { color: #b9eccc; }
+
+/* Creative production cards with real media. */
+.sx-cr-video, .sx-cr-link { width: 100%; padding: 0; border: 0; cursor: pointer; font: inherit; color: inherit; text-decoration: none; }
+.sx-cr-video { background-color: rgb(8, 20, 13); }
+.sx-cr-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sx-cr-video .sx-play { position: relative; z-index: 1; box-shadow: 0 10px 30px -10px rgba(8, 20, 13, 0.5); }
+.sx-cr-video:focus-visible, .sx-cr-link:focus-visible { outline: 3px solid rgb(13, 122, 63); outline-offset: 4px; }
+.sx-cr-badge { position: absolute; left: 20px; bottom: 18px; padding: 6px 12px; border-radius: 999px; background: rgba(244, 247, 242, 0.85); color: rgb(8, 20, 13); font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
 `;
 
 fs.writeFileSync(path.join(root, 'styles', 'site.css'), head + css + tail);
