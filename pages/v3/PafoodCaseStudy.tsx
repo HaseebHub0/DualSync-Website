@@ -6,16 +6,13 @@ import Icon from '../../components/v3/Icon';
 import Illo from '../../components/v3/Illo';
 import { Hl, Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/pafood-case-study"]). */
 const PafoodCaseStudy: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "PaFood case study — DualSync",
-    description: "How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods.",
-    canonical: "/pafood-case-study",
-  });
+  useSEO(seoProps('/pafood-case-study'));
   useV3Motion(root);
 
   return (
@@ -25,7 +22,7 @@ const PafoodCaseStudy: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ Case study · Pak Asian Foods ]</div>
+          <div className="sx-ph-label">Case study · Pak Asian Foods</div>
           <h1 className="sx-ph-title">From paper and WhatsApp to <span className="sx-green">one system.</span></h1>
           <p className="sx-ph-lead">How a 4-year partnership replaced scattered order slips with an ERP, a field app and a verification desk that all speak the same language.</p>
           <div className="sx-meta">
@@ -50,13 +47,13 @@ const PafoodCaseStudy: React.FC = () => {
       </section>
       <section className="sx-paper">
         <div className="sx-wrap sx-split">
-          <div className="sx-label">[01] The problem</div>
+          <div className="sx-label">The problem</div>
           <h2 className="sx-statement">Order bookers wrote orders <Hl>on paper</Hl> and sent photos over WhatsApp. Head office re-typed every one, chased the missing ones, and had no view of where salesmen were or how close they were to target.</h2>
         </div>
       </section>
       <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label">[02] What we built</div>
+          <div className="sx-label">What we built</div>
           <h2 className="sx-h2">Three parts, <Em>one core.</Em></h2>
           <div className="v3-bento">
             <div className="v3-cell v3-c-6 v3-r-2 v3-cell-big v3-cell-mist">
@@ -101,7 +98,7 @@ const PafoodCaseStudy: React.FC = () => {
       </section>
       <section className="sx-paper">
         <div className="sx-wrap">
-          <div className="sx-label">[03] Outcomes · bracketed figures to confirm with the client</div>
+          <div className="sx-label">Outcomes</div>
           <div className="sx-numbers sx-numbers-top">
             <div className="sx-num">
               <div className="sx-num-mask">
@@ -115,18 +112,9 @@ const PafoodCaseStudy: React.FC = () => {
               </div>
               <div className="sx-num-l">Continuous partnership</div>
             </div>
-            <div className="sx-num">
-              <div className="sx-num-mask">
-                <div className="sx-num-v sx-num-ph">[orders/mo]</div>
-              </div>
-              <div className="sx-num-l">Processed through the system</div>
-            </div>
-            <div className="sx-num">
-              <div className="sx-num-mask">
-                <div className="sx-num-v sx-num-ph">[hrs/wk]</div>
-              </div>
-              <div className="sx-num-l">Saved on re-typing orders</div>
-            </div>
+            {/* Two more outcome figures go here once the client confirms them:
+                orders processed per month, and hours a week saved on re-typing.
+                Kept off the page until then rather than shown as placeholders. */}
           </div>
         </div>
       </section>
