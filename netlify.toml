@@ -2,6 +2,27 @@
   command = "npm run build"
   publish = "dist"
 
+# Old URLs from the previous site. Must stay ABOVE the SPA fallback, because
+# Netlify applies the first matching rule.
+[[redirects]]
+  from = "/work"
+  to = "/projects"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "/journal"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/journal"
+  status = 301
+  force = true
+
+# SPA fallback for client-side routes.
 [[redirects]]
   from = "/*"
   to = "/index.html"
