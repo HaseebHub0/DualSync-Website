@@ -72,52 +72,25 @@ const PafoodCaseStudy: React.FC = () => {
               <p className="sx-mini-p">Every order is verified before it reaches dispatch, so bad orders stop at the door.</p>
             </div>
           </div>
-          <div className="sx-dash sx-dash-wide">
-            <div className="sx-dash-top">
-              <span className="sx-dash-dot" />
-              <span className="sx-dash-dot" />
-              <span className="sx-dash-dot" />
-              <span className="sx-dash-title">PaFood · Admin dashboard (replace with a real screenshot)</span>
-            </div>
-            <div className="sx-dash-body">
-              <div className="sx-dash-side">
-                <div className="sx-dash-nav sx-dash-nav-on" />
-                <div className="sx-dash-nav" />
-                <div className="sx-dash-nav" />
-                <div className="sx-dash-nav" />
-                <div className="sx-dash-nav" />
+          {/* Real screenshots of the live PaFood console (amounts blurred). */}
+          <figure className="sx-dash v3-shot sx-dash-wide">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">PaFood · Admin overview</span>
               </div>
-              <div className="sx-dash-main">
-                <div className="sx-kpis sx-kpis-light">
-                  <div className="sx-kpi-lt">
-                    <div className="sx-kpi-l">Orders today</div>
-                    <div className="sx-kpi-v">—</div>
-                  </div>
-                  <div className="sx-kpi-lt">
-                    <div className="sx-kpi-l">Routes live</div>
-                    <div className="sx-kpi-v">—</div>
-                  </div>
-                  <div className="sx-kpi-lt sx-kpi-lt-g">
-                    <div className="sx-kpi-l">Verified</div>
-                    <div className="sx-kpi-v">—</div>
-                  </div>
-                </div>
-                <div className="sx-grow">
-                  <div className="sx-gbar sx-h40" />
-                  <div className="sx-gbar sx-h55" />
-                  <div className="sx-gbar sx-h48" />
-                  <div className="sx-gbar sx-h70" />
-                  <div className="sx-gbar sx-h62" />
-                  <div className="sx-gbar sx-h75" />
-                  <div className="sx-gbar sx-h85 sx-bar-g" />
-                  <div className="sx-gbar sx-h62" />
-                  <div className="sx-gbar sx-h75" />
-                  <div className="sx-gbar sx-h70" />
-                  <div className="sx-gbar sx-h85" />
-                </div>
+              <img src="/assets/work/pafood-overview.webp" width={1600} height={922} loading="lazy" alt="PaFood admin console overview with sales performance, cash flow and revenue analytics" />
+            </figure>
+          <figure className="sx-dash v3-shot sx-dash-wide">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">PaFood · Analytics &amp; reports</span>
               </div>
-            </div>
-          </div>
+              <img src="/assets/work/pafood-analytics.webp" width={1600} height={922} loading="lazy" alt="PaFood analytics and reports with period filters, booker day view and sales, cash and credit cards" />
+            </figure>
         </div>
       </section>
       <section className="sx-paper">
