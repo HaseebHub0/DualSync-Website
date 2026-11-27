@@ -6,16 +6,13 @@ import Icon from '../../components/v3/Icon';
 import Illo from '../../components/v3/Illo';
 import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/about"]). */
 const About: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "Team — DualSync",
-    description: "Two founders, zero handoffs. Meet the DualSync team.",
-    canonical: "/about",
-  });
+  useSEO(seoProps('/about'));
   useV3Motion(root);
 
   return (
@@ -25,7 +22,7 @@ const About: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ The team ]</div>
+          <div className="sx-ph-label">The team</div>
           <h1 className="sx-ph-title">Most agencies sell you a team. <span className="sx-green">We sell you two people.</span></h1>
           <p className="sx-ph-lead">The two people who will still be on the call when something breaks at 2 a.m.</p>
         </div>

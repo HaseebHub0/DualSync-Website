@@ -3,16 +3,13 @@ import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
 import { Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/careers"]). */
 const Careers: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "Careers — DualSync",
-    description: "We hire rarely. Show us something you built.",
-    canonical: "/careers",
-  });
+  useSEO(seoProps('/careers'));
   useV3Motion(root);
 
   return (
@@ -22,7 +19,7 @@ const Careers: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ Careers ]</div>
+          <div className="sx-ph-label">Careers</div>
           <h1 className="sx-ph-title">We hire <span className="sx-green">rarely.</span></h1>
           <p className="sx-ph-lead">Four people, fully remote, deep work over standups. When we do hire, this is what we look for.</p>
         </div>

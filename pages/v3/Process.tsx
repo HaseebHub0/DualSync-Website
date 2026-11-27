@@ -6,16 +6,13 @@ import Icon from '../../components/v3/Icon';
 import Illo from '../../components/v3/Illo';
 import { Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { FAQ, seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/process"]). */
 const Process: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "Process — DualSync",
-    description: "Listen, Architect, Build, Run. How the work actually happens.",
-    canonical: "/process",
-  });
+  useSEO(seoProps('/process'));
   useV3Motion(root);
 
   return (
@@ -25,7 +22,7 @@ const Process: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ Process ]</div>
+          <div className="sx-ph-label">Process</div>
           <h1 className="sx-ph-title">How the work <span className="sx-green">actually happens.</span></h1>
           <p className="sx-ph-lead">Four phases, one fixed price, and a working build every Friday. No surprises, no account managers, no lock-in.</p>
         </div>
@@ -116,6 +113,23 @@ const Process: React.FC = () => {
                 <span className="v3-tag"><Icon name="compass" />Honest constraints</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className="v3-sec v3-faq-sec" aria-labelledby="faq-h">
+        <div className="sx-wrap v3-faq-wrap">
+          <div>
+            <div className="sx-label">Before you start</div>
+            <h2 className="sx-h2" id="faq-h">Questions people <Em>ask first.</Em></h2>
+            <p className="v3-faq-lead">Still unsure? <Link to="/contact">Ask us directly</Link>. A founder replies within one business day.</p>
+          </div>
+          <div className="v3-faq">
+            {FAQ.map(({ q, a }, i) => (
+              <details key={q} className="v3-faq-item" open={i === 0}>
+                <summary><span>{q}</span><span className="v3-faq-x" aria-hidden="true" /></summary>
+                <p>{a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
