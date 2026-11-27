@@ -120,6 +120,28 @@ const Projects: React.FC = () => {
               <img src="/assets/work/hitasky-plan.webp" width={800} height={1300} loading="lazy" alt="HiTasky app showing today's plan with upcoming tasks" />
             </figure>
           </a>
+          <a
+            className="sx-feature sx-feature-top v3-shot-feature"
+            href="https://filingkeeper.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div>
+              <div className="sx-label sx-label-d">Our product · SaaS · Early access</div>
+              <h3 className="sx-feature-title">FilingKeeper: see every filing risk before it becomes a penalty.</h3>
+              <p className="v3-feature-p">Statutory deadline tracking for UK accounting and bookkeeping practices, with reminders before they are due and proof of each filing.</p>
+              <div className="sx-feature-link">Visit filingkeeper.com ↗</div>
+            </div>
+            <figure className="sx-dash v3-shot">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">filingkeeper.com</span>
+              </div>
+              <img src="/assets/work/filingkeeper-home.webp" width={1600} height={922} loading="lazy" alt="FilingKeeper homepage: See every filing risk before it becomes a penalty" />
+            </figure>
+          </a>
           <div className="sx-minis">
             <div className="sx-mini">
               <div className="sx-label sx-label-d">FinTech · React Native</div>
