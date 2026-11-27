@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
+import Icon from '../../components/v3/Icon';
+import Illo from '../../components/v3/Illo';
+import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -62,35 +65,36 @@ const About: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="sx-dark">
+      <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label sx-label-d">How we work</div>
-          <h2 className="sx-h2 sx-h2-gap">Five principles.</h2>
-          <div className="sx-also">
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">01</div>
-              <div className="sx-mini-title">AI-accelerated, human-decided.</div>
-              <p className="sx-mini-p">We use AI to move fast and people to decide what is right.</p>
+          <div className="sx-label">How we work</div>
+          <h2 className="sx-h2">Five <Hl>principles.</Hl><Note>Written down, kept</Note></h2>
+          <div className="v3-bento">
+            <div className="v3-cell v3-c-5 v3-cell-mist">
+              <span className="v3-cell-ic"><Icon name="spark" /></span>
+              <div className="v3-cell-t">AI-accelerated, human-decided.</div>
+              <p className="v3-cell-p">We use AI to move fast and people to decide what is right.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">02</div>
-              <div className="sx-mini-title">Data layers that hold.</div>
-              <p className="sx-mini-p">The schema comes first, because everything else sits on it.</p>
+            <div className="v3-cell v3-c-7 v3-r-2 v3-cell-big v3-cell-white">
+              <Illo name="stack" />
+              <div className="v3-cell-t">Data layers that hold.</div>
+              <p className="v3-cell-p">The schema comes first, because everything else sits on it.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">03</div>
-              <div className="sx-mini-title">You talk to the builder.</div>
-              <p className="sx-mini-p">No relay, no lost context, no account managers.</p>
+            <div className="v3-cell v3-c-5 v3-cell-sky">
+              <span className="v3-cell-ic"><Icon name="person" /></span>
+              <div className="v3-cell-t">You talk to the builder.</div>
+              <p className="v3-cell-p">No relay, no lost context, no account managers.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">04</div>
-              <div className="sx-mini-title">Weekly and clickable.</div>
-              <p className="sx-mini-p">A working build every Friday, not a status report.</p>
+            <div className="v3-cell v3-c-5">
+              <span className="v3-cell-ic"><Icon name="calendar" /></span>
+              <div className="v3-cell-t">Weekly and clickable.</div>
+              <p className="v3-cell-p">A working build every Friday, not a status report.</p>
             </div>
-          </div>
-          <div className="sx-remote sx-reveal">
-            <div className="sx-remote-t">Remote, and deliberate about it.</div>
-            <p className="sx-remote-p">Based in Rawalpindi, working with clients worldwide since 2022. Long stretches of deep work, short sharp calls, everything written down.</p>
+            <div className="v3-cell v3-c-7 v3-cell-mist">
+              <span className="v3-cell-ic"><Icon name="globe" /></span>
+              <div className="v3-cell-t">Remote, and deliberate about it.</div>
+              <p className="v3-cell-p">Based in Rawalpindi, working with clients worldwide since 2022. Long stretches of deep work, short sharp calls, everything written down.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -99,7 +103,7 @@ const About: React.FC = () => {
         <div className="sx-ring sx-ring-r" />
         <div className="sx-cta-inner">
           <div className="sx-label sx-label-ink">Meet us</div>
-          <h2 className="sx-cta-title">Both of us. One call.</h2>
+          <h2 className="sx-cta-title">Both of us. <Em>One call.</Em></h2>
           <p className="sx-cta-p">Tell us what you need built. The two people you meet are the two people who build it.</p>
           <Link to="/contact" className="sx-btn-ink">Start a project<span className="sx-btn-dot-g">→</span></Link>
         </div>

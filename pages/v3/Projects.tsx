@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../../components/v3/Nav';
 import CreativeVideo from '../../components/v3/CreativeVideo';
 import Footer from '../../components/v3/Footer';
+import { Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -28,7 +29,7 @@ const Projects: React.FC = () => {
           <p className="sx-ph-lead">From a multi-role ERP running a food distributor to storefronts, finance apps and cinematic production.</p>
         </div>
       </section>
-      <section className="sx-dark">
+      <section className="v3-sec">
         <div className="sx-wrap">
           <div className="sx-label sx-label-d">01 — Systems</div>
           <Link to="/pafood-case-study" className="sx-feature sx-feature-top">
@@ -164,7 +165,7 @@ const Projects: React.FC = () => {
       <section className="sx-paper">
         <div className="sx-wrap">
           <div className="sx-label">02 — Creative production</div>
-          <h2 className="sx-h2 sx-h2-gap">The stories that sell the systems.</h2>
+          <h2 className="sx-h2 sx-h2-gap">The stories that <Em>sell the systems.</Em></h2>
           <div className="sx-creative">
             <div className="sx-cr sx-reveal">
               <CreativeVideo className="sx-cr-art-1" src="/assets/Videos/kiran_edit_1.mp4" label="video edit by Kiran Haroon" />
@@ -202,7 +203,7 @@ const Projects: React.FC = () => {
         <div className="sx-ring sx-ring-r" />
         <div className="sx-cta-inner">
           <div className="sx-label sx-label-ink">Next could be yours</div>
-          <h2 className="sx-cta-title">Your system here.</h2>
+          <h2 className="sx-cta-title">Your system <Em>here.</Em></h2>
           <p className="sx-cta-p">Tell us what is breaking. We reply within one business day.</p>
           <Link to="/contact" className="sx-btn-ink">Start a project<span className="sx-btn-dot-g">→</span></Link>
         </div>

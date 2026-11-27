@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
+import { Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -57,7 +58,7 @@ const Careers: React.FC = () => {
         <div className="sx-ring sx-ring-r" />
         <div className="sx-cta-inner">
           <div className="sx-label sx-label-ink">No CV needed</div>
-          <h2 className="sx-cta-title">Show us something you built.</h2>
+          <h2 className="sx-cta-title">Show us <Em>something you built.</Em></h2>
           <p className="sx-cta-p">A link, a repo or a video. Tell us what you made and what you would do differently.</p>
           <a href="mailto:contact@dualsyncagency.com?subject=Something%20I%20built" className="sx-btn-ink">Send it<span className="sx-btn-dot-g">→</span></a>
         </div>

@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
+import Icon from '../../components/v3/Icon';
+import Illo from '../../components/v3/Illo';
+import { Hl, Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -48,49 +51,52 @@ const PafoodCaseStudy: React.FC = () => {
       <section className="sx-paper">
         <div className="sx-wrap sx-split">
           <div className="sx-label">[01] The problem</div>
-          <h2 className="sx-statement">Order bookers wrote orders on paper and sent photos over WhatsApp. Head office re-typed every one, chased the missing ones, and had no view of where salesmen were or how close they were to target.</h2>
+          <h2 className="sx-statement">Order bookers wrote orders <Hl>on paper</Hl> and sent photos over WhatsApp. Head office re-typed every one, chased the missing ones, and had no view of where salesmen were or how close they were to target.</h2>
         </div>
       </section>
-      <section className="sx-dark">
+      <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label sx-label-d">[02] What we built</div>
-          <h2 className="sx-h2 sx-h2-gap">Three parts, one core.</h2>
-          <div className="sx-minis">
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Field</div>
-              <div className="sx-mini-title">Order app</div>
-              <p className="sx-mini-p">An Android app for order bookers and salesmen. Works offline, syncs when signal returns, tracks routes by GPS and shows daily targets.</p>
+          <div className="sx-label">[02] What we built</div>
+          <h2 className="sx-h2">Three parts, <Em>one core.</Em></h2>
+          <div className="v3-bento">
+            <div className="v3-cell v3-c-6 v3-r-2 v3-cell-big v3-cell-mist">
+              <Illo name="route" />
+              <div className="v3-cell-k">Field</div>
+              <div className="v3-cell-t">Order app</div>
+              <p className="v3-cell-p">An Android app for order bookers and salesmen. Works offline, syncs when signal returns, tracks routes by GPS and shows daily targets.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Management</div>
-              <div className="sx-mini-title">Web admin</div>
-              <p className="sx-mini-p">Orders, routes, targets and team performance in one place, by region and by salesman.</p>
+            <div className="v3-cell v3-c-6 v3-cell-white">
+              <span className="v3-cell-ic"><Icon name="monitor" /></span>
+              <div className="v3-cell-k">Management</div>
+              <div className="v3-cell-t">Web admin</div>
+              <p className="v3-cell-p">Orders, routes, targets and team performance in one place, by region and by salesman.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Quality</div>
-              <div className="sx-mini-title">KPO desk</div>
-              <p className="sx-mini-p">Every order is verified before it reaches dispatch, so bad orders stop at the door.</p>
+            <div className="v3-cell v3-c-6 v3-cell-sky">
+              <span className="v3-cell-ic"><Icon name="check" /></span>
+              <div className="v3-cell-k">Quality</div>
+              <div className="v3-cell-t">KPO desk</div>
+              <p className="v3-cell-p">Every order is verified before it reaches dispatch, so bad orders stop at the door.</p>
             </div>
           </div>
           {/* Real screenshots of the live PaFood console (amounts blurred). */}
           <figure className="sx-dash v3-shot sx-dash-wide">
-              <div className="sx-dash-top">
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-title">PaFood · Admin overview</span>
-              </div>
-              <img src="/assets/work/pafood-overview.webp" width={1600} height={922} loading="lazy" alt="PaFood admin console overview with sales performance, cash flow and revenue analytics" />
-            </figure>
+            <div className="sx-dash-top">
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-title">PaFood · Admin overview</span>
+            </div>
+            <img src="/assets/work/pafood-overview.webp" width={1600} height={922} loading="lazy" alt="PaFood admin console overview with sales performance, cash flow and revenue analytics" />
+          </figure>
           <figure className="sx-dash v3-shot sx-dash-wide">
-              <div className="sx-dash-top">
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-dot" />
-                <span className="sx-dash-title">PaFood · Analytics &amp; reports</span>
-              </div>
-              <img src="/assets/work/pafood-analytics.webp" width={1600} height={922} loading="lazy" alt="PaFood analytics and reports with period filters, booker day view and sales, cash and credit cards" />
-            </figure>
+            <div className="sx-dash-top">
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-dot" />
+              <span className="sx-dash-title">PaFood · Analytics &amp; reports</span>
+            </div>
+            <img src="/assets/work/pafood-analytics.webp" width={1600} height={922} loading="lazy" alt="PaFood analytics and reports with period filters, booker day view and sales, cash and credit cards" />
+          </figure>
         </div>
       </section>
       <section className="sx-paper">
@@ -141,7 +147,7 @@ const PafoodCaseStudy: React.FC = () => {
         <div className="sx-wrap sx-next-in">
           <div>
             <div className="sx-label sx-label-d">Next</div>
-            <div className="sx-next-title">See all work</div>
+            <div className="sx-next-title">See all <Em>work</Em></div>
           </div>
           <div className="sx-next-arrow">→</div>
         </div>

@@ -27,6 +27,7 @@ const CARD_SELECTOR = [
   '.sx-post',
   '.sx-trait',
   '.sx-founder',
+  '.v3-cell',
 ].join(',');
 
 const HEADING_SELECTOR = '.ds-h2, .ds-cta-title, .sx-h2, .sx-cta-title, .ds-statement, .sx-statement';
@@ -151,6 +152,20 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
             gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.08, clearProps: 'transform,opacity' }),
         });
       }
+
+      // Illustrations assemble piece by piece when their cell scrolls in
+      // (the dashed sync lines then keep flowing via CSS).
+      q('.v3-illo').forEach((svg) => {
+        const parts = Array.from(svg.children) as SVGElement[];
+        gsap.from(parts, {
+          opacity: 0,
+          y: 14,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.06,
+          scrollTrigger: { trigger: svg, start: 'top 85%', once: true },
+        });
+      });
 
       // Chart bars grow from the bottom.
       const bars = q('.ds-bar, .sx-gbar');

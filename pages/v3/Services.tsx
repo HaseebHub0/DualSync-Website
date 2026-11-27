@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
+import Icon from '../../components/v3/Icon';
+import Illo from '../../components/v3/Illo';
+import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -99,36 +102,43 @@ const Services: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="sx-dark">
+      <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label sx-label-d">Supporting crafts</div>
-          <h2 className="sx-h2">Also in the toolkit</h2>
-          <div className="sx-also">
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Automation</div>
-              <div className="sx-mini-title">n8n workflows</div>
-              <p className="sx-mini-p">Custom nodes, lead routing, invoices and reports, self-hosted on AWS or Hetzner.</p>
+          <div className="sx-label">Supporting crafts</div>
+          <h2 className="sx-h2">Also in the <Hl>toolkit</Hl><Note tilt="r">4 crafts</Note></h2>
+          <div className="v3-bento">
+            <div className="v3-cell v3-c-7 v3-cell-big v3-cell-mist">
+              <Illo name="flow" />
+              <div className="v3-cell-k">Automation</div>
+              <div className="v3-cell-t">n8n workflows</div>
+              <p className="v3-cell-p">Custom nodes, lead routing, invoices and reports, self-hosted on AWS or Hetzner.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Messaging</div>
-              <div className="sx-mini-title">WhatsApp systems</div>
-              <p className="sx-mini-p">Order and shipping updates, routing, a shared inbox and broadcasts on the official Cloud API.</p>
+            <div className="v3-cell v3-c-5 v3-cell-white">
+                            <Illo name="chat" className="v3-illo-sm" />
+                            <div className="v3-cell-k">Messaging</div>
+              <div className="v3-cell-t">WhatsApp systems</div>
+              <p className="v3-cell-p">Order and shipping updates, routing, a shared inbox and broadcasts on the official Cloud API.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Design</div>
-              <div className="sx-mini-title">Product design</div>
-              <p className="sx-mini-p">Prototypes, dashboards and mobile-first user journeys in Figma.</p>
+            <div className="v3-cell">
+              <span className="v3-cell-ic"><Icon name="pen" /></span>
+              <div className="v3-cell-k">Design</div>
+              <div className="v3-cell-t">Product design</div>
+              <p className="v3-cell-p">Prototypes, dashboards and mobile-first user journeys in Figma.</p>
             </div>
-            <div className="sx-mini">
-              <div className="sx-label sx-label-d">Creative</div>
-              <div className="sx-mini-title">3D &amp; motion</div>
-              <p className="sx-mini-p">Product renders, character animation and Unreal environments by Sajid Rahim.</p>
+            <div className="v3-cell v3-cell-sky">
+              <span className="v3-cell-ic"><Icon name="cube" /></span>
+              <div className="v3-cell-k">Creative</div>
+              <div className="v3-cell-t">3D &amp; motion</div>
+              <p className="v3-cell-p">Product renders, character animation and Unreal environments by Sajid Rahim.</p>
             </div>
-          </div>
-          <div className="sx-lab">
-            <span className="sx-lab-label">Currently in the lab</span>
-            <span className="sx-lab-chip">Blockchain systems</span>
-            <span className="sx-lab-chip">Technical SEO</span>
+            <div className="v3-cell v3-cell-white">
+              <span className="v3-cell-ic"><Icon name="flask" /></span>
+              <div className="v3-cell-t">Currently in the lab</div>
+              <div className="v3-cell-row">
+                <span className="v3-tag v3-tag-dashed">Blockchain systems</span>
+                <span className="v3-tag v3-tag-dashed">Technical SEO</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -137,7 +147,7 @@ const Services: React.FC = () => {
         <div className="sx-ring sx-ring-r" />
         <div className="sx-cta-inner">
           <div className="sx-label sx-label-ink">Not sure which one?</div>
-          <h2 className="sx-cta-title">Tell us the problem.</h2>
+          <h2 className="sx-cta-title">Tell us <Em>the problem.</Em></h2>
           <p className="sx-cta-p">We will tell you which of these it needs, or talk you out of building anything at all.</p>
           <Link to="/contact" className="sx-btn-ink">Start a project<span className="sx-btn-dot-g">→</span></Link>
         </div>

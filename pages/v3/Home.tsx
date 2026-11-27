@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import MobileMenu from '../../components/v3/MobileMenu';
+import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
@@ -104,7 +105,7 @@ const Home: React.FC = () => {
       </section>
       <section className="ds-about">
         <div className="ds-eyebrow">[ About DualSync ]</div>
-        <p className="ds-statement">We're two engineers who design, build and run the software behind growing businesses. <span className="ds-statement-soft">No account managers, no handoffs. You talk to the people writing the code.</span></p>
+        <p className="ds-statement">We're two engineers who <Hl>design, build and run</Hl><Note>Founder-led</Note> the software behind growing businesses. <span className="ds-statement-soft">No account managers, no handoffs. You talk to the people writing the code.</span></p>
       </section>
       <section className="ds-bento-wrap">
         <div className="ds-bento">
@@ -140,7 +141,7 @@ const Home: React.FC = () => {
         <div className="ds-sec-head">
           <div>
             <div className="ds-eyebrow">[ Services ]</div>
-            <h2 className="ds-h2">What we build</h2>
+            <h2 className="ds-h2">What we <Em>build</Em><Note tilt="r">5 core services</Note></h2>
           </div>
           <Link to="/services" className="ds-btn-green">All services</Link>
         </div>
@@ -181,7 +182,7 @@ const Home: React.FC = () => {
         <div className="ds-sec-head">
           <div>
             <div className="ds-eyebrow">[ Work ]</div>
-            <h2 className="ds-h2">Systems running real businesses</h2>
+            <h2 className="ds-h2">Systems running <Hl>real businesses</Hl></h2>
           </div>
           <Link to="/projects" className="ds-btn-green">All work</Link>
         </div>
@@ -189,23 +190,7 @@ const Home: React.FC = () => {
           <Link to="/pafood-case-study" className="ds-work-main">
             <div className="ds-eyebrow ds-on-dark">Case study · PaFood</div>
             <div className="ds-work-title">Paper and WhatsApp orders, replaced with one system.</div>
-            <div className="ds-mock">
-              <div className="ds-mock-row">
-                <div className="ds-kpi ds-kpi-g">
-                  <div className="ds-card-label">Orders</div>
-                  <div className="ds-card-big">Live</div>
-                </div>
-                <div className="ds-kpi">
-                  <div className="ds-card-label">Salesmen</div>
-                  <div className="ds-card-big">Tracked</div>
-                </div>
-                <div className="ds-kpi">
-                  <div className="ds-card-label">Stock</div>
-                  <div className="ds-card-big">Synced</div>
-                </div>
-              </div>
-              <div className="ds-chart" />
-            </div>
+            <img className="v3-work-shot" src="/assets/work/pafood-overview.webp" width={1600} height={922} loading="lazy" alt="PaFood admin console overview" />
           </Link>
           <div className="ds-work-side">
             <Link to="/projects" className="ds-work-card ds-work-card-g">
@@ -225,7 +210,7 @@ const Home: React.FC = () => {
         <div className="ds-sec-head">
           <div>
             <div className="ds-eyebrow">[ Process ]</div>
-            <h2 className="ds-h2">How the work happens</h2>
+            <h2 className="ds-h2">How the work <Em>happens</Em></h2>
           </div>
           <Link to="/process" className="ds-btn-green">Our process</Link>
         </div>
@@ -260,7 +245,7 @@ const Home: React.FC = () => {
         <div className="ds-cta">
           <div className="ds-cloud ds-cloud-a" />
           <div className="ds-cloud ds-cloud-c" />
-          <h2 className="ds-cta-title">Let's build the system your business runs on.</h2>
+          <h2 className="ds-cta-title">Let's build the system <Em>your business runs on.</Em></h2>
           <p className="ds-cta-sub">Tell us what's breaking. A founder replies within one business day.</p>
           <Link to="/contact" className="ds-btn-green">Start a project</Link>
         </div>
