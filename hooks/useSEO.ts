@@ -9,6 +9,8 @@ interface SEOOptions {
   ogImage?: string;
   keywords?: string;
   schema?: object;
+  /** Keep this page out of search results (e.g. the /admin inbox). */
+  noindex?: boolean;
 }
 
 const BASE_URL = 'https://dualsyncagency.com';
@@ -23,6 +25,7 @@ export function useSEO({
   ogImage = DEFAULT_OG_IMAGE,
   keywords,
   schema,
+  noindex = false,
 }: SEOOptions) {
   useEffect(() => {
     // Title
@@ -54,6 +57,7 @@ export function useSEO({
     // Standard meta
     setMeta('meta[name="description"]', description);
     if (keywords) setMeta('meta[name="keywords"]', keywords);
+    setMeta('meta[name="robots"]', noindex ? 'noindex, nofollow' : 'index, follow');
 
     // Canonical
     const canonicalUrl = `${BASE_URL}${canonical ?? ''}`;
@@ -83,5 +87,5 @@ export function useSEO({
       }
       scriptEl.textContent = JSON.stringify(schema);
     }
-  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema]);
+  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema, noindex]);
 }

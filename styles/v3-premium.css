@@ -1,0 +1,265 @@
+/*
+ * DualSync v3 — premium layer, loaded after site.css.
+ * Replaces the dark-green sections with light bento grids, adds the
+ * headline treatments (marker, serif italic, notes, icon chips), the icon
+ * set and the "sync" illustrations.
+ */
+:root {
+  --v3-paper: #f4f7f2;
+  --v3-white: #ffffff;
+  --v3-mist: #e3f3e8;
+  --v3-sky: #dcebfa;
+  --v3-ink: #08140d;
+  --v3-muted: #4d5c53;
+  --v3-signal: #38e07b;
+  --v3-deep: #0d7a3f;
+  --v3-line: rgba(8, 20, 13, 0.08);
+  --v3-marker: #c4f5d6;
+}
+
+/* ---------- Headline treatments ---------- */
+.v3-hl {
+  background: var(--v3-marker);
+  border-radius: 0.16em;
+  padding: 0 0.12em;
+  margin: 0 -0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* On the blue heroes the marker turns to frosted white. */
+.sx-ph .v3-hl, .ds-hero .v3-hl, .sx-cta-sec .v3-hl, .ds-cta .v3-hl {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.v3-em {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.v3-note {
+  display: inline-block;
+  vertical-align: 0.9em;
+  margin: 0 0.2em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--v3-signal);
+  color: var(--v3-ink);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px -8px rgba(8, 20, 13, 0.45);
+}
+.v3-note-l { transform: rotate(-4deg); }
+.v3-note-r { transform: rotate(3deg); }
+.sx-ph .v3-note, .ds-hero .v3-note { background: #fff; }
+.v3-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.92em;
+  height: 0.92em;
+  margin: 0 0.06em;
+  vertical-align: -0.1em;
+  border-radius: 0.24em;
+  background: var(--v3-signal);
+  color: var(--v3-ink);
+}
+.v3-chip .v3-icon { width: 58%; height: 58%; }
+.v3-chip .v3-i-a { fill: var(--v3-ink); stroke: none; }
+
+/* ---------- Icons ---------- */
+.v3-icon { display: block; }
+.v3-icon .v3-i-a { fill: var(--v3-signal); stroke: none; }
+
+/* ---------- Light section + bento ---------- */
+.v3-sec {
+  color: var(--v3-ink);
+  background: var(--v3-white);
+  padding: 140px 0 120px;
+  font-family: "Inter Tight", sans-serif;
+}
+.v3-sec .sx-label { color: var(--v3-muted); }
+.v3-bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+.v3-cell {
+  position: relative;
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: 28px;
+  border-radius: 24px;
+  background: var(--v3-paper);
+  color: var(--v3-ink);
+  overflow: hidden;
+  text-decoration: none;
+}
+.v3-c-3 { grid-column: span 3; }
+.v3-c-5 { grid-column: span 5; }
+.v3-c-6 { grid-column: span 6; }
+.v3-c-7 { grid-column: span 7; }
+.v3-c-8 { grid-column: span 8; }
+.v3-c-12 { grid-column: span 12; }
+.v3-r-2 { grid-row: span 2; }
+.v3-cell-mist { background: var(--v3-mist); }
+.v3-cell-sky { background: var(--v3-sky); }
+.v3-cell-white { background: var(--v3-white); box-shadow: inset 0 0 0 1px var(--v3-line); }
+.v3-cell-big { border-radius: 32px; padding: 36px; }
+.v3-cell-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--v3-white);
+  color: var(--v3-ink);
+  box-shadow: inset 0 0 0 1px var(--v3-line);
+}
+.v3-cell-white .v3-cell-ic { background: var(--v3-paper); }
+.v3-cell-ic .v3-icon { width: 24px; height: 24px; }
+.v3-cell-k {
+  margin-top: auto;
+  padding-top: 28px;
+  color: var(--v3-muted);
+  font-size: 14px;
+}
+.v3-cell-t {
+  margin-top: auto;
+  padding-top: 28px;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.v3-cell-k + .v3-cell-t { margin-top: 6px; padding-top: 0; }
+.v3-cell-big .v3-cell-t { font-size: 36px; letter-spacing: -0.045em; }
+.v3-cell-p {
+  margin: 10px 0 0;
+  max-width: 42ch;
+  color: var(--v3-muted);
+  font-size: 16px;
+  line-height: 24px;
+}
+.v3-illo {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 8px auto 0;
+}
+.v3-cell-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.v3-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--v3-white);
+  box-shadow: inset 0 0 0 1px var(--v3-line);
+  color: var(--v3-ink);
+  font-size: 15px;
+}
+.v3-tag .v3-icon { width: 18px; height: 18px; }
+.v3-tag-dashed { background: transparent; box-shadow: none; border: 1px dashed rgba(13, 122, 63, 0.45); color: var(--v3-deep); }
+
+/* Pulse on illustration accents (only when motion is allowed). */
+@media (prefers-reduced-motion: no-preference) {
+  .v3-pulse { transform-box: fill-box; transform-origin: center; animation: v3-pulse 2.8s ease-in-out infinite; }
+  @keyframes v3-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.7; } }
+  /* Dashed sync lines drift along their path, like data moving between systems. */
+  .v3-illo [data-draw] { animation: v3-flow 9s linear infinite; }
+  @keyframes v3-flow { to { stroke-dashoffset: -240; } }
+}
+
+/* Hero titles: the soft second phrase is set in the serif italic. */
+.sx-ph-title .sx-green, .ds-hero-soft, .sx-cta-title .sx-green {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Light versions of the remaining dark pieces ---------- */
+/* Projects: feature + mini cards */
+.sx-feature {
+  color: var(--v3-ink);
+  background: var(--v3-paper);
+  border-color: transparent;
+}
+.sx-feature:hover { color: var(--v3-ink); border-color: rgba(13, 122, 63, 0.35); }
+.sx-feature .sx-label-d, .sx-mini .sx-label-d { color: var(--v3-muted); }
+.sx-fm-v { color: var(--v3-deep); }
+.sx-fm-l { color: var(--v3-muted); }
+.sx-feature-meta { border-top-color: var(--v3-line); }
+.v3-feature-p { color: var(--v3-muted); }
+.sx-feature-link { color: var(--v3-ink); }
+.sx-dash { box-shadow: 0 30px 60px -30px rgba(8, 20, 13, 0.35), inset 0 0 0 1px var(--v3-line); }
+.v3-phone img { box-shadow: 0 30px 60px -30px rgba(8, 20, 13, 0.45); }
+.sx-mini { color: var(--v3-ink); background: var(--v3-paper); }
+.sx-mini:hover { color: var(--v3-ink); background: var(--v3-mist); }
+.sx-mini-p { color: var(--v3-muted); }
+
+/* Case study: "next project" band */
+.sx-next { color: var(--v3-ink); background: var(--v3-mist); }
+.sx-next:hover { color: var(--v3-ink); background: #d3eedc; }
+
+/* Home: promise tile, work card, active step */
+.ds-tile-dark { color: var(--v3-ink); background: var(--v3-sky); }
+.ds-tile-dark .ds-on-dark { color: var(--v3-muted); }
+.ds-work-main { color: var(--v3-ink); background: var(--v3-mist); }
+.ds-work-main:hover { color: var(--v3-ink); }
+.ds-work-main .ds-on-dark { color: var(--v3-muted); }
+.ds-step-on { color: var(--v3-ink); background: var(--v3-mist); }
+.ds-step-on .ds-step-get { color: var(--v3-deep); }
+
+/* Home: real PaFood screenshot in place of the mock, bleeding off the card. */
+.ds-work-main { position: relative; overflow: hidden; }
+.v3-work-shot {
+  position: absolute;
+  left: 32px;
+  top: 190px;
+  width: calc(100% + 28px);
+  max-width: none;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 30px 60px -20px rgba(8, 20, 13, 0.35), 0 0 0 1px var(--v3-line);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ds-work-main:hover .v3-work-shot { transform: translateY(-8px); }
+.ds-work-main .ds-work-title { position: relative; z-index: 1; }
+@media screen and (max-width: 767px) {
+  .v3-work-shot { top: auto; bottom: -24px; left: 20px; }
+  .ds-work-main { min-height: 420px; }
+}
+
+/* Smaller illustration for half-width cells. */
+.v3-illo-sm { max-width: 300px; }
+
+/* Screenshots that follow a bento get breathing room. */
+.v3-bento + .sx-dash-wide { margin-top: 48px; }
+.sx-dash-wide + .sx-dash-wide { margin-top: 32px; }
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 991px) {
+  .v3-cell, .v3-c-3, .v3-c-5, .v3-c-6, .v3-c-7, .v3-c-8 { grid-column: span 6; }
+  .v3-c-12, .v3-cell-big { grid-column: span 12; }
+  .v3-r-2 { grid-row: auto; }
+}
+@media screen and (max-width: 767px) {
+  .v3-sec { padding: 88px 0 72px; }
+  .v3-bento { grid-template-columns: minmax(0, 1fr); }
+  .v3-cell, .v3-c-3, .v3-c-5, .v3-c-6, .v3-c-7, .v3-c-8, .v3-c-12, .v3-cell-big { grid-column: auto; }
+  .v3-cell { min-height: 0; }
+  .v3-cell-big .v3-cell-t { font-size: 30px; }
+  .v3-note { font-size: 12px; padding: 4px 10px; }
+}

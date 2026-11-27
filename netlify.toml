@@ -2,7 +2,50 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
+# API first — otherwise the SPA catch-all below would swallow /api/*.
+[[redirects]]
+  from = "/api/messages"
+  to = "/.netlify/functions/messages"
+  status = 200
+  force = true
+
+# Old URLs from the previous site. Must stay ABOVE the SPA fallback, because
+# Netlify applies the first matching rule.
+[[redirects]]
+  from = "/work"
+  to = "/projects"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "/journal"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/journal"
+  status = 301
+  force = true
+
+# SPA fallback for client-side routes.
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# The admin inbox must never be indexed or cached.
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

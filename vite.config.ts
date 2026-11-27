@@ -25,14 +25,8 @@ export default defineConfig(() => {
             // not invalidate the whole bundle in users' caches.
             manualChunks: {
               react: ['react', 'react-dom', 'react-router-dom'],
-              gsap: [
-                'gsap',
-                'gsap/ScrollTrigger',
-                'gsap/ScrollSmoother',
-                'gsap/SplitText',
-                'gsap/DrawSVGPlugin',
-              ],
-              motion: ['framer-motion'],
+              // Only the plugins the v3 site uses (see lib/gsapV3.ts).
+              gsap: ['gsap', 'gsap/ScrollTrigger', 'gsap/SplitText'],
             },
           },
         },
