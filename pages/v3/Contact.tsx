@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Nav from '../../components/v3/Nav';
 import Footer from '../../components/v3/Footer';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 type FormState = { name: string; email: string; projectType: string; message: string };
@@ -48,11 +49,7 @@ const Contact: React.FC = () => {
   useEffect(() => {
     if (status === 'success') doneRef.current?.focus();
   }, [status]);
-  useSEO({
-    title: "Contact — DualSync",
-    description: "Two questions and your email. A founder replies within one business day.",
-    canonical: "/contact",
-  });
+  useSEO(seoProps('/contact'));
   useV3Motion(root);
 
   return (
@@ -63,7 +60,7 @@ const Contact: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-contact-grid">
           <div>
-            <div className="sx-ph-label">[ Contact ]</div>
+            <div className="sx-ph-label">Contact</div>
             <h1 className="sx-ph-title sx-contact-title">Two questions and <span className="sx-green">your email.</span></h1>
             <div className="sx-promise">
               <div className="sx-promise-row"><span className="sx-pulse" />A founder reads this, not a chatbot</div>

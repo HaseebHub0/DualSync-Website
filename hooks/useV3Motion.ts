@@ -49,7 +49,7 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
       if (hero) {
         const tl = gsap.timeline({ defaults: { ease: EASE, duration: 1.1 } });
         const title = hero.querySelector('.ds-hero-title');
-        const split = title ? new SplitText(title, { type: 'words', mask: 'words' }) : null;
+        const split = title ? new SplitText(title, { type: 'words', mask: 'words', wordsClass: 'v3-w' }) : null;
 
         tl.from(hero.querySelector('.ds-badge'), { y: 20, opacity: 0 }, 0.1);
         if (split) tl.from(split.words, { yPercent: 110, opacity: 0, stagger: 0.06 }, 0.2);
@@ -110,7 +110,7 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
       if (ph) {
         const tl = gsap.timeline({ defaults: { ease: EASE, duration: 1.1 } });
         const title = ph.querySelector('.sx-ph-title');
-        const split = title ? new SplitText(title, { type: 'words', mask: 'words' }) : null;
+        const split = title ? new SplitText(title, { type: 'words', mask: 'words', wordsClass: 'v3-w' }) : null;
         tl.from(ph.querySelectorAll('.sx-ph-label'), { opacity: 0, y: 10 }, 0.1);
         if (split) tl.from(split.words, { yPercent: 110, stagger: 0.06 }, 0.2);
         tl.from(ph.querySelectorAll('.sx-ph-lead, .sx-promise'), { opacity: 0, y: 20 }, 0.6);

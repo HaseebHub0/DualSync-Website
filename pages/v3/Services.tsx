@@ -6,16 +6,13 @@ import Icon from '../../components/v3/Icon';
 import Illo from '../../components/v3/Illo';
 import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/services"]). */
 const Services: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "Services — DualSync",
-    description: "AI agents, Voice AI, custom SaaS, enterprise systems and mobile apps, built by the two founders you talk to.",
-    canonical: "/services",
-  });
+  useSEO(seoProps('/services'));
   useV3Motion(root);
 
   return (
@@ -25,7 +22,7 @@ const Services: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ Services ]</div>
+          <div className="sx-ph-label">Services</div>
           <h1 className="sx-ph-title">Nine ways we make your business <span className="sx-green">run itself.</span></h1>
           <p className="sx-ph-lead">Five core engineering services, four supporting crafts. Every one is scoped and built by the two founders you talk to.</p>
         </div>

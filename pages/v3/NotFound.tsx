@@ -8,7 +8,7 @@ import { useV3Motion } from '../../hooks/useV3Motion';
 /* Simple 404 built from the existing inner-page hero styles. */
 const NotFound: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({ title: 'Page not found — DualSync', description: 'This page does not exist.' });
+  useSEO({ title: 'Page not found | DualSync', description: 'This page does not exist.', noindex: true });
   useV3Motion(root);
 
   return (
@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner v3-404">
-          <div className="sx-ph-label">[ 404 ]</div>
+          <div className="sx-ph-label">404</div>
           <h1 className="sx-ph-title">This page <span className="sx-green">doesn’t exist.</span></h1>
           <p className="sx-ph-lead">The link may be old, or the page has moved.</p>
           <Link to="/" className="sx-btn-ink">Back to home<span className="sx-btn-dot-g">→</span></Link>

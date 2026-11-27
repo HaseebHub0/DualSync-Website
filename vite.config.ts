@@ -2,7 +2,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(() => {
+export default defineConfig(({ isSsrBuild }) => {
     return {
       server: {
         port: Number(process.env.PORT) || 3000,
@@ -23,7 +23,8 @@ export default defineConfig(() => {
           output: {
             // Split long-lived vendor code from app code so a copy change does
             // not invalidate the whole bundle in users' caches.
-            manualChunks: {
+            // Client-only: the SSR (prerender) build externalises these packages.
+            manualChunks: isSsrBuild ? undefined : {
               react: ['react', 'react-dom', 'react-router-dom'],
               // Only the plugins the v3 site uses (see lib/gsapV3.ts).
               gsap: ['gsap', 'gsap/ScrollTrigger', 'gsap/SplitText'],

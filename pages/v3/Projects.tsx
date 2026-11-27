@@ -5,16 +5,13 @@ import CreativeVideo from '../../components/v3/CreativeVideo';
 import Footer from '../../components/v3/Footer';
 import { Em } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/projects"]). */
 const Projects: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "Work — DualSync",
-    description: "Systems that run real businesses: ERP, storefronts, mobile apps and AI.",
-    canonical: "/projects",
-  });
+  useSEO(seoProps('/projects'));
   useV3Motion(root);
 
   return (
@@ -24,7 +21,7 @@ const Projects: React.FC = () => {
         <div className="sx-ph-ring sx-ph-ring-a" />
         <div className="sx-ph-ring sx-ph-ring-b" />
         <div className="sx-ph-inner">
-          <div className="sx-ph-label">[ Selected work ]</div>
+          <div className="sx-ph-label">Selected work</div>
           <h1 className="sx-ph-title">Systems that run businesses, and <span className="sx-green">the stories that sell them.</span></h1>
           <p className="sx-ph-lead">From a multi-role ERP running a food distributor to storefronts, finance apps and cinematic production.</p>
         </div>

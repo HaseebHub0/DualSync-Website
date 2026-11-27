@@ -8,13 +8,14 @@ interface SEOOptions {
   ogDescription?: string;
   ogImage?: string;
   keywords?: string;
-  schema?: object;
+  schema?: object | object[];
+  ogType?: string;
   /** Keep this page out of search results (e.g. the /admin inbox). */
   noindex?: boolean;
 }
 
 const BASE_URL = 'https://dualsyncagency.com';
-const DEFAULT_OG_IMAGE = `${BASE_URL}/assets/og-image.jpg`;
+const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
 
 export function useSEO({
   title,
@@ -26,6 +27,7 @@ export function useSEO({
   keywords,
   schema,
   noindex = false,
+  ogType = 'website',
 }: SEOOptions) {
   useEffect(() => {
     // Title
@@ -68,6 +70,7 @@ export function useSEO({
     setMeta('meta[property="og:description"]', ogDescription ?? description);
     setMeta('meta[property="og:url"]', canonicalUrl);
     setMeta('meta[property="og:image"]', ogImage);
+    setMeta('meta[property="og:type"]', ogType);
 
     // Twitter
     setMeta('meta[property="twitter:title"]', ogTitle ?? title);
@@ -87,5 +90,5 @@ export function useSEO({
       }
       scriptEl.textContent = JSON.stringify(schema);
     }
-  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema, noindex]);
+  }, [title, description, canonical, ogTitle, ogDescription, ogImage, keywords, schema, noindex, ogType]);
 }

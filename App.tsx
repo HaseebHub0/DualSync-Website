@@ -9,6 +9,7 @@ const PafoodCaseStudy = React.lazy(() => import('./pages/v3/PafoodCaseStudy'));
 const Process = React.lazy(() => import('./pages/v3/Process'));
 const About = React.lazy(() => import('./pages/v3/About'));
 const Journal = React.lazy(() => import('./pages/v3/Journal'));
+const JournalPost = React.lazy(() => import('./pages/v3/JournalPost'));
 const Careers = React.lazy(() => import('./pages/v3/Careers'));
 const Contact = React.lazy(() => import('./pages/v3/Contact'));
 const NotFound = React.lazy(() => import('./pages/v3/NotFound'));
@@ -41,6 +42,7 @@ const App: React.FC = () => (
           <Route path="/process" element={<Process />} />
           <Route path="/about" element={<About />} />
           <Route path="/journal" element={<Journal />} />
+          <Route path="/journal/:slug" element={<JournalPost />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<AdminRoute />} />
