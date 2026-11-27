@@ -74,6 +74,69 @@ const Projects: React.FC = () => {
               </div>
             </div>
           </Link>
+          {/* Real screenshots of the live Pakasian ERP (money figures blurred). */}
+          <div className="sx-feature sx-feature-top v3-shot-feature">
+            <div>
+              <div className="sx-label sx-label-d">Pak Asian Foods · Manufacturing ERP</div>
+              <h3 className="sx-feature-title">Pakasian ERP: procurement, stock and production in one system.</h3>
+              <div className="sx-feature-meta">
+                <div className="sx-fm">
+                  <div className="sx-fm-v">8</div>
+                  <div className="sx-fm-l">business modules</div>
+                </div>
+                <div className="sx-fm">
+                  <div className="sx-fm-v">Live</div>
+                  <div className="sx-fm-l">in daily use</div>
+                </div>
+              </div>
+            </div>
+            <figure className="sx-dash v3-shot">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">Pakasian ERP · Dashboard</span>
+              </div>
+              <img src="/assets/work/erp-dashboard.webp" width={1600} height={922} loading="lazy" alt="Pakasian ERP dashboard showing revenue, liquidity, stock value and production today" />
+            </figure>
+          </div>
+          <div className="v3-shots">
+            <figure className="sx-dash v3-shot">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">Pakasian ERP · Stock summary</span>
+              </div>
+              <img src="/assets/work/erp-stock.webp" width={1600} height={922} loading="lazy" alt="Stock summary listing raw materials with available, reserved and in-transit quantities by warehouse" />
+            </figure>
+            <figure className="sx-dash v3-shot">
+              <div className="sx-dash-top">
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-dot" />
+                <span className="sx-dash-title">Pakasian ERP · Inventory analytics</span>
+              </div>
+              <img src="/assets/work/erp-analytics.webp" width={1600} height={922} loading="lazy" alt="Inventory analytics with stock by warehouse, allocation status and top items charts" />
+            </figure>
+          </div>
+          {/* Our own product, live on Google Play. */}
+          <a
+            className="sx-feature sx-feature-top v3-app-feature"
+            href="https://play.google.com/store/apps/details?id=com.hitasky.app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div>
+              <div className="sx-label sx-label-d">Our product · React Native</div>
+              <h3 className="sx-feature-title">HiTasky: a calm task manager you buy once.</h3>
+              <p className="v3-feature-p">No subscription, no account, no cloud, no ads. Built, shipped and maintained by us.</p>
+              <div className="sx-feature-link">Get it on Google Play ↗</div>
+            </div>
+            <figure className="v3-phone">
+              <img src="/assets/work/hitasky-plan.webp" width={800} height={1300} loading="lazy" alt="HiTasky app showing today's plan with upcoming tasks" />
+            </figure>
+          </a>
           <div className="sx-minis">
             <div className="sx-mini">
               <div className="sx-label sx-label-d">FinTech · React Native</div>

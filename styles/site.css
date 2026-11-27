@@ -527,4 +527,14 @@ figure { margin: 0 0 10px; }
 .sx-cr-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .sx-cr-video .sx-play { position: relative; z-index: 1; box-shadow: 0 10px 30px -10px rgba(8, 20, 13, 0.5); }
 .sx-cr-video:focus-visible, .sx-cr-link:focus-visible { outline: 3px solid rgb(13, 122, 63); outline-offset: 4px; }
+/* Real product screenshots on /projects. */
+.v3-shot { margin: 0; }
+.v3-shot img { display: block; width: 100%; height: auto; }
+.v3-shot-feature { align-items: center; }
+.v3-shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.v3-app-feature { align-items: center; text-decoration: none; }
+.v3-feature-p { color: rgb(183, 199, 189); margin: 16px 0 0; font-size: 17px; line-height: 26px; max-width: 440px; }
+.v3-phone { margin: 0; display: flex; justify-content: center; }
+.v3-phone img { display: block; width: 100%; max-width: 300px; height: auto; border-radius: 24px; box-shadow: rgba(0, 0, 0, 0.7) 0 40px 80px -30px; }
+@media screen and (max-width: 767px) { .v3-shots { grid-template-columns: minmax(0, 1fr); } }
 .sx-cr-badge { position: absolute; left: 20px; bottom: 18px; padding: 6px 12px; border-radius: 999px; background: rgba(244, 247, 242, 0.85); color: rgb(8, 20, 13); font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
