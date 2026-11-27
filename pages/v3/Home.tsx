@@ -1,18 +1,16 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import MobileMenu from '../../components/v3/MobileMenu';
+import Footer from '../../components/v3/Footer';
 import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
+import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/"]). */
 const Home: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
-  useSEO({
-    title: "DualSync — AI & SaaS engineering studio",
-    description: "AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.",
-    canonical: "/",
-  });
+  useSEO(seoProps('/'));
   useV3Motion(root);
 
   return (
@@ -104,7 +102,7 @@ const Home: React.FC = () => {
         </div>
       </section>
       <section className="ds-about">
-        <div className="ds-eyebrow">[ About DualSync ]</div>
+        <div className="ds-eyebrow">About DualSync</div>
         <p className="ds-statement">We're two engineers who <Hl>design, build and run</Hl><Note>Founder-led</Note> the software behind growing businesses. <span className="ds-statement-soft">No account managers, no handoffs. You talk to the people writing the code.</span></p>
       </section>
       <section className="ds-bento-wrap">
@@ -140,7 +138,7 @@ const Home: React.FC = () => {
       <section className="ds-sec">
         <div className="ds-sec-head">
           <div>
-            <div className="ds-eyebrow">[ Services ]</div>
+            <div className="ds-eyebrow">Services</div>
             <h2 className="ds-h2">What we <Em>build</Em><Note tilt="r">5 core services</Note></h2>
           </div>
           <Link to="/services" className="ds-btn-green">All services</Link>
@@ -181,7 +179,7 @@ const Home: React.FC = () => {
       <section className="ds-sec">
         <div className="ds-sec-head">
           <div>
-            <div className="ds-eyebrow">[ Work ]</div>
+            <div className="ds-eyebrow">Work</div>
             <h2 className="ds-h2">Systems running <Hl>real businesses</Hl></h2>
           </div>
           <Link to="/projects" className="ds-btn-green">All work</Link>
@@ -209,7 +207,7 @@ const Home: React.FC = () => {
       <section className="ds-sec">
         <div className="ds-sec-head">
           <div>
-            <div className="ds-eyebrow">[ Process ]</div>
+            <div className="ds-eyebrow">Process</div>
             <h2 className="ds-h2">How the work <Em>happens</Em></h2>
           </div>
           <Link to="/process" className="ds-btn-green">Our process</Link>
@@ -249,11 +247,8 @@ const Home: React.FC = () => {
           <p className="ds-cta-sub">Tell us what's breaking. A founder replies within one business day.</p>
           <Link to="/contact" className="ds-btn-green">Start a project</Link>
         </div>
-        <div className="ds-foot">
-          <div><span className="ds-foot-strong">DualSync</span> · AI &amp; SaaS engineering studio</div>
-          <div><Link to="/services" className="ds-foot-link">Services</Link> · <Link to="/projects" className="ds-foot-link">Work</Link> · <Link to="/about" className="ds-foot-link">Team</Link> · <Link to="/careers" className="ds-foot-link">Careers</Link> · <a href="mailto:contact@dualsyncagency.com" className="ds-foot-link">contact@dualsyncagency.com</a></div>
-        </div>
       </section>
+      <Footer />
     </div>
   );
 };
