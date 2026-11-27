@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -11,8 +11,9 @@
         content="DualSync Agency, ERP Software Pakistan, AI Agents, Custom Software Development, Enterprise ERP, Autonomous AI, Business Automation, Remote Software Agency, Django React Native, Muhammad Haseeb" />
     <meta name="author" content="DualSync" />
     <meta name="robots" content="index, follow" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2b7bd6" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -47,7 +48,7 @@
         "url": "https://dualsyncagency.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://dualsyncagency.com/assets/logo.png",
+          "url": "https://dualsyncagency.com/favicon.png",
           "width": 512,
           "height": 512
         },
@@ -142,36 +143,12 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <!-- Preload critical font subset -->
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet" />
-    <!-- Icons -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <script>
-        // Resolve the theme before first paint so the page never flashes the
-        // wrong one. Must stay inline and blocking; useTheme() reads the class
-        // this sets as its source of truth.
-        (function () {
-            try {
-                var stored = localStorage.getItem('theme');
-                var theme = stored === 'light' || stored === 'dark'
-                    ? stored
-                    : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-                var root = document.documentElement;
-                root.classList.toggle('light', theme === 'light');
-                root.classList.toggle('dark', theme !== 'light');
-            } catch (e) { /* keep the default dark class from the html tag */ }
-        })();
-    </script>
 </head>
 
-<body
-    class="font-sans antialiased selection:bg-primary selection:text-background-dark overflow-x-hidden">
+<body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>
