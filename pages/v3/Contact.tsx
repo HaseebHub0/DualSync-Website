@@ -15,28 +15,28 @@ const Contact: React.FC = () => {
   const doneRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [status, setStatus] = useState<Status>('idle');
+  const [honeypot, setHoneypot] = useState('');
 
   const set =
     (key: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  // Same backend as the previous site: a Google Apps Script web app. text/plain
-  // keeps the request "simple", so the browser sends no CORS preflight.
+  // Posts to our own Netlify function (netlify/functions/messages.mts), which
+  // stores the message in Netlify Blobs and shows it in the /admin inbox.
+  // `company` is a honeypot: bots fill it, people never see it.
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === 'sending') return;
     setStatus('sending');
     try {
-      const url = import.meta.env.VITE_GOOGLE_SCRIPT_URL as string | undefined;
-      if (!url) throw new Error('VITE_GOOGLE_SCRIPT_URL is not set');
-      const res = await fetch(url, {
+      const res = await fetch('/api/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(form),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...form, company: honeypot, source: 'contact' }),
       });
       const result = await res.json().catch(() => null);
-      if (!result || result.status !== 'success') throw new Error(result?.message || 'Submission rejected');
+      if (!res.ok || !result?.ok) throw new Error(result?.error || 'Submission rejected');
       setForm(EMPTY);
       setStatus('success');
     } catch (err) {
@@ -90,6 +90,11 @@ const Contact: React.FC = () => {
               </select>
               <label htmlFor="Message" className="sx-flabel">What is breaking?</label>
               <textarea required placeholder="A few sentences is enough. What happens today, and what should happen instead?" maxLength={5000} id="Message" name="Message" className="sx-input sx-textarea" value={form.message} onChange={set('message')} />
+              {/* Honeypot: hidden from people and screen readers, filled by bots. */}
+              <div style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }} aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+              </div>
               <input type="submit" className="sx-submit" value={status === 'sending' ? 'Sending…' : 'Send it →'} disabled={status === 'sending'} />
             </form>
             )}

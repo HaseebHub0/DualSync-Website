@@ -12,6 +12,8 @@ const Journal = React.lazy(() => import('./pages/v3/Journal'));
 const Careers = React.lazy(() => import('./pages/v3/Careers'));
 const Contact = React.lazy(() => import('./pages/v3/Contact'));
 const NotFound = React.lazy(() => import('./pages/v3/NotFound'));
+// Private message inbox (not linked anywhere public; noindex via netlify.toml).
+const AdminRoute = React.lazy(() => import('./pages/v3/AdminRoute'));
 
 /** Start every route at the top, like a normal page load. */
 const ScrollToTop: React.FC = () => {
@@ -41,6 +43,7 @@ const App: React.FC = () => (
           <Route path="/journal" element={<Journal />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<AdminRoute />} />
           {/* Old URLs from the previous site (also 301'd in netlify.toml). */}
           <Route path="/work" element={<Navigate to="/projects" replace />} />
           <Route path="/blog" element={<Navigate to="/journal" replace />} />
