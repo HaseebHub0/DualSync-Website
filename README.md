@@ -1,20 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# DualSync Agency website
 
-# Run and deploy your AI Studio app
+Source for [dualsyncagency.com](https://dualsyncagency.com): React 18 + Vite +
+TypeScript, GSAP motion, hosted on Netlify with one Netlify Function for the
+contact form and admin inbox.
 
-This contains everything you need to run your app locally.
+## Commands
 
-View your app in AI Studio: https://ai.studio/apps/drive/1BVHxA24NLdJCEDMY0jgnVYekSecE7MsU
+| Command | What it does |
+| --- | --- |
+| `npm install` | install dependencies |
+| `npm run dev` | local dev server (no functions; the form cannot submit) |
+| `npx netlify dev` | dev server with the form API and `/admin` working |
+| `npm run typecheck` | TypeScript check |
+| `npm run build` | client build, SSR build, then prerender every route to static HTML |
+| `npm run preview` | serve the built `dist/` |
 
-## Run Locally
+## How it fits together
 
-**Prerequisites:**  Node.js
+- `pages/v3/` are the pages, `components/v3/` the shared nav, menu and footer.
+- `data/seo.ts` is the single source for titles, descriptions, canonical URLs
+  and JSON-LD. `scripts/prerender.mjs` writes them into each route's HTML,
+  plus `404.html`, `sitemap.xml`, `llms.txt` and `_redirects`.
+- `netlify.toml` holds the security headers (CSP, HSTS and others), caching
+  and redirects.
+- `netlify/functions/messages.mts` is the form API, admin inbox, error log and
+  analytics. Setup and environment variables: [ADMIN_SETUP.md](ADMIN_SETUP.md).
+- Launch audit and evidence: [AGENCY_SITE_CHECKLIST.md](AGENCY_SITE_CHECKLIST.md).
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Deploys go out from `main`; every pull request gets a Netlify deploy preview.
