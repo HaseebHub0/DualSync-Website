@@ -146,6 +146,22 @@ const STATIC: Seo[] = [
         ...webPage('/pafood-case-study', 'PaFood case study', 'How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods in Multan, Pakistan.'),
         about: { '@type': 'Organization', name: 'Pak Asian Foods', address: { '@type': 'PostalAddress', addressLocality: 'Multan', addressCountry: 'PK' } },
       },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        '@id': `${SITE}/pafood-case-study#article`,
+        headline: 'PaFood: from paper and WhatsApp orders to one system',
+        description: 'How DualSync replaced paper and WhatsApp orders at Pak Asian Foods in Multan with an offline-first order app, a web admin and a KPO desk.',
+        articleSection: 'Case study',
+        datePublished: '2026-11-27',
+        dateModified: '2026-11-28',
+        image: [`${SITE}/assets/work/pafood-overview.webp`, `${SITE}/assets/work/pafood-analytics.webp`],
+        inLanguage: 'en',
+        mainEntityOfPage: `${SITE}/pafood-case-study`,
+        author: { '@id': ORG_ID },
+        publisher: { '@id': ORG_ID },
+        about: { '@type': 'Organization', name: 'Pak Asian Foods', address: { '@type': 'PostalAddress', addressLocality: 'Multan', addressCountry: 'PK' } },
+      },
       crumbs([['Work', '/projects'], ['PaFood case study', '/pafood-case-study']]),
     ],
   },
@@ -174,8 +190,8 @@ const STATIC: Seo[] = [
           '@id': ORG_ID,
           '@type': 'Organization',
           employee: [
-            person('Muhammad Haseeb', 'Founder', '/assets/haseeb.jpeg'),
-            person('Muhammad Siddique', 'Co-founder', '/assets/siddique.jpeg'),
+            person('Muhammad Haseeb', 'Founder', '/assets/haseeb-720.webp'),
+            person('Muhammad Siddique', 'Co-founder', '/assets/siddique-720.webp'),
             person('Kiran Haroon', 'Video and social', '/assets/kiran-400.webp'),
             person('Sajid Rahim', '3D artist and animator', '/assets/sajid-400.webp'),
           ],
@@ -234,6 +250,18 @@ const STATIC: Seo[] = [
     ],
   },
   {
+    path: '/privacy',
+    title: 'Privacy Policy | DualSync',
+    description: 'What DualSync collects when you use this website, why, who processes it and how to have it deleted. No tracking cookies and no third-party scripts.',
+    schema: [webPage('/privacy', 'Privacy Policy', 'What DualSync collects when you use this website and how to have it deleted.'), crumbs([['Privacy Policy', '/privacy']])],
+  },
+  {
+    path: '/terms',
+    title: 'Terms of Use | DualSync',
+    description: 'The terms for using dualsyncagency.com: using the site, our content, links to other sites and liability. Client work is covered by a separate agreement.',
+    schema: [webPage('/terms', 'Terms of Use', 'The terms for using dualsyncagency.com.'), crumbs([['Terms of Use', '/terms']])],
+  },
+  {
     path: '/contact',
     title: 'Contact DualSync: a founder replies within one business day',
     description: 'Two questions and your email. A founder replies within one business day.',
@@ -249,7 +277,88 @@ export const POST_SEO: Seo[] = POSTS.map((p) => ({
   ogType: 'article',
 }));
 
-export const ALL_SEO: Seo[] = [...STATIC, ...POST_SEO];
+/**
+ * Search titles (50-60 chars) and meta descriptions (140-160 chars), tuned per
+ * route. On-page headings stay as designed; these only feed <head>.
+ */
+const META: Record<string, [string, string]> = {
+  '/': [
+    'DualSync | Custom ERP, AI Agents & SaaS Studio in Pakistan',
+    'DualSync builds custom ERP, AI agents and SaaS platforms, designed and run by the two founders you talk to. Based in Rawalpindi, Pakistan, working worldwide.'
+  ],
+  '/services': [
+    'Services: AI Agents, Voice AI, SaaS and ERP | DualSync',
+    'AI agents, Voice AI, custom SaaS, ERP and offline-first mobile apps, plus n8n and WhatsApp automation, all built and run by the two founders you talk to.'
+  ],
+  '/projects': [
+    'Work: ERP, Field Apps, AI and SaaS in Production | DualSync',
+    'Systems in production: Pakasian ERP and the PaFood sales system for Pak Asian Foods in Multan, plus HiTasky, FilingKeeper and our creative production work.'
+  ],
+  '/pafood-case-study': [
+    'PaFood Case Study: Paper Orders to One System | DualSync',
+    'How DualSync replaced paper and WhatsApp orders at Pak Asian Foods in Multan with an offline-first order app, a web admin and a KPO desk that checks orders.'
+  ],
+  '/process': [
+    'Our Process: Listen, Architect, Build and Run | DualSync',
+    'How a DualSync project runs: a written scope and fixed quote in week one, clickable screens in week two, then a working build you can try every Friday.'
+  ],
+  '/about': [
+    'Team: Two Founders, Zero Handoffs | DualSync, Pakistan',
+    'Meet DualSync: founders Muhammad Haseeb and Muhammad Siddique, with Kiran Haroon and Sajid Rahim. A remote software studio in Rawalpindi, Pakistan, since 2022.'
+  ],
+  '/journal': [
+    'Journal: Engineering Notes on AI, SaaS and ERP | DualSync',
+    'Engineering notes from DualSync on AI agents, Voice AI, SaaS architecture, offline-first apps and ERP systems, written by the founders who built them.'
+  ],
+  '/careers': [
+    'Careers at DualSync: Join a Small Remote Software Studio',
+    'DualSync hires rarely. We look for people who finish things, write clearly and own the outcome. Show us something you built and a founder will reply to you.'
+  ],
+  '/contact': [
+    'Contact DualSync: a founder replies within one business day',
+    'Tell us what is breaking: two questions and your email. A founder at DualSync replies within one business day. Based in Rawalpindi, Pakistan, working worldwide.'
+  ],
+  '/erp-software-pakistan': [
+    'Custom ERP software company in Pakistan | DualSync',
+    'DualSync builds custom ERP, field sales apps and AI automation for businesses in Pakistan. In production at Pak Asian Foods, Multan, since 2022.'
+  ],
+  '/privacy': [
+    'Privacy Policy: What We Collect and Why | DualSync',
+    'What DualSync collects when you use this website, why, who processes it and how to have it deleted. No tracking cookies and no third-party scripts.'
+  ],
+  '/terms': [
+    'Terms of Use for dualsyncagency.com | DualSync Studio',
+    'The terms for using dualsyncagency.com: using the site, our content, links to other sites and liability. Client work is covered by a separate agreement.'
+  ],
+  '/journal/ai-agent-human-in-the-loop': [
+    'When an AI Agent Should Stop and Ask a Human | DualSync',
+    'How we design AI agents for back-office work so they act on their own where mistakes are cheap and hand over to a person, with context, where they are not.'
+  ],
+  '/journal/ai-receptionist-retell-n8n': [
+    'Building an AI Receptionist with Retell AI and n8n',
+    'How we built a phone receptionist that answers calls, books appointments and logs every call, using Retell AI for the voice and n8n webhooks for the logic.'
+  ],
+  '/journal/offline-first-field-app-no-signal': [
+    'How We Made PaFood Work With No Signal | DualSync Journal',
+    'How the PaFood order app keeps every visit, order and payment safe on the phone when the network drops, and delivers each one to the server exactly once.'
+  ],
+  '/journal/postgresql-schema-orders-routes-targets': [
+    'PostgreSQL Schema for Orders, Routes and Targets | DualSync',
+    'How we model orders, routes and targets in PostgreSQL for a distributor: plan versus reality, history instead of overwrites, and idempotency keys.'
+  ],
+  '/journal/weekly-friday-builds': [
+    'Why We Ship a Working Build Every Friday | DualSync',
+    'Why every DualSync project ships a working build every Friday instead of status reports, and what that weekly rhythm changes for the client and the team.'
+  ],
+  '/journal/whatsapp-cloud-api-order-updates': [
+    'WhatsApp Order Updates on the Official Cloud API | DualSync',
+    'Send order and delivery updates on WhatsApp the reliable way: Meta’s official Cloud API, approved templates, the 24-hour window and delivery webhooks.'
+  ]
+};
+
+export const ALL_SEO: Seo[] = [...STATIC, ...POST_SEO].map((s) =>
+  META[s.path] ? { ...s, title: META[s.path][0], description: META[s.path][1] } : s,
+);
 
 export function seoFor(path: string): Seo {
   const hit = ALL_SEO.find((s) => s.path === path);

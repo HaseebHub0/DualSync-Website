@@ -6,7 +6,8 @@ import Icon from '../../components/v3/Icon';
 import NotFound from './NotFound';
 import { useSEO } from '../../hooks/useSEO';
 import { seoProps } from '../../data/seo';
-import { POSTS, POST_AUTHORS, getPost, readMinutes, type Block } from '../../data/journal';
+import { POSTS, POST_AUTHORS, getPost } from '../../data/journal';
+import { BODIES, readMinutes, type Block } from '../../data/journal-bodies';
 import { useV3Motion } from '../../hooks/useV3Motion';
 import { TOPIC_ICON, formatDate } from './Journal';
 
@@ -75,7 +76,7 @@ const Article: React.FC<{ slug: string }> = ({ slug }) => {
                 <p>{post.answer}</p>
               </div>
             </aside>
-            {post.body.map((b, i) => <BlockView key={i} b={b} />)}
+            {(BODIES[post.slug] ?? []).map((b, i) => <BlockView key={i} b={b} />)}
           </article>
 
           <div className="v3-article-end">
