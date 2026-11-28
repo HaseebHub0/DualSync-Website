@@ -7,9 +7,9 @@ const exp = JSON.parse(fs.readFileSync(path.join(root, 'dualsync-export.json'), 
 
 const IMG = {
   'dualsync-logo.png': '/logo-mark.webp',
-  'haseeb.jpeg': '/assets/haseeb.jpeg',
-  'siddique.jpeg': '/assets/siddique.jpeg',
-  'founders-together.jpeg': '/assets/founder_and_cofounder_together.jpeg',
+  'haseeb.jpeg': '/assets/haseeb-720.webp',
+  'siddique.jpeg': '/assets/siddique-720.webp',
+  'founders-together.jpeg': '/assets/founders-1100.webp',
   'kiran.jpeg': '/assets/kiran-400.webp',
   'sajid-rahim.jpeg': '/assets/sajid-400.webp',
 };
