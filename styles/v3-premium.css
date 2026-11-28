@@ -629,3 +629,28 @@ h1, h2, h3, .ds-cta-sub, .sx-ph-lead, .ds-hero-sub, .sx-cta-p, .v3-cell-p { text
 }
 
 .ds-photo-tag { font-size: 12px; }
+
+/* Footer legal links */
+.v3-foot-legal { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.v3-foot-legal a { color: var(--v3-muted); }
+.v3-foot-legal a:last-child { color: var(--v3-deep); }
+.v3-foot-legal a:hover { color: var(--v3-ink); }
+.v3-inline-link { display: inline; color: var(--v3-deep); text-decoration: underline; text-underline-offset: 3px; }
+@media screen and (max-width: 767px) { .v3-foot-legal a { padding: 12px 0; } }
+
+/* ---------- Accessibility ---------- */
+/* One clear focus ring for keyboard users, everywhere. */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--v3-deep);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.sx-ph :where(a, button):focus-visible, .ds-hero :where(a, button):focus-visible,
+.sx-cta-sec :where(a, button):focus-visible, .v3-menu :where(a, button):focus-visible { outline-color: #fff; }
+main:focus { outline: none; }
+.v3-skip:focus-visible { top: 12px; }
+/* Soft statement text: #a7ada9 was 2.3:1 on white; this clears AA for large text. */
+.ds-statement-soft { color: #7d837f; }
+
+/* Section labels that are real headings keep the label look. */
+.v3-h-label { margin: 0; line-height: 1.4; font-weight: 500; }

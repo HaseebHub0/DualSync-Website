@@ -28,7 +28,7 @@ const Projects: React.FC = () => {
       </section>
       <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label sx-label-d">Systems</div>
+          <h2 className="sx-label sx-label-d v3-h-label">Systems</h2>
           <Link to="/pafood-case-study" className="sx-feature sx-feature-top">
             <div>
               <div className="sx-label sx-label-d">Pak Asian Foods · ERP &amp; sales ecosystem</div>

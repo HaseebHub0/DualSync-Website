@@ -19,20 +19,20 @@ const Home: React.FC = () => {
         <div className="ds-cloud ds-cloud-a" />
         <div className="ds-cloud ds-cloud-b" />
         <div className="ds-cloud ds-cloud-c" />
-        <nav className="ds-nav">
+        <header className="ds-nav">
           <Link to="/" className="ds-logo" aria-label="DualSync home">
             <div className="ds-logo-word">DualSync</div>
           </Link>
-          <div className="ds-nav-links">
+          <nav className="ds-nav-links" aria-label="Main">
             <Link to="/services" className="ds-nav-link">Services</Link>
             <Link to="/projects" className="ds-nav-link">Work</Link>
             <Link to="/process" className="ds-nav-link">Process</Link>
             <Link to="/about" className="ds-nav-link">Team</Link>
             <Link to="/journal" className="ds-nav-link">Journal</Link>
-          </div>
+          </nav>
           <Link to="/contact" className="ds-btn-green ds-btn-sm">Start a project</Link>
           <MobileMenu />
-        </nav>
+        </header>
         <div className="ds-hero-inner">
           <div className="ds-badge"><div className="ds-dot" />Two founders · Zero handoffs</div>
           <h1 className="ds-hero-title">Software that runs your business <span className="ds-hero-soft">while you sleep.</span></h1>
