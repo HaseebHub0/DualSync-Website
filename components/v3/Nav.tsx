@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import MobileMenu, { NAV_LINKS } from './MobileMenu';
 
 /**
@@ -14,9 +14,9 @@ const Nav: React.FC = () => (
     </Link>
     <div className="ds-nav-links">
       {NAV_LINKS.map(([to, label]) => (
-        <Link key={to} to={to} className="ds-nav-link">
+        <NavLink key={to} to={to} className="ds-nav-link">
           {label}
-        </Link>
+        </NavLink>
       ))}
     </div>
     <Link to="/contact" className="ds-btn-green ds-btn-sm">Start a project</Link>

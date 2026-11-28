@@ -92,7 +92,7 @@ const Contact: React.FC = () => {
                 <label htmlFor="company">Company</label>
                 <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
               </div>
-              <input type="submit" className="sx-submit" value={status === 'sending' ? 'Sending…' : 'Send it →'} disabled={status === 'sending'} />
+              <input type="submit" className="sx-submit" value={status === 'sending' ? 'Sending…' : 'Send it'} disabled={status === 'sending'} />
             </form>
             )}
             {status === 'success' && (

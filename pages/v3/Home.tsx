@@ -43,49 +43,99 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className="ds-arc">
-          <div className="ds-card ds-c1">
-            <div className="ds-card-label">Orders today</div>
-            <div className="ds-card-big">1,284</div>
-            <div className="ds-bars">
-              <div className="ds-bar ds-b1" />
-              <div className="ds-bar ds-b2" />
-              <div className="ds-bar ds-b3" />
-              <div className="ds-bar ds-b4" />
-              <div className="ds-bar ds-b5 ds-bar-on" />
+          {/* Desktop: the track is display:contents, so the cards sit in the 3D arc as before.
+              Phones: the track scrolls as a strip; the aria-hidden copy makes the loop seamless. */}
+          <div className="v3-arc-track">
+            <div className="ds-card ds-c1">
+              <div className="ds-card-label">Orders today</div>
+              <div className="ds-card-big">1,284</div>
+              <div className="ds-bars">
+                <div className="ds-bar ds-b1" />
+                <div className="ds-bar ds-b2" />
+                <div className="ds-bar ds-b3" />
+                <div className="ds-bar ds-b4" />
+                <div className="ds-bar ds-b5 ds-bar-on" />
+              </div>
             </div>
-          </div>
-          <div className="ds-card ds-card-dark ds-c2">
-            <div className="ds-card-label ds-on-dark">Voice AI</div>
-            <div className="ds-wave">
-              <div className="ds-w ds-w1" />
-              <div className="ds-w ds-w2" />
-              <div className="ds-w ds-w3" />
-              <div className="ds-w ds-w4" />
-              <div className="ds-w ds-w5" />
-              <div className="ds-w ds-w6" />
-              <div className="ds-w ds-w7" />
+            <div className="ds-card ds-card-dark ds-c2">
+              <div className="ds-card-label ds-on-dark">Voice AI</div>
+              <div className="ds-wave">
+                <div className="ds-w ds-w1" />
+                <div className="ds-w ds-w2" />
+                <div className="ds-w ds-w3" />
+                <div className="ds-w ds-w4" />
+                <div className="ds-w ds-w5" />
+                <div className="ds-w ds-w6" />
+                <div className="ds-w ds-w7" />
+              </div>
+              <div className="ds-card-text ds-white">Answers, qualifies and books every call.</div>
             </div>
-            <div className="ds-card-text ds-white">Answers, qualifies and books every call.</div>
-          </div>
-          <div className="ds-card ds-c3 ds-card-photo-a">
-            <div className="ds-photo-tag">Haseeb · Founder</div>
-          </div>
-          <div className="ds-card ds-card-green ds-c4">
-            <div className="ds-card-label ds-ink">Order bookers</div>
-            <div className="ds-card-huge">Offline</div>
-            <div className="ds-card-text">Works without signal, syncs when back online.</div>
-          </div>
-          <div className="ds-card ds-c5 ds-card-photo-b">
-            <div className="ds-photo-tag">Siddique · Co-founder</div>
-          </div>
-          <div className="ds-card ds-card-dark ds-c6">
-            <div className="ds-card-label ds-on-dark">AI agent</div>
-            <div className="ds-card-quote">New lead routed to sales in 4 seconds.</div>
-          </div>
-          <div className="ds-card ds-c7">
-            <div className="ds-card-label">Stack</div>
-            <div className="ds-card-big">Django · React</div>
-            <div className="ds-card-text">Flutter · Postgres · n8n</div>
+            <div className="ds-card ds-c3 ds-card-photo-a">
+              <div className="ds-photo-tag">Haseeb · Founder</div>
+            </div>
+            <div className="ds-card ds-card-green ds-c4">
+              <div className="ds-card-label ds-ink">Order bookers</div>
+              <div className="ds-card-huge">Offline</div>
+              <div className="ds-card-text">Works without signal, syncs when back online.</div>
+            </div>
+            <div className="ds-card ds-c5 ds-card-photo-b">
+              <div className="ds-photo-tag">Siddique · Co-founder</div>
+            </div>
+            <div className="ds-card ds-card-dark ds-c6">
+              <div className="ds-card-label ds-on-dark">AI agent</div>
+              <div className="ds-card-quote">New lead routed to sales in 4 seconds.</div>
+            </div>
+            <div className="ds-card ds-c7">
+              <div className="ds-card-label">Stack</div>
+              <div className="ds-card-big">Django · React</div>
+              <div className="ds-card-text">Flutter · Postgres · n8n</div>
+            </div>
+            <div className="v3-arc-copy" aria-hidden="true">
+              <div className="ds-card v3-arc-dup ds-c1">
+                <div className="ds-card-label">Orders today</div>
+                <div className="ds-card-big">1,284</div>
+                <div className="ds-bars">
+                  <div className="ds-bar ds-b1" />
+                  <div className="ds-bar ds-b2" />
+                  <div className="ds-bar ds-b3" />
+                  <div className="ds-bar ds-b4" />
+                  <div className="ds-bar ds-b5 ds-bar-on" />
+                </div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-card-dark ds-c2">
+                <div className="ds-card-label ds-on-dark">Voice AI</div>
+                <div className="ds-wave">
+                  <div className="ds-w ds-w1" />
+                  <div className="ds-w ds-w2" />
+                  <div className="ds-w ds-w3" />
+                  <div className="ds-w ds-w4" />
+                  <div className="ds-w ds-w5" />
+                  <div className="ds-w ds-w6" />
+                  <div className="ds-w ds-w7" />
+                </div>
+                <div className="ds-card-text ds-white">Answers, qualifies and books every call.</div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-c3 ds-card-photo-a">
+                <div className="ds-photo-tag">Haseeb · Founder</div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-card-green ds-c4">
+                <div className="ds-card-label ds-ink">Order bookers</div>
+                <div className="ds-card-huge">Offline</div>
+                <div className="ds-card-text">Works without signal, syncs when back online.</div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-c5 ds-card-photo-b">
+                <div className="ds-photo-tag">Siddique · Co-founder</div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-card-dark ds-c6">
+                <div className="ds-card-label ds-on-dark">AI agent</div>
+                <div className="ds-card-quote">New lead routed to sales in 4 seconds.</div>
+              </div>
+              <div className="ds-card v3-arc-dup ds-c7">
+                <div className="ds-card-label">Stack</div>
+                <div className="ds-card-big">Django · React</div>
+                <div className="ds-card-text">Flutter · Postgres · n8n</div>
+              </div>
+            </div>
           </div>
         </div>
         <p className="ds-trust"><span className="ds-stars">●●</span>Built for FMCG, retail and service teams</p>

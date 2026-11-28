@@ -447,3 +447,185 @@ h1, h2, h3, .ds-cta-sub, .sx-ph-lead, .ds-hero-sub, .sx-cta-p, .v3-cell-p { text
 .sx-meta { border-top-color: rgba(255, 255, 255, 0.35); }
 .sx-meta-l { color: rgba(255, 255, 255, 0.78); font-family: "Inter Tight", sans-serif; font-size: 14px; letter-spacing: 0; text-transform: none; }
 .sx-meta-v { color: #fff; font-size: 17px; font-weight: 500; }
+
+/* =====================================================================
+   Signature details (replace the template defaults: tracked mono caps,
+   arrows glued to text, identical pill buttons).
+   ===================================================================== */
+
+/* Buttons: sentence case, and a "sync" glyph. Two small rounded squares
+   (the logo motif) that slide into each other on hover/focus. */
+.ds-btn-green, .ds-btn-glass, .sx-cta, .sx-feature-link, .v3-post-go, .v3-menu-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding-right: 48px !important;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+.ds-btn-sm { font-size: 14px; }
+.ds-btn-green::before, .ds-btn-glass::before, .sx-cta::before, .sx-feature-link::before, .v3-post-go::before, .v3-menu-cta::before,
+.ds-btn-green::after, .ds-btn-glass::after, .sx-cta::after, .sx-feature-link::after, .v3-post-go::after, .v3-menu-cta::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 3.5px;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ds-btn-green::before, .ds-btn-glass::before, .sx-cta::before, .sx-feature-link::before, .v3-post-go::before, .v3-menu-cta::before {
+  right: 26px;
+  border: 1.6px solid currentColor;
+  transform: translate(0, -75%);
+}
+.ds-btn-green::after, .ds-btn-glass::after, .sx-cta::after, .sx-feature-link::after, .v3-post-go::after, .v3-menu-cta::after {
+  right: 18px;
+  background: var(--v3-signal);
+  transform: translate(0, -25%);
+}
+.sx-feature-link::after, .v3-menu-cta::after { background: var(--v3-ink); }
+.ds-btn-green:hover::before, .ds-btn-glass:hover::before, .sx-cta:hover::before, .v3-post-go:hover::before, .v3-menu-cta:hover::before,
+.ds-btn-green:focus-visible::before, .ds-btn-glass:focus-visible::before, .sx-cta:focus-visible::before,
+.sx-feature:hover .sx-feature-link::before, a.v3-cell:hover .v3-post-go::before { transform: translate(4px, -50%); }
+.ds-btn-green:hover::after, .ds-btn-glass:hover::after, .sx-cta:hover::after, .v3-post-go:hover::after, .v3-menu-cta:hover::after,
+.ds-btn-green:focus-visible::after, .ds-btn-glass:focus-visible::after, .sx-cta:focus-visible::after,
+.sx-feature:hover .sx-feature-link::after, a.v3-cell:hover .v3-post-go::after { transform: translate(-4px, -50%) rotate(90deg); }
+
+/* The round ink buttons: the arrow becomes the synced pair inside the dot. */
+.sx-btn-ink { font-family: "Inter Tight", sans-serif; letter-spacing: -0.01em; }
+.sx-btn-dot-g { position: relative; font-size: 0; }
+.sx-btn-dot-g::before, .sx-btn-dot-g::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 11px; height: 11px; border-radius: 3.5px;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.sx-btn-dot-g::before { border: 1.6px solid var(--v3-ink); transform: translate(-85%, -85%); }
+.sx-btn-dot-g::after { background: var(--v3-ink); transform: translate(-15%, -15%); }
+.sx-btn-ink:hover .sx-btn-dot-g::before, .sx-btn-ink:focus-visible .sx-btn-dot-g::before { transform: translate(-50%, -50%); }
+.sx-btn-ink:hover .sx-btn-dot-g::after, .sx-btn-ink:focus-visible .sx-btn-dot-g::after { transform: translate(-50%, -50%) rotate(90deg); }
+
+.sx-submit { font-family: "Inter Tight", sans-serif; letter-spacing: -0.01em; }
+
+/* Nav: sentence case, and an underline that syncs: two halves meet in the middle. */
+.ds-nav-link {
+  position: relative;
+  padding: 10px 2px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  opacity: 0.92;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px, 0% 1.5px;
+  background-position: 0 calc(100% - 6px), 100% calc(100% - 6px);
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s;
+}
+.ds-nav-link:hover, .ds-nav-link:focus-visible, .ds-nav-link[aria-current="page"] { opacity: 1; background-size: 50% 1.5px, 50% 1.5px; }
+
+/* Small meta text: readable sentence case instead of 11px tracked mono caps. */
+.ds-badge, .ds-step-n, .sx-pp-get-l, .sx-promise-k, .sx-svc-num, .sx-dash-title, .ds-card-label, .sx-cr-badge, .sx-post-cat, .sx-lab-label {
+  font-family: "Inter Tight", sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.ds-badge { font-size: 14px; font-weight: 500; }
+.ds-step-n, .sx-pp-get-l, .sx-promise-k, .sx-dash-title, .ds-card-label, .sx-cr-badge { font-size: 13px; }
+.sx-svc-num { font-size: 15px; font-weight: 600; }
+.ds-hero-ctas { gap: 10px; }
+
+/* Desktop: the strip track is transparent to the 3D arc layout. */
+.v3-arc-track { display: contents; }
+.v3-arc-copy { display: none; }
+
+/* =====================================================================
+   Phones
+   ===================================================================== */
+@media screen and (max-width: 767px) {
+  /* Hero cards: a drifting strip of all seven cards instead of one. */
+  .ds-arc {
+    display: block;
+    height: auto;
+    margin-top: 48px;
+    padding: 18px 0 30px;
+    perspective: none;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .v3-arc-track { display: flex; width: max-content; gap: 14px; padding-right: 14px; }
+  .v3-arc-copy { display: contents; }
+  .ds-arc .ds-card {
+    display: block;
+    flex: none;
+    width: 168px;
+    height: 206px;
+    margin: 0;
+    transform: rotate(-2deg);
+  }
+  .ds-arc .ds-card:nth-child(even) { transform: rotate(2deg) translateY(8px); }
+  .ds-arc .ds-card:hover { transform: translateY(-6px); }
+  .ds-card-huge { font-size: 42px; }
+  .ds-hero-ctas { flex-direction: row; justify-content: center; padding: 0 20px; }
+  .ds-hero-ctas > a { flex: 1 1 0; justify-content: center; max-width: 220px; height: 50px; padding-left: 16px; }
+
+  /* Calmer vertical rhythm. */
+  .ds-sec { padding-top: 84px; }
+  .ds-about { padding-top: 80px; padding-bottom: 40px; }
+  .v3-sec { padding: 72px 0 64px; }
+  .sx-paper { padding: 72px 0 64px; }
+  .sx-cta-sec { padding: 96px 20px; }
+  .sx-cta-title { font-size: 46px; }
+  .ds-cta-title { font-size: 34px; }
+
+  /* Comfortable tap targets. */
+  .ds-logo, .sx-brand { min-height: 44px; }
+  .v3-foot-cols > div { gap: 0; }
+  .v3-foot-cols a { display: flex; align-items: center; min-height: 44px; }
+  .v3-foot-base a { padding: 12px 0; }
+  .v3-crumbs a { padding: 10px 0; }
+  .v3-faq-lead a { padding: 10px 0; }
+}
+@media screen and (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .v3-arc-track { animation: v3-strip 42s linear infinite; }
+  .ds-arc:hover .v3-arc-track, .ds-arc:focus-within .v3-arc-track { animation-play-state: paused; }
+  @keyframes v3-strip { to { transform: translateX(-50%); } }
+}
+@media screen and (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  /* No drift: a strip you swipe instead. */
+  .ds-arc { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-mask-image: none; mask-image: none; }
+  .ds-arc .ds-card { scroll-snap-align: center; }
+  .v3-arc-copy { display: none; }
+}
+@media screen and (max-width: 767px) {
+  .ds-hero-ctas > a { flex: 0 1 auto; white-space: nowrap; padding-left: 18px; }
+}
+.ds-btn-green, .ds-btn-glass, .sx-cta, .sx-feature-link, .v3-post-go, .v3-menu-cta { white-space: nowrap; }
+
+/* ---------- /erp-software-pakistan ---------- */
+.v3-sec-paper { background: var(--v3-paper); }
+.v3-sec-paper .v3-cell-white { box-shadow: none; }
+.v3-pk-shot { padding: 20px 20px 28px; gap: 0; }
+.v3-pk-shot .v3-shot { margin-bottom: 8px; box-shadow: 0 20px 40px -26px rgba(8, 20, 13, 0.35), inset 0 0 0 1px var(--v3-line); border-radius: 16px; }
+.v3-pk-shot .v3-cell-k { padding-top: 20px; }
+.v3-pk-shot .v3-cell-t { font-size: 26px; max-width: 30ch; }
+.v3-pk-num {
+  font-size: clamp(64px, 8vw, 104px); font-weight: 500; letter-spacing: -0.06em; line-height: 0.9; color: var(--v3-deep);
+}
+.v3-pk-num span { margin-left: 6px; font-size: 0.3em; letter-spacing: -0.02em; }
+.v3-sec .sx-btn-ink { margin-top: 32px; }
+
+/* The giant footer wordmark is decoration: never let it catch taps meant
+   for the links in the bar below it (its "y" overlaps them on phones). */
+.sx-wordmark { pointer-events: none; }
+.v3-foot-base { position: relative; z-index: 1; }
+@media screen and (max-width: 767px) {
+  .v3-phone img { max-width: 220px; }
+  .v3-app-feature, .v3-shot-feature { row-gap: 28px; }
+}
+
+.ds-photo-tag { font-size: 12px; }
