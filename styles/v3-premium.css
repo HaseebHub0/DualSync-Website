@@ -654,3 +654,10 @@ main:focus { outline: none; }
 
 /* Section labels that are real headings keep the label look. */
 .v3-h-label { margin: 0; line-height: 1.4; font-weight: 500; }
+
+/* WhatsApp / email links in the contact promise list and footer. */
+.v3-promise-link { color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.45); text-underline-offset: 4px; padding: 4px 0; }
+.v3-promise-link:hover { text-decoration-color: currentColor; }
+.v3-foot-wa { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; min-height: 32px; color: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(0,0,0,0.25); }
+.v3-foot-wa:hover { text-decoration-color: currentColor; }
+.v3-foot-wa svg { width: 16px; height: 16px; }
