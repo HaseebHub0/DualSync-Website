@@ -32,6 +32,8 @@ export function render(url: string): string {
     <StaticRouter location={url}>
       <a href="#main" className="v3-skip">Skip to content</a>
       <main id="main" tabIndex={-1}>
+        {/* Same Suspense boundary as App.tsx so the client can hydrate this HTML. */}
+        <React.Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
@@ -48,6 +50,7 @@ export function render(url: string): string {
           <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </React.Suspense>
       </main>
     </StaticRouter>,
   );

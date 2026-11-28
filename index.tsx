@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 // Self-hosted fonts (Latin subset, weights in use). No third-party font requests,
 // so the CSP can stay 'self' and nothing blocks first render.
 import '@fontsource/inter-tight/latin-400.css';
@@ -21,9 +21,19 @@ if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }
 
-const root = createRoot(rootElement);
-root.render(
+const app = (
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
+
+// Every public route is prerendered (scripts/prerender.mjs), so hydrate that
+// HTML instead of replacing it: the first paint is the final paint, which keeps
+// LCP at first render. /admin is served from the bare index.html and renders.
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, app, {
+    onRecoverableError: (err) => console.warn('[hydrate]', err),
+  });
+} else {
+  createRoot(rootElement).render(app);
+}

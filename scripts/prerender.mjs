@@ -26,12 +26,13 @@ console.error = (msg, ...rest) => {
 const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
 let template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
-// Preload the two body/heading font files (hashed names change per build), so
+// Preload the font files used above the fold (hashed names change per build), so
 // text renders in the final font straight away and LCP is not held back.
 const appDir = path.join(dist, '_app');
 const preloadFonts = fs
   .readdirSync(appDir)
-  .filter((f) => /^inter-tight-latin-(400|500)-normal-.*\.woff2$/.test(f))
+  // Every face used above the fold, so a late swap cannot shift the hero (CLS).
+  .filter((f) => /^(inter-tight-latin-(400|500|600)-normal|instrument-serif-latin-400-italic|jetbrains-mono-latin-400-normal)-.*\.woff2$/.test(f))
   .map((f) => `    <link rel="preload" href="/_app/${f}" as="font" type="font/woff2" crossorigin />`);
 if (preloadFonts.length) template = template.replace('</head>', `${preloadFonts.join('\n')}\n</head>`);
 
@@ -79,6 +80,16 @@ for (const seo of ALL_SEO) {
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html);
   count++;
+}
+
+// ── admin.html: empty shell for the client-only inbox (served at /admin) ─────
+// The client hydrates prerendered pages, so /admin must not reuse index.html
+// (that holds the home page markup) or hydration would not match.
+{
+  let html = template;
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>Inbox | DualSync</title>');
+  html = setMeta(html, 'name', 'robots', 'noindex, nofollow');
+  fs.writeFileSync(path.join(dist, 'admin.html'), html);
 }
 
 // ── 404.html: Netlify serves it with a real 404 status for unknown URLs ─────

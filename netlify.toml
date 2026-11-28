@@ -34,11 +34,8 @@
 # Every public page is prerendered to its own file (scripts/prerender.mjs), so
 # there is deliberately NO catch-all to index.html: an unknown URL gets
 # dist/404.html with a real 404 status instead of a "soft 404".
-# /admin is the only client-only route.
-[[redirects]]
-  from = "/admin"
-  to = "/index.html"
-  status = 200
+# /admin is the only client-only route: it is served from the empty shell
+# dist/admin.html (Netlify maps /admin to admin.html automatically).
 
 # ── Security headers (all routes) ────────────────────────────────────────────
 # Everything is served from this origin (fonts are self-hosted), so the CSP
