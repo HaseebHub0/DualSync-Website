@@ -64,6 +64,18 @@ export const FAQ: { q: string; a: string }[] = [
   { q: 'Where are you based?', a: 'In Rawalpindi, Pakistan, working with clients worldwide since 2022.' },
 ];
 
+/** Questions answered on the home page (visible there, mirrored as FAQPage). */
+export const HOME_FAQ: { q: string; a: string }[] = [
+  { q: 'What does DualSync build?', a: 'Custom ERP systems, AI agents and Voice AI, SaaS platforms, and mobile apps for businesses. Each system is designed and engineered end to end by the two founders, Muhammad Haseeb and Muhammad Siddique.' },
+  PK_FAQ[1],
+  FAQ[0],
+  FAQ[1],
+  FAQ[2],
+  FAQ[3],
+  FAQ[4],
+  { q: 'Can I message you on WhatsApp?', a: 'Yes. Message us on WhatsApp at +92 310 7951063, use the contact form, or email contact@dualsyncagency.com. A founder replies within one business day.' },
+];
+
 export const SERVICES: [string, string][] = [
   ['AI agents', 'Agents that handle support, lead routing and back-office work, with a human in the loop where it matters.'],
   ['Voice AI', 'Phone agents that answer every call, qualify, book and write it all back to your systems.'],
@@ -110,7 +122,14 @@ const STATIC: Seo[] = [
     path: '/',
     title: 'DualSync | Custom ERP, AI agents and SaaS, built by two founders in Pakistan',
     description: 'AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.',
-    schema: [webPage('/', 'DualSync — AI & SaaS engineering studio', 'AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.')],
+    schema: [
+      webPage('/', 'DualSync — AI & SaaS engineering studio', 'AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.'),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: HOME_FAQ.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+      },
+    ],
   },
   {
     path: '/services',

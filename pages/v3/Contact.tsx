@@ -68,7 +68,8 @@ const Contact: React.FC = () => {
               <div className="sx-promise-row"><span className="sx-pulse" />A founder reads this, not a chatbot</div>
               <div className="sx-promise-row"><span className="sx-promise-k">Reply within</span>1 business day</div>
               <div className="sx-promise-row"><span className="sx-promise-k">Based in</span>Rawalpindi · working worldwide</div>
-              <div className="sx-promise-row"><span className="sx-promise-k">Or email</span>contact@dualsyncagency.com</div>
+              <div className="sx-promise-row"><span className="sx-promise-k">Or email</span><a href="mailto:contact@dualsyncagency.com" className="v3-promise-link">contact@dualsyncagency.com</a></div>
+              <div className="sx-promise-row"><span className="sx-promise-k">WhatsApp</span><a href="https://wa.me/923107951063?text=Hi%20DualSync%2C%20I%27d%20like%20to%20discuss%20a%20project." className="v3-promise-link" target="_blank" rel="noopener noreferrer">+92 310 7951063</a></div>
             </div>
           </div>
           <div className="sx-form">

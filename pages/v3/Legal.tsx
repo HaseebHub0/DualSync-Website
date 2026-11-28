@@ -37,6 +37,7 @@ const PRIVACY: Section[] = [
   { h: 'Who processes it for us', ul: [
     'Netlify hosts the website, runs the contact form and stores messages. Its servers may be outside Pakistan.',
     'Zoho Mail sends and receives our email, including replies to your message and our internal alert that a message arrived.',
+    'If you message us on WhatsApp, that conversation is handled by WhatsApp (Meta) under its own privacy policy.',
   ] },
   { h: 'How long we keep it', p: ['Messages are kept while we are discussing your enquiry and for as long as we work together, then deleted when no longer needed. Rate-limit counters are deleted within minutes. Error reports are kept in our host’s logs for its standard log period. You can ask us to delete your message at any time.'] },
   { h: 'Your choices', p: ['You can ask what information we hold about you, ask us to correct it, or ask us to delete it, by emailing contact@dualsyncagency.com. We will reply within one business day and act on the request without charging you.'] },

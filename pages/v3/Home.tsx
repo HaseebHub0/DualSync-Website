@@ -4,7 +4,8 @@ import MobileMenu from '../../components/v3/MobileMenu';
 import Footer from '../../components/v3/Footer';
 import { Hl, Em, Note } from '../../components/v3/Type';
 import { useSEO } from '../../hooks/useSEO';
-import { seoProps } from '../../data/seo';
+import { HOME_FAQ, seoProps } from '../../data/seo';
+import FaqList from '../../components/v3/FaqList';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 /* Rebuilt 1:1 from the Webflow export (dualsync-export.json → pages["/"]). */
@@ -287,6 +288,18 @@ const Home: React.FC = () => {
             <p className="ds-step-p">We host, monitor and improve it as your team grows.</p>
             <div className="ds-step-get">You get a system that keeps up with you.</div>
           </div>
+        </div>
+      </section>
+      <section className="v3-sec v3-faq-sec v3-home-faq" aria-labelledby="home-faq-h">
+        <div className="sx-wrap v3-faq-wrap">
+          <div>
+            <div className="ds-eyebrow">FAQ</div>
+            <h2 className="ds-h2" id="home-faq-h">Questions people <Em>ask first</Em></h2>
+            <p className="v3-faq-lead">
+              Still unsure? <Link to="/contact">Ask us directly</Link> or message us on WhatsApp. A founder replies within one business day.
+            </p>
+          </div>
+          <FaqList items={HOME_FAQ} />
         </div>
       </section>
       <section className="ds-cta-wrap">

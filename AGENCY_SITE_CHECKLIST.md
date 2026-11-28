@@ -9,7 +9,7 @@
 ## Site Metadata
 - **Website:** `dualsyncagency.com`
 - **Owner:** Muhammad Haseeb
-- **Current Status:** `BLOCKED FOR LAUNCH`. Every code-side item is verified. The items still open need the owner (DNS records, account 2FA, a WhatsApp/calendar link, and a confirmed GitHub uptime run). They are listed under [What only the owner can do](#what-only-the-owner-can-do).
+- **Current Status:** `BLOCKED FOR LAUNCH`. Every code-side item is verified. The items still open need the owner (DNS records, account 2FA, Search Console sitemap and field INP data). They are listed under [What only the owner can do](#what-only-the-owner-can-do).
 - **Audited:** 28 November 2026, branch `feat/mobile-pk-seo` (PR #5), staging `https://deploy-preview-5--dualsyncagency.netlify.app`, production `https://dualsyncagency.com`.
 
 Evidence tags: **[code]** a file in this repo · **[build]** `npm run build` output in `dist/` · **[staging]** live request to the deploy preview · **[prod]** live request to dualsyncagency.com · **[lab]** headless Chrome / Lighthouse 13.6 run.
@@ -24,9 +24,9 @@ Evidence tags: **[code]** a file in this repo · **[build]** `npm run build` out
   - [x] Proper color contrast ratios on text and buttons. Muted text was darkened to `#7d837f`; the Lighthouse contrast audit passes. **[code]** `styles/v3-premium.css`
   - [x] All meaningful images and icons have `alt` or `aria-label`. All 10 `<img>` in the built pages have `alt`; decorative duplicates are `aria-hidden`. **[build]**
   - [x] Full keyboard navigation works: a skip link to `<main>`, visible `:focus-visible` rings (white on blue sections), and a menu focus trap with Tab/Shift+Tab and Escape to close. **[code]** `components/v3/MobileMenu.tsx`, `App.tsx`
-- [ ] **Frictionless Lead Capture:**
+- [x] **Frictionless Lead Capture:**
   - [x] The contact form works end to end. Required fields block an empty submit (4 required). The API returns clear errors (`400 "A valid email is required."`) and the page shows a confirmation state. A live test message was received earlier. **[staging]** **[lab]**
-  - [ ] Direct fallback contact options. A `mailto:contact@dualsyncagency.com` link exists on the contact page and footer, but **there is no WhatsApp or calendar link yet**: it needs the owner's number or booking URL. Also, **the domain has no MX records**, so mail to contact@ cannot be delivered today (see section 2, DNS).
+  - [x] Direct fallback contact options: a `mailto:contact@dualsyncagency.com` link and a **WhatsApp link (+92 310 7951063, `wa.me` with a pre-filled message)** on the contact page and in every footer. The number is also the `telephone` in the Organization schema. **[build]** *Email only works once the MX records are added (see section 2, DNS).*
 - [x] **Legal & Trust Pages:** `/privacy` and `/terms` are linked from every footer and describe what the site actually does: form data, rate-limit IPs, error reports, cookie-free counts, Netlify and Zoho as processors, deletion on request, Pakistani law. The footer shows the Rawalpindi, Pakistan address and the email. **[code]** `pages/v3/Legal.tsx` · **[staging]** both return 200. *A lawyer has not reviewed them.*
 
 ---
@@ -81,9 +81,9 @@ Evidence tags: **[code]** a file in this repo · **[build]** `npm run build` out
 ## 5. Analytics, Lead Delivery & Operations (`BLOCKER`)
 - [x] **Reliable Lead Notification & Storage:** Each submission is **stored first** in Netlify Blobs (`messages`) and then emailed as an alert over Zoho SMTP to `NOTIFY_TO`, with Reply-To set to the lead. A mail failure can't lose the lead, and the inbox at `/admin` shows every message. **[code]** *Alerts only arrive once the mailbox can receive mail: see the MX records under DNS.*
 - [x] **Analytics & Conversion Tracking:** First-party and cookie-free. The site counts page views, CTA clicks (contact links and mailto), form submissions and outbound clicks into daily totals, with no IP or identifier. Do Not Track and Global Privacy Control are respected. The `/admin` stats panel shows the last 7 and 30 days and top pages. **[code]** `lib/analytics.ts` · **[staging]** `?a=event` returns 204 and `?a=stats` returns 401 without a token.
-- [ ] **Uptime & Error Monitoring:**
+- [x] **Uptime & Error Monitoring:**
   - [x] Runtime error logging: browser errors and unhandled rejections are beaconed to the function and appear as `[client-error]` in Netlify function logs (at most 5 per page, deduplicated). **[code]** `lib/errorReporter.ts`
-  - [ ] External uptime monitor. `.github/workflows/uptime.yml` checks the home page and the API every 5 minutes from GitHub's servers and opens an `uptime` issue, which GitHub emails, when either fails. It **starts running once merged to `main`**; tick this after the first green scheduled run. For SMS or phone alerts, add UptimeRobot or Better Stack as well.
+  - [x] External uptime monitor. `.github/workflows/uptime.yml` checks the home page and the API every 5 minutes from GitHub's servers and opens an `uptime` issue, which GitHub emails, when either fails. It is live on `main`; the first run passed on 28 Nov 2026 with `home=200 api=401` (Actions run 46138892444). For SMS or phone alerts, add UptimeRobot or Better Stack as well.
 - [ ] **Google Search Console Ready:** A `google-site-verification` TXT record is present on the domain and the sitemap is generated. **Owner action:** confirm the property shows "Verified", then submit `https://dualsyncagency.com/sitemap.xml` after merge.
 
 ---
@@ -97,10 +97,9 @@ Evidence tags: **[code]** a file in this repo · **[build]** `npm run build` out
    - DMARC TXT `_dmarc` → `v=DMARC1; p=none; rua=mailto:contact@dualsyncagency.com`. Raise it to `p=quarantine` after two clean weeks.
 2. Turn on **2FA** at the domain registrar, Netlify, GitHub and Zoho.
 3. In Netlify env vars, set **`ADMIN_TOTP_SECRET`** (enforces MFA on `/admin`) and **`NOTIFY_TO`**.
-4. Send a **WhatsApp number or calendar link** (Calendly / Cal.com) to add as a contact fallback.
-5. Archive the old **Google Apps Script** deployment and delete `VITE_GOOGLE_SCRIPT_URL` from Netlify.
-6. After merge: submit the sitemap in Search Console, run the Rich Results Test and a link-preview check, and confirm the first green **Uptime** workflow run.
-7. Confirm the social links (Instagram, Behance, LinkedIn company page), confirm client consent to show the ERP and PaFood screenshots, and have the Privacy Policy and Terms reviewed.
+4. Archive the old **Google Apps Script** deployment and delete `VITE_GOOGLE_SCRIPT_URL` from Netlify.
+5. Submit the sitemap in Search Console, and run the Rich Results Test and a link-preview check on the live site.
+6. Confirm the social links (Instagram, Behance, LinkedIn company page), confirm client consent to show the ERP and PaFood screenshots, and have the Privacy Policy and Terms reviewed.
 
 ---
 
@@ -108,11 +107,11 @@ Evidence tags: **[code]** a file in this repo · **[build]** `npm run build` out
 
 | Audit Area | Status (`PASS` / `FAIL`) | Evidence / Notes | Checked By | Date |
 | :--- | :--- | :--- | :--- | :--- |
-| 1. Design, UX & Conversion | `FAIL` | Code side passes (a11y 100, 0 overflow at 360–1024 px, legal pages). Needs a WhatsApp/calendar fallback, and MX records so the email fallback works. | Claude Code | 28 Nov 2026 |
+| 1. Design, UX & Conversion | `FAIL` | Code side passes (a11y 100, 0 overflow at 360–1024 px, legal pages). WhatsApp fallback added; needs MX records so the email fallback works. | Claude Code | 28 Nov 2026 |
 | 2. Security & Infrastructure | `FAIL` | Headers, HTTPS, rate limits, validation, honeypot, MFA-ready admin and npm audit all verified on staging. **SPF/DKIM/DMARC/MX missing**; account 2FA unverified. | Claude Code | 28 Nov 2026 |
 | 3. Technical & On-Page SEO | `PASS` | 18 routes with unique titles and descriptions in range, one h1 each, canonical, OG and JSON-LD, real 404, 0 broken links, sitemap and robots. | Claude Code | 28 Nov 2026 |
 | 4. Performance & Web Vitals | `FAIL` (pending field data) | Lighthouse 100/100/100/100 on mobile and desktop; lab LCP 0.8 s, CLS 0. INP needs real-user data. | Claude Code | 28 Nov 2026 |
-| 5. Analytics & Lead Ops | `FAIL` | Store-then-alert, cookie-free analytics and error logging verified. Uptime workflow and Search Console sitemap go live after merge. | Claude Code | 28 Nov 2026 |
+| 5. Analytics & Lead Ops | `FAIL` | Store-then-alert, cookie-free analytics and error logging verified. Uptime check live and passing. The sitemap still needs submitting in Search Console. | Claude Code | 28 Nov 2026 |
 
 ### Final Verdict
-- [ ] **ALL `BLOCKER` ITEMS VERIFIED — APPROVED FOR PUBLIC LAUNCH**: not yet. Remaining: the owner items above (DNS email records, 2FA, WhatsApp/calendar link), plus post-merge confirmation of uptime, Search Console and field INP.
+- [ ] **ALL `BLOCKER` ITEMS VERIFIED — APPROVED FOR PUBLIC LAUNCH**: not yet. Remaining: the owner items above (DNS email records, 2FA), the Search Console sitemap and field INP data.

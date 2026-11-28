@@ -21,6 +21,7 @@ const Footer: React.FC = () => (
         </div>
         <div className="v3-foot-contact">
           <a href="mailto:contact@dualsyncagency.com" className="v3-foot-mail">contact@dualsyncagency.com</a>
+          <a href="https://wa.me/923107951063?text=Hi%20DualSync%2C%20I%27d%20like%20to%20discuss%20a%20project." className="v3-foot-wa" target="_blank" rel="noopener noreferrer"><Icon name="chat" />WhatsApp +92 310 7951063</a>
           <div className="v3-foot-facts">
             <span><Icon name="clock" />A founder replies within one business day</span>
             <span><Icon name="globe" />Rawalpindi, working worldwide</span>
