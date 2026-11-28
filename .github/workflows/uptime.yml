@@ -1,0 +1,60 @@
+# External uptime check for dualsyncagency.com.
+# Runs every 5 minutes on GitHub's servers (independent of Netlify). If the site
+# or the form API is down it opens an issue labelled "uptime", which GitHub
+# emails to the repository owner; when the site is back it closes the issue.
+# Note: GitHub may delay scheduled runs by a few minutes under load.
+name: Uptime
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: uptime
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the site
+        id: probe
+        run: |
+          fail=""
+          home=$(curl -s -o /tmp/home.html -w '%{http_code}' --max-time 20 https://dualsyncagency.com/ || echo 000)
+          grep -q 'DualSync' /tmp/home.html 2>/dev/null || home="$home (unexpected content)"
+          api=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://dualsyncagency.com/api/messages || echo 000)
+          [ "$home" = "200" ] || fail="Home page returned $home. "
+          [ "$api" = "401" ] || fail="${fail}Form API returned $api (expected 401). "
+          echo "home=$home api=$api"
+          echo "fail=$fail" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the incident
+        if: steps.probe.outputs.fail != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MSG: ${{ steps.probe.outputs.fail }}
+        run: |
+          gh label create uptime --color B60205 --description "Site down" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+          open=$(gh issue list -R "$GITHUB_REPOSITORY" --label uptime --state open --json number --jq '.[0].number')
+          if [ -z "$open" ]; then
+            gh issue create -R "$GITHUB_REPOSITORY" --label uptime --title "dualsyncagency.com is down" \
+              --body "Detected $(date -u +'%Y-%m-%d %H:%M UTC'): $MSG"
+          else
+            gh issue comment "$open" -R "$GITHUB_REPOSITORY" --body "Still failing at $(date -u +'%H:%M UTC'): $MSG"
+          fi
+          exit 1
+
+      - name: Close the incident when recovered
+        if: steps.probe.outputs.fail == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list -R "$GITHUB_REPOSITORY" --label uptime --state open --json number --jq '.[].number'); do
+            gh issue close "$n" -R "$GITHUB_REPOSITORY" --comment "Recovered at $(date -u +'%Y-%m-%d %H:%M UTC')."
+          done
