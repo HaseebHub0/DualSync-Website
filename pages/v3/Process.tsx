@@ -5,6 +5,7 @@ import Footer from '../../components/v3/Footer';
 import Icon from '../../components/v3/Icon';
 import Illo from '../../components/v3/Illo';
 import { Em } from '../../components/v3/Type';
+import FaqList from '../../components/v3/FaqList';
 import { useSEO } from '../../hooks/useSEO';
 import { FAQ, seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
@@ -123,14 +124,7 @@ const Process: React.FC = () => {
             <h2 className="sx-h2" id="faq-h">Questions people <Em>ask first.</Em></h2>
             <p className="v3-faq-lead">Still unsure? <Link to="/contact">Ask us directly</Link>. A founder replies within one business day.</p>
           </div>
-          <div className="v3-faq">
-            {FAQ.map(({ q, a }, i) => (
-              <details key={q} className="v3-faq-item" open={i === 0}>
-                <summary><span>{q}</span><span className="v3-faq-x" aria-hidden="true" /></summary>
-                <p>{a}</p>
-              </details>
-            ))}
-          </div>
+          <FaqList items={FAQ} />
         </div>
       </section>
       <section className="sx-cta-sec">
