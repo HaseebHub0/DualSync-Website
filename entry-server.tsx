@@ -19,10 +19,11 @@ import Journal from './pages/v3/Journal';
 import JournalPost from './pages/v3/JournalPost';
 import Careers from './pages/v3/Careers';
 import Contact from './pages/v3/Contact';
-import { ALL_SEO, SITE, OG_IMAGE, FAQ, SERVICES } from './data/seo';
+import ErpPakistan from './pages/v3/ErpPakistan';
+import { ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, SERVICES } from './data/seo';
 import { POSTS } from './data/journal';
 
-export { ALL_SEO, SITE, OG_IMAGE, FAQ, SERVICES, POSTS };
+export { ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, SERVICES, POSTS };
 
 export function render(url: string): string {
   return renderToString(
@@ -38,6 +39,7 @@ export function render(url: string): string {
           <Route path="/journal" element={<Journal />} />
           <Route path="/journal/:slug" element={<JournalPost />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/erp-software-pakistan" element={<ErpPakistan />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>

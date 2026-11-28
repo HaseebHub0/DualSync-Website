@@ -23,7 +23,7 @@ console.error = (msg, ...rest) => {
   origError(msg, ...rest);
 };
 
-const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
+const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -95,20 +95,28 @@ const llms = `# DualSync
 
 Contact: contact@dualsyncagency.com · ${SITE}/contact
 
+## For businesses in Pakistan
+
+DualSync is a software house in Rawalpindi, Pakistan that builds custom ERP software, field sales and order booking apps, and AI automation for Pakistani companies, especially FMCG, distribution, manufacturing and retail. Its systems have been in production at Pak Asian Foods, an FMCG company in Multan, since 2022: Pakasian ERP (procurement, inventory, warehouse, sales, manufacturing and finance) and the PaFood sales system (an offline-first Android order app for order bookers and salesmen, a web admin, and a KPO desk that verifies every order). It works remotely with companies across Pakistan and worldwide.
+
+Details: ${SITE}/erp-software-pakistan
+
+${PK_FAQ.map(({ q, a }) => `### ${q}\n${a}`).join('\n\n')}
+
 ## Services
 
 ${SERVICES.map(([n, d]) => `- ${n}: ${d}`).join('\n')}
 
 ## Key pages
 
-${['/', '/services', '/projects', '/pafood-case-study', '/process', '/about', '/journal', '/contact']
+${['/', '/services', '/erp-software-pakistan', '/projects', '/pafood-case-study', '/process', '/about', '/journal', '/contact']
   .map((p) => `- [${page(p).title}](${SITE}${p === '/' ? '/' : p}): ${page(p).description}`)
   .join('\n')}
 
 ## Selected work
 
-- PaFood (Pak Asian Foods): an Android order app for order bookers and salesmen that works offline and syncs when signal returns, a web admin for orders, routes, targets and team performance, and a KPO desk that verifies every order before dispatch. Case study: ${SITE}/pafood-case-study
-- Pakasian ERP: procurement, inventory, warehouse, sales, manufacturing and finance for a Pakistani food manufacturer.
+- PaFood (Pak Asian Foods, Multan): an Android order app for order bookers and salesmen that works offline and syncs when signal returns, a web admin for orders, routes, targets and team performance, and a KPO desk that verifies every order before dispatch. Case study: ${SITE}/pafood-case-study
+- Pakasian ERP: procurement, inventory, warehouse, sales, manufacturing and finance for Pak Asian Foods, Multan.
 - AI dental receptionist: a phone agent that answers, books appointments and syncs every call through n8n.
 - HiTasky: a task manager you buy once, on Google Play.
 - FilingKeeper: statutory deadline tracking for UK accounting practices (early access).

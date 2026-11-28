@@ -11,6 +11,7 @@ const About = React.lazy(() => import('./pages/v3/About'));
 const Journal = React.lazy(() => import('./pages/v3/Journal'));
 const JournalPost = React.lazy(() => import('./pages/v3/JournalPost'));
 const Careers = React.lazy(() => import('./pages/v3/Careers'));
+const ErpPakistan = React.lazy(() => import('./pages/v3/ErpPakistan'));
 const Contact = React.lazy(() => import('./pages/v3/Contact'));
 const NotFound = React.lazy(() => import('./pages/v3/NotFound'));
 // Private message inbox (not linked anywhere public; noindex via netlify.toml).
@@ -44,6 +45,7 @@ const App: React.FC = () => (
           <Route path="/journal" element={<Journal />} />
           <Route path="/journal/:slug" element={<JournalPost />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/erp-software-pakistan" element={<ErpPakistan />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<AdminRoute />} />
           {/* Old URLs from the previous site (also 301'd in netlify.toml). */}

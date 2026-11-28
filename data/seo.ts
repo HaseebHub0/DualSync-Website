@@ -44,6 +44,16 @@ const webPage = (path: string, name: string, description: string, type = 'WebPag
 });
 
 /** Questions answered on /process (visible on the page, mirrored here). */
+/** Questions answered on /erp-software-pakistan (visible there, mirrored as FAQPage). */
+export const PK_FAQ: { q: string; a: string }[] = [
+  { q: 'Who builds custom ERP software for companies in Pakistan?', a: 'DualSync, a two-founder software studio in Rawalpindi, builds custom ERP systems, field sales apps and AI automation for Pakistani companies. Its ERP and sales systems have run in production at Pak Asian Foods in Multan since 2022.' },
+  { q: 'Have you built an ERP for a Pakistani company before?', a: 'Yes. For Pak Asian Foods, an FMCG company in Multan, we built Pakasian ERP (procurement, inventory, warehouse, sales, manufacturing and finance) and the PaFood sales system: an Android order app for order bookers and salesmen, a web admin and a KPO desk that verifies every order before dispatch. Three systems are in production and the partnership has run for four years.' },
+  { q: 'Can the app work where mobile signal is weak?', a: 'Yes. The PaFood order app is offline-first: orders, visits and payments are saved on the phone and sent when the network returns, and each record reaches the server exactly once.' },
+  { q: 'Do you work with companies outside Rawalpindi and Islamabad?', a: 'Yes. We work remotely with companies across Pakistan and worldwide. Our longest-running client is in Multan.' },
+  { q: 'Is it an off-the-shelf ERP?', a: 'No. Each system is designed around how your business already runs, and you own the source code, infrastructure, accounts and data from day one.' },
+  { q: 'How do we start?', a: 'Send two questions and your email through the contact page. A founder replies within one business day. In the first week we map how your business runs and give you a written scope and a fixed quote.' },
+];
+
 export const FAQ: { q: string; a: string }[] = [
   { q: 'Who will I actually work with?', a: 'The two founders, Muhammad Haseeb and Muhammad Siddique. There are no account managers: you talk to the people writing the code, from the first call to launch day and after.' },
   { q: 'How soon will I see working software?', a: 'In week one we map how your business runs and give you a written scope and a fixed quote. In week two you get clickable screens and a build plan. From week three you get a working build you can try every Friday.' },
@@ -98,7 +108,7 @@ const postSchema = (p: Post) => [
 const STATIC: Seo[] = [
   {
     path: '/',
-    title: 'DualSync | AI agents, custom SaaS and ERP systems, built by two founders',
+    title: 'DualSync | Custom ERP, AI agents and SaaS, built by two founders in Pakistan',
     description: 'AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.',
     schema: [webPage('/', 'DualSync — AI & SaaS engineering studio', 'AI agents, SaaS platforms and ERP systems, designed and engineered end to end by the two founders you actually talk to.')],
   },
@@ -130,9 +140,12 @@ const STATIC: Seo[] = [
   {
     path: '/pafood-case-study',
     title: 'PaFood case study: replacing paper and WhatsApp orders | DualSync',
-    description: 'How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods.',
+    description: 'How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods in Multan, Pakistan.',
     schema: [
-      webPage('/pafood-case-study', 'PaFood case study', 'How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods.'),
+      {
+        ...webPage('/pafood-case-study', 'PaFood case study', 'How DualSync replaced paper and WhatsApp orders with one system for Pak Asian Foods in Multan, Pakistan.'),
+        about: { '@type': 'Organization', name: 'Pak Asian Foods', address: { '@type': 'PostalAddress', addressLocality: 'Multan', addressCountry: 'PK' } },
+      },
       crumbs([['Work', '/projects'], ['PaFood case study', '/pafood-case-study']]),
     ],
   },
@@ -194,6 +207,31 @@ const STATIC: Seo[] = [
     title: 'Careers: we hire rarely | DualSync',
     description: 'We hire rarely. Show us something you built.',
     schema: [webPage('/careers', 'Careers', 'We hire rarely. Show us something you built.'), crumbs([['Careers', '/careers']])],
+  },
+  {
+    path: '/erp-software-pakistan',
+    title: 'Custom ERP software company in Pakistan | DualSync',
+    description: 'DualSync builds custom ERP, field sales apps and AI automation for businesses in Pakistan. In production at Pak Asian Foods, Multan, since 2022.',
+    schema: [
+      webPage('/erp-software-pakistan', 'Custom ERP software in Pakistan', 'DualSync builds custom ERP, field sales apps and AI automation for businesses in Pakistan. In production at Pak Asian Foods, Multan, since 2022.'),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: 'Custom ERP software development in Pakistan',
+        serviceType: 'Custom ERP and business software development',
+        description: 'ERP systems, offline-first field sales apps and AI automation designed around how Pakistani businesses run, built and run by the two founders.',
+        provider: { '@id': ORG_ID },
+        areaServed: { '@type': 'Country', name: 'Pakistan' },
+        audience: { '@type': 'BusinessAudience', audienceType: 'FMCG, distribution, manufacturing and retail companies' },
+        subjectOf: { '@type': 'CreativeWork', name: 'PaFood case study', url: 'https://dualsyncagency.com/pafood-case-study' },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: PK_FAQ.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+      },
+      crumbs([['ERP software in Pakistan', '/erp-software-pakistan']]),
+    ],
   },
   {
     path: '/contact',
