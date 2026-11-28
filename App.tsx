@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 // Home is eager: it is the landing route. Everything else is split out.
 import Home from './pages/v3/Home';
 import { track } from './lib/analytics';
+import WhatsAppChat from './components/v3/WhatsAppChat';
 
 const Services = React.lazy(() => import('./pages/v3/Services'));
 const Projects = React.lazy(() => import('./pages/v3/Projects'));
@@ -63,6 +64,8 @@ const App: React.FC = () => (
         </Routes>
       </React.Suspense>
     </main>
+    {/* Client-only (renders null until mounted), so hydration is unaffected. */}
+    <WhatsAppChat />
   </BrowserRouter>
 );
 
