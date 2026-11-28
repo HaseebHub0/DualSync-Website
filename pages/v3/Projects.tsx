@@ -28,7 +28,7 @@ const Projects: React.FC = () => {
       </section>
       <section className="v3-sec">
         <div className="sx-wrap">
-          <div className="sx-label sx-label-d">01 — Systems</div>
+          <h2 className="sx-label sx-label-d v3-h-label">Systems</h2>
           <Link to="/pafood-case-study" className="sx-feature sx-feature-top">
             <div>
               <div className="sx-label sx-label-d">Pak Asian Foods · ERP &amp; sales ecosystem</div>
@@ -43,7 +43,7 @@ const Projects: React.FC = () => {
                   <div className="sx-fm-l">partnership</div>
                 </div>
               </div>
-              <div className="sx-feature-link">Read the case study →</div>
+              <div className="sx-feature-link">Read the case study</div>
             </div>
             <figure className="sx-dash v3-shot">
               <div className="sx-dash-top">
@@ -112,7 +112,7 @@ const Projects: React.FC = () => {
               <div className="sx-label sx-label-d">Our product · React Native</div>
               <h3 className="sx-feature-title">HiTasky: a calm task manager you buy once.</h3>
               <p className="v3-feature-p">No subscription, no account, no cloud, no ads. Built, shipped and maintained by us.</p>
-              <div className="sx-feature-link">Get it on Google Play ↗</div>
+              <div className="sx-feature-link">Get it on Google Play</div>
             </div>
             <figure className="v3-phone">
               <img src="/assets/work/hitasky-plan.webp" width={800} height={1300} loading="lazy" alt="HiTasky app showing today's plan with upcoming tasks" />
@@ -128,7 +128,7 @@ const Projects: React.FC = () => {
               <div className="sx-label sx-label-d">Our product · SaaS · Early access</div>
               <h3 className="sx-feature-title">FilingKeeper: see every filing risk before it becomes a penalty.</h3>
               <p className="v3-feature-p">Statutory deadline tracking for UK accounting and bookkeeping practices, with reminders before they are due and proof of each filing.</p>
-              <div className="sx-feature-link">Visit filingkeeper.com ↗</div>
+              <div className="sx-feature-link">Visit filingkeeper.com</div>
             </div>
             <figure className="sx-dash v3-shot">
               <div className="sx-dash-top">
@@ -161,7 +161,7 @@ const Projects: React.FC = () => {
       </section>
       <section className="sx-paper">
         <div className="sx-wrap">
-          <div className="sx-label">02 — Creative production</div>
+          <div className="sx-label">Creative production</div>
           <h2 className="sx-h2 sx-h2-gap">The stories that <Em>sell the systems.</Em></h2>
           <div className="sx-creative">
             <div className="sx-cr sx-reveal">
@@ -187,7 +187,7 @@ const Projects: React.FC = () => {
                 aria-label="3D work by Sajid Rahim on Behance (opens in a new tab)"
               >
                 <div className="sx-cube" />
-                <span className="sx-cr-badge">View on Behance ↗</span>
+                <span className="sx-cr-badge">View on Behance</span>
               </a>
               <div className="sx-cr-title">3D &amp; animation</div>
               <p className="sx-cr-p">Product renders, character rigging and environments by Sajid Rahim.</p>

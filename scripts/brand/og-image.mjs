@@ -1,8 +1,8 @@
 // Generates public/og-image.png (1200x630) for link previews.
-// Usage: node scripts/brand/og-image.mjs   (uses the sharp copy that ships with the netlify CLI)
+// Usage: node scripts/brand/og-image.mjs   (sharp is a devDependency)
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const sharp = require('../../node_modules/netlify/node_modules/sharp');
+const sharp = require('sharp');
 
 const W = 1200, H = 630;
 const svg = `

@@ -1,7 +1,7 @@
 # Admin inbox — setup
 
-Every contact-form submission and newsletter signup is stored server-side and
-read at **`/admin`**.
+Every contact-form submission is stored server-side and read at **`/admin`**.
+The same page shows the last 30 days of cookie-free visit counts.
 
 ## Why it is built this way
 
@@ -54,6 +54,30 @@ Port `465` uses implicit TLS. If your provider wants STARTTLS instead, set
 Any SMTP provider works — swap the host/port for SendGrid, Mailgun, Resend
 SMTP, etc.
 
+## 1c. Lead alerts
+
+When a message arrives the function emails an alert (with Reply-To set to the
+sender, so you can answer straight from your mail app). It goes to
+`NOTIFY_TO` if set, otherwise to the SMTP sender address. The message is saved
+first, so a mail failure never loses a lead.
+
+| Key | Value |
+| --- | --- |
+| `NOTIFY_TO` | optional, e.g. `contact@dualsyncagency.com` or a personal inbox |
+
+## 1d. Two-factor sign-in (recommended)
+
+Set `ADMIN_TOTP_SECRET` and the inbox asks for a 6-digit code from an
+authenticator app (Google Authenticator, Authy, 1Password) after the password.
+
+```bash
+node -e "const a='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',b=require('crypto').randomBytes(20);let s='',v=0,n=0;for(const x of b){v=v<<8|x;n+=8;while(n>=5){s+=a[v>>>(n-5)&31];n-=5}}console.log(s)"
+```
+
+Put the printed value in Netlify as `ADMIN_TOTP_SECRET`, and add it to your app
+as a manual "time-based" key (account: DualSync admin). Without the variable
+the inbox stays password-only.
+
 ## 2. Deploy
 
 Netlify picks up `netlify/functions/messages.mts` automatically. No extra
@@ -91,15 +115,25 @@ for that local run. Do not commit it.
 ## Security notes
 
 - The password is compared with a timing-safe comparison, and a failed attempt
-  is delayed ~600 ms to blunt brute forcing.
-- Session tokens are HMAC-signed and carry an expiry; they are not guessable
-  and cannot be extended client-side.
-- The public submit endpoint caps field length and uses a hidden honeypot
-  field to drop bot submissions.
-- `/admin` sends `X-Robots-Tag: noindex, nofollow` and is excluded from the
-  sitemap by never being linked from the public nav.
+  is delayed ~600 ms.
+- Login is rate limited per IP (10 attempts per 15 minutes); the public form
+  allows 5 messages per IP per 10 minutes. Over the limit the API returns
+  `429` with `Retry-After`. Counters live in the `ratelimits` Blobs store.
+- Optional TOTP second factor (`ADMIN_TOTP_SECRET`, above).
+- Session tokens are HMAC-signed and carry an expiry; they cannot be extended
+  client-side.
+- The submit endpoint rejects bodies over 20 KB, validates the email, caps
+  every field and strips control characters; a hidden honeypot drops bots.
+- `/admin` sends `X-Robots-Tag: noindex, nofollow` and `Cache-Control: no-store`.
 
-**Still worth adding later:** rate limiting per IP on the login route. Netlify
-does not provide this out of the box, and the current 600 ms delay slows an
-attacker but does not stop a determined one. With a long random password this
-is an acceptable trade; with a short human-memorable one it is not.
+## Error reports and analytics
+
+- Browser errors on the live site are sent to `/api/messages?a=log` and appear
+  in **Netlify → Logs → Functions → messages** as `[client-error]` lines.
+- Page views, contact clicks, form submissions and outbound clicks are counted
+  per day in the `analytics` Blobs store. No IP, cookie or identifier is
+  stored; visitors with Do Not Track or Global Privacy Control are not counted.
+  Totals show at the top of `/admin`.
+- `.github/workflows/uptime.yml` checks the home page and the API every 5
+  minutes from GitHub and opens an issue labelled `uptime` (GitHub emails you)
+  when either fails.

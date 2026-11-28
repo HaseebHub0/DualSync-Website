@@ -4,6 +4,7 @@ import Footer from '../../components/v3/Footer';
 import { useSEO } from '../../hooks/useSEO';
 import { seoProps } from '../../data/seo';
 import { useV3Motion } from '../../hooks/useV3Motion';
+import { track } from '../../lib/analytics';
 
 type FormState = { name: string; email: string; projectType: string; message: string };
 type Status = 'idle' | 'sending' | 'success' | 'error';
@@ -40,6 +41,7 @@ const Contact: React.FC = () => {
       if (!res.ok || !result?.ok) throw new Error(result?.error || 'Submission rejected');
       setForm(EMPTY);
       setStatus('success');
+      track('form_submit', form.projectType);
     } catch (err) {
       console.error('Contact submission failed:', err);
       setStatus('error');
@@ -92,7 +94,7 @@ const Contact: React.FC = () => {
                 <label htmlFor="company">Company</label>
                 <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
               </div>
-              <input type="submit" className="sx-submit" value={status === 'sending' ? 'Sending…' : 'Send it →'} disabled={status === 'sending'} />
+              <input type="submit" className="sx-submit" value={status === 'sending' ? 'Sending…' : 'Send it'} disabled={status === 'sending'} />
             </form>
             )}
             {status === 'success' && (

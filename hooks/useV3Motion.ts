@@ -30,7 +30,7 @@ const CARD_SELECTOR = [
   '.v3-cell',
 ].join(',');
 
-const HEADING_SELECTOR = '.ds-h2, .ds-cta-title, .sx-h2, .sx-cta-title, .ds-statement, .sx-statement';
+const HEADING_SELECTOR = '.ds-h2, .sx-h2, .ds-statement, .sx-statement';
 
 export function useV3Motion(rootRef: RefObject<HTMLElement>) {
   useLayoutEffect(() => {
@@ -49,11 +49,14 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
       if (hero) {
         const tl = gsap.timeline({ defaults: { ease: EASE, duration: 1.1 } });
         const title = hero.querySelector('.ds-hero-title');
-        const split = title ? new SplitText(title, { type: 'words', mask: 'words', wordsClass: 'v3-w' }) : null;
+        const split = title ? new SplitText(title, { type: 'words', wordsClass: 'v3-w' }) : null;
 
-        tl.from(hero.querySelector('.ds-badge'), { y: 20, opacity: 0 }, 0.1);
-        if (split) tl.from(split.words, { yPercent: 110, opacity: 0, stagger: 0.06 }, 0.2);
-        tl.from(hero.querySelectorAll('.ds-hero-sub, .ds-hero-ctas'), { y: 24, opacity: 0, stagger: 0.12 }, 0.55);
+        // "Focus-in": text starts visible but soft and settles into focus. It is
+        // painted from the first frame (prerendered), so it counts for LCP and
+        // never blinks out when the app takes over.
+        tl.from(hero.querySelector('.ds-badge'), { y: 12, opacity: 0.4 }, 0.05);
+        if (split) tl.from(split.words, { y: 16, filter: 'blur(10px)', opacity: 0.35, stagger: 0.045, duration: 0.9, clearProps: 'filter' }, 0.1);
+        tl.from(hero.querySelectorAll('.ds-hero-sub, .ds-hero-ctas'), { y: 12, filter: 'blur(6px)', opacity: 0.4, stagger: 0.1, clearProps: 'filter' }, 0.35);
 
         // Cards rise one by one. `translate` composes with the CSS `transform`
         // that builds the 3D arc, so the arc geometry and :hover lift survive.
@@ -110,10 +113,10 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
       if (ph) {
         const tl = gsap.timeline({ defaults: { ease: EASE, duration: 1.1 } });
         const title = ph.querySelector('.sx-ph-title');
-        const split = title ? new SplitText(title, { type: 'words', mask: 'words', wordsClass: 'v3-w' }) : null;
-        tl.from(ph.querySelectorAll('.sx-ph-label'), { opacity: 0, y: 10 }, 0.1);
-        if (split) tl.from(split.words, { yPercent: 110, stagger: 0.06 }, 0.2);
-        tl.from(ph.querySelectorAll('.sx-ph-lead, .sx-promise'), { opacity: 0, y: 20 }, 0.6);
+        const split = title ? new SplitText(title, { type: 'words', wordsClass: 'v3-w' }) : null;
+        tl.from(ph.querySelectorAll('.sx-ph-label'), { opacity: 0.4, y: 8 }, 0.05);
+        if (split) tl.from(split.words, { y: 16, filter: 'blur(10px)', opacity: 0.35, stagger: 0.045, duration: 0.9, clearProps: 'filter' }, 0.1);
+        tl.from(ph.querySelectorAll('.sx-ph-lead, .sx-promise'), { y: 12, filter: 'blur(6px)', opacity: 0.4, clearProps: 'filter' }, 0.35);
 
         const ringA = ph.querySelector('.sx-ph-ring-a');
         const ringB = ph.querySelector('.sx-ph-ring-b');
@@ -122,6 +125,16 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
         if (ringB) gsap.to(ringB, { x: -70, ease: 'none', scrollTrigger: drift });
       }
 
+    }, root);
+
+    // Below-the-fold reveals are set up when the browser is idle.
+    // (Safari has no requestIdleCallback, hence the timeout fallback.)
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const idle = (cb: () => void): number =>
+      hasIdle ? window.requestIdleCallback(cb, { timeout: 1200 }) : Number(setTimeout(cb, 200));
+    const cancelIdle = (id: number) => (hasIdle ? window.cancelIdleCallback(id) : clearTimeout(id));
+    const idleId = idle(() => ctx.add(() => {
+      const q = gsap.utils.selector(root);
       /* ---------------- Scroll reveals ---------------- */
 
       // Headings + statements: word-by-word, scrubbed with scroll.
@@ -131,9 +144,11 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
         const split = new SplitText(el, { type: 'words', aria: /^H\d$/.test(el.tagName) ? 'auto' : 'none' });
         gsap.fromTo(
           split.words,
-          { opacity: 0.15 },
+          // Words come into focus as you scroll. Blur, not opacity: colour
+          // contrast stays at full strength in every frame (WCAG AA).
+          { filter: 'blur(6px)' },
           {
-            opacity: 1,
+            filter: 'blur(0px)',
             stagger: 0.08,
             ease: 'none',
             scrollTrigger: { trigger: el, start: 'top 85%', end: 'bottom 55%', scrub: 0.5 },
@@ -224,7 +239,8 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
           scrollTrigger: { trigger: el, start: 'top 95%', once: true },
         });
       });
-    }, root);
+      ScrollTrigger.refresh();
+    }));
 
     // Layout shifts once web fonts and images land; re-measure triggers.
     let cancelled = false;
@@ -234,6 +250,7 @@ export function useV3Motion(rootRef: RefObject<HTMLElement>) {
 
     return () => {
       cancelled = true;
+      cancelIdle(idleId);
       window.removeEventListener('load', onLoad);
       cleanups.forEach((fn) => fn());
       ctx.revert();

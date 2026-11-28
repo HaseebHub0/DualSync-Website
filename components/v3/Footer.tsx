@@ -17,7 +17,7 @@ const Footer: React.FC = () => (
       <div className="v3-foot-top">
         <div className="v3-foot-intro">
           <Link to="/" className="v3-foot-brand" aria-label="DualSync home">DualSync</Link>
-          <p>An AI &amp; SaaS engineering studio run by the two founders who write the code.</p>
+          <p>An AI &amp; SaaS engineering studio in Rawalpindi, Pakistan, run by the two founders who write the code.</p>
         </div>
         <div className="v3-foot-contact">
           <a href="mailto:contact@dualsyncagency.com" className="v3-foot-mail">contact@dualsyncagency.com</a>
@@ -39,6 +39,7 @@ const Footer: React.FC = () => (
           <div className="v3-foot-h">Work</div>
           <Link to="/projects">All work</Link>
           <Link to="/pafood-case-study">PaFood case study</Link>
+          <Link to="/erp-software-pakistan">ERP software in Pakistan</Link>
           <Link to="/process">How we work</Link>
         </div>
         <div>
@@ -60,7 +61,11 @@ const Footer: React.FC = () => (
     <div className="sx-wordmark v3-foot-mark" aria-hidden="true">Dual<span className="sx-green">Sync</span></div>
     <div className="sx-wrap v3-foot-base">
       <span>© {new Date().getFullYear()} DualSync. All rights reserved.</span>
-      <Link to="/contact">Start a project</Link>
+      <nav className="v3-foot-legal" aria-label="Legal">
+        <Link to="/privacy">Privacy Policy</Link>
+        <Link to="/terms">Terms of Use</Link>
+        <Link to="/contact">Start a project</Link>
+      </nav>
     </div>
   </footer>
 );

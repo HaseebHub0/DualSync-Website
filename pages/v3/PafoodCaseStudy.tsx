@@ -28,7 +28,7 @@ const PafoodCaseStudy: React.FC = () => {
           <div className="sx-meta">
             <div className="sx-meta-i">
               <div className="sx-meta-l">Client</div>
-              <div className="sx-meta-v">Pak Asian Foods · FMCG</div>
+              <div className="sx-meta-v">Pak Asian Foods · Multan · FMCG</div>
             </div>
             <div className="sx-meta-i">
               <div className="sx-meta-l">Since</div>

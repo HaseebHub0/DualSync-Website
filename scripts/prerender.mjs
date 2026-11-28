@@ -23,8 +23,18 @@ console.error = (msg, ...rest) => {
   origError(msg, ...rest);
 };
 
-const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
-const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
+let template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+
+// Preload the font files used above the fold (hashed names change per build), so
+// text renders in the final font straight away and LCP is not held back.
+const appDir = path.join(dist, '_app');
+const preloadFonts = fs
+  .readdirSync(appDir)
+  // Every face used above the fold, so a late swap cannot shift the hero (CLS).
+  .filter((f) => /^(inter-tight-latin-(400|500|600)-normal|instrument-serif-latin-400-italic|jetbrains-mono-latin-400-normal)-.*\.woff2$/.test(f))
+  .map((f) => `    <link rel="preload" href="/_app/${f}" as="font" type="font/woff2" crossorigin />`);
+if (preloadFonts.length) template = template.replace('</head>', `${preloadFonts.join('\n')}\n</head>`);
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -72,6 +82,32 @@ for (const seo of ALL_SEO) {
   count++;
 }
 
+// ── admin.html: empty shell for the client-only inbox (served at /admin) ─────
+// The client hydrates prerendered pages, so /admin must not reuse index.html
+// (that holds the home page markup) or hydration would not match.
+{
+  let html = template;
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>Inbox | DualSync</title>');
+  html = setMeta(html, 'name', 'robots', 'noindex, nofollow');
+  fs.writeFileSync(path.join(dist, 'admin.html'), html);
+}
+
+// ── 404.html: Netlify serves it with a real 404 status for unknown URLs ─────
+{
+  let html = template;
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>Page not found | DualSync</title>');
+  html = setMeta(html, 'name', 'description', 'This page does not exist.');
+  html = setMeta(html, 'name', 'robots', 'noindex, nofollow');
+  html = html.replace('<div id="root"></div>', `<div id="root">${render('/this-page-does-not-exist')}</div>`);
+  fs.writeFileSync(path.join(dist, '404.html'), html);
+}
+
+// ── Trailing-slash variants 301 to the canonical URL ─────────────────────────
+fs.writeFileSync(
+  path.join(dist, '_redirects'),
+  ALL_SEO.filter((s) => s.path !== '/').map((s) => `${s.path}/  ${s.path}  301`).join('\n') + '\n',
+);
+
 // ── sitemap.xml (generated from the same route list) ─────────────────────────
 const today = new Date().toISOString().slice(0, 10);
 const prio = (p) => (p === '/' ? '1.0' : p.startsWith('/journal/') ? '0.6' : ['/services', '/projects'].includes(p) ? '0.9' : '0.7');
@@ -95,20 +131,28 @@ const llms = `# DualSync
 
 Contact: contact@dualsyncagency.com · ${SITE}/contact
 
+## For businesses in Pakistan
+
+DualSync is a software house in Rawalpindi, Pakistan that builds custom ERP software, field sales and order booking apps, and AI automation for Pakistani companies, especially FMCG, distribution, manufacturing and retail. Its systems have been in production at Pak Asian Foods, an FMCG company in Multan, since 2022: Pakasian ERP (procurement, inventory, warehouse, sales, manufacturing and finance) and the PaFood sales system (an offline-first Android order app for order bookers and salesmen, a web admin, and a KPO desk that verifies every order). It works remotely with companies across Pakistan and worldwide.
+
+Details: ${SITE}/erp-software-pakistan
+
+${PK_FAQ.map(({ q, a }) => `### ${q}\n${a}`).join('\n\n')}
+
 ## Services
 
 ${SERVICES.map(([n, d]) => `- ${n}: ${d}`).join('\n')}
 
 ## Key pages
 
-${['/', '/services', '/projects', '/pafood-case-study', '/process', '/about', '/journal', '/contact']
+${['/', '/services', '/erp-software-pakistan', '/projects', '/pafood-case-study', '/process', '/about', '/journal', '/contact']
   .map((p) => `- [${page(p).title}](${SITE}${p === '/' ? '/' : p}): ${page(p).description}`)
   .join('\n')}
 
 ## Selected work
 
-- PaFood (Pak Asian Foods): an Android order app for order bookers and salesmen that works offline and syncs when signal returns, a web admin for orders, routes, targets and team performance, and a KPO desk that verifies every order before dispatch. Case study: ${SITE}/pafood-case-study
-- Pakasian ERP: procurement, inventory, warehouse, sales, manufacturing and finance for a Pakistani food manufacturer.
+- PaFood (Pak Asian Foods, Multan): an Android order app for order bookers and salesmen that works offline and syncs when signal returns, a web admin for orders, routes, targets and team performance, and a KPO desk that verifies every order before dispatch. Case study: ${SITE}/pafood-case-study
+- Pakasian ERP: procurement, inventory, warehouse, sales, manufacturing and finance for Pak Asian Foods, Multan.
 - AI dental receptionist: a phone agent that answers, books appointments and syncs every call through n8n.
 - HiTasky: a task manager you buy once, on Google Play.
 - FilingKeeper: statutory deadline tracking for UK accounting practices (early access).

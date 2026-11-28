@@ -5,7 +5,8 @@ import Footer from '../../components/v3/Footer';
 import Icon, { type IconName } from '../../components/v3/Icon';
 import { useSEO } from '../../hooks/useSEO';
 import { seoProps } from '../../data/seo';
-import { POSTS, readMinutes } from '../../data/journal';
+import { POSTS } from '../../data/journal';
+import { readMinutes } from '../../data/journal-bodies';
 import { useV3Motion } from '../../hooks/useV3Motion';
 
 export const TOPIC_ICON: Record<string, IconName> = {

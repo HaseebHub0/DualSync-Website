@@ -41,6 +41,58 @@ const fmt = (iso: string) =>
     timeStyle: 'short',
   });
 
+
+type DayStats = { day: string; pageviews: Record<string, number>; events: Record<string, number> };
+
+/** Site analytics (first-party, cookie-free): totals for 7 and 30 days. */
+const StatsPanel: React.FC<{ token: string }> = ({ token }) => {
+  const [days, setDays] = useState<DayStats[] | null>(null);
+  const [err, setErr] = useState('');
+  useEffect(() => {
+    fetch(`${API}?a=stats`, { headers: { authorization: `Bearer ${token}` } })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('Could not load stats.'))))
+      .then((d) => setDays(d.days))
+      .catch((e) => setErr(e.message));
+  }, [token]);
+  if (err) return <p className="text-ink/50 text-sm mt-8">{err}</p>;
+  if (!days) return null;
+  const sum = (list: DayStats[], pick: (d: DayStats) => Record<string, number>, prefix = '') =>
+    list.reduce((n, d) => n + Object.entries(pick(d)).filter(([k]) => k.startsWith(prefix)).reduce((m, [, v]) => m + v, 0), 0);
+  const week = days.slice(0, 7);
+  const tops = Object.entries(
+    days.reduce<Record<string, number>>((acc, d) => {
+      for (const [p, v] of Object.entries(d.pageviews)) acc[p] = (acc[p] ?? 0) + v;
+      return acc;
+    }, {}),
+  ).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const tiles: [string, number, number][] = [
+    ['Page views', sum(week, (d) => d.pageviews), sum(days, (d) => d.pageviews)],
+    ['CTA clicks', sum(week, (d) => d.events, 'cta_click'), sum(days, (d) => d.events, 'cta_click')],
+    ['Form submissions', sum(week, (d) => d.events, 'form_submit'), sum(days, (d) => d.events, 'form_submit')],
+    ['Outbound clicks', sum(week, (d) => d.events, 'outbound_click'), sum(days, (d) => d.events, 'outbound_click')],
+  ];
+  return (
+    <div className="mt-10 pb-10 border-b border-rule/10">
+      <div className="mono-label text-ink/60 mb-4">Site analytics · cookie-free</div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {tiles.map(([label, w, m]) => (
+          <div key={label} className="border border-rule/10 rounded-2xl p-5">
+            <div className="text-ink/50 text-sm">{label}</div>
+            <div className="text-ink text-3xl font-bold mt-2">{w}</div>
+            <div className="text-ink/40 text-xs mt-1">7 days · {m} in 30 days</div>
+          </div>
+        ))}
+      </div>
+      {tops.length > 0 && (
+        <div className="mt-6 text-sm text-ink/70">
+          <span className="text-ink/40">Top pages (30 days): </span>
+          {tops.map(([p, v]) => `${p} (${v})`).join(' · ')}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Admin: React.FC = () => {
   useSEO({
     title: 'Inbox | DualSync',
@@ -51,6 +103,8 @@ const Admin: React.FC = () => {
 
   const [token, setToken] = useState<string | null>(() => sessionStorage.getItem(TOKEN_KEY));
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
+  const [needCode, setNeedCode] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [error, setError] = useState('');
@@ -106,12 +160,14 @@ const Admin: React.FC = () => {
       const res = await fetch(`${API}?a=login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password, code }),
       });
       const data = await res.json();
+      if (data.needCode) setNeedCode(true);
       if (!res.ok) throw new Error(data.error ?? 'Sign in failed.');
       sessionStorage.setItem(TOKEN_KEY, data.token);
       setPassword('');
+      setCode('');
       setToken(data.token);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sign in failed.');
@@ -172,6 +228,24 @@ const Admin: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full bg-transparent border-b border-rule/20 h-14 text-ink text-base focus:outline-none focus:border-primary transition-colors mb-8"
           />
+          {needCode && (
+            <>
+              <label htmlFor="otp" className="mono-label text-ink/60 block mb-3">
+                Authenticator code
+              </label>
+              <input
+                id="otp"
+                inputMode="numeric"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                autoComplete="one-time-code"
+                autoFocus
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+                className="w-full bg-transparent border-b border-rule/20 h-14 text-ink text-base tracking-[0.4em] focus:outline-none focus:border-primary transition-colors mb-8"
+              />
+            </>
+          )}
           <Button type="submit" disabled={status === 'loading'} arrow={false} className="w-full [&>*]:w-full">
             {status === 'loading' ? 'Checking…' : 'Sign in'}
           </Button>
@@ -220,6 +294,8 @@ const Admin: React.FC = () => {
             </button>
           </div>
         </div>
+
+        <StatsPanel token={token} />
 
         {error && (
           <p role="alert" className="text-red-400 text-sm mt-6 border-l-2 border-red-400/50 pl-4">

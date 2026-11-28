@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import MobileMenu, { NAV_LINKS } from './MobileMenu';
 
 /**
@@ -8,20 +8,20 @@ import MobileMenu, { NAV_LINKS } from './MobileMenu';
  * The Webflow export's pill-style inner nav (.sx-nav) is intentionally unused.
  */
 const Nav: React.FC = () => (
-  <nav className="ds-nav" aria-label="Main">
+  <header className="ds-nav">
     <Link to="/" className="ds-logo" aria-label="DualSync home">
       <div className="ds-logo-word">DualSync</div>
     </Link>
-    <div className="ds-nav-links">
+    <nav className="ds-nav-links" aria-label="Main">
       {NAV_LINKS.map(([to, label]) => (
-        <Link key={to} to={to} className="ds-nav-link">
+        <NavLink key={to} to={to} className="ds-nav-link">
           {label}
-        </Link>
+        </NavLink>
       ))}
-    </div>
+    </nav>
     <Link to="/contact" className="ds-btn-green ds-btn-sm">Start a project</Link>
     <MobileMenu />
-  </nav>
+  </header>
 );
 
 export default Nav;

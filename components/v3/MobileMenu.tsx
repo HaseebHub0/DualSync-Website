@@ -30,6 +30,21 @@ const MobileMenu: React.FC = () => {
       if (e.key === 'Escape') {
         setOpen(false);
         buttonRef.current?.focus();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      // Focus trap: Tab and Shift+Tab cycle within the open menu.
+      const panel = document.getElementById('v3-menu');
+      const items = panel ? Array.from(panel.querySelectorAll<HTMLElement>('a[href], button')) : [];
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
     window.addEventListener('keydown', onKey);
