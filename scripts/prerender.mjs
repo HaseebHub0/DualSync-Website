@@ -24,7 +24,16 @@ console.error = (msg, ...rest) => {
 };
 
 const { render, ALL_SEO, SITE, OG_IMAGE, FAQ, PK_FAQ, POSTS, SERVICES } = await import(pathToFileURL(ssrEntry).href);
-const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+let template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+
+// Preload the two body/heading font files (hashed names change per build), so
+// text renders in the final font straight away and LCP is not held back.
+const appDir = path.join(dist, '_app');
+const preloadFonts = fs
+  .readdirSync(appDir)
+  .filter((f) => /^inter-tight-latin-(400|500)-normal-.*\.woff2$/.test(f))
+  .map((f) => `    <link rel="preload" href="/_app/${f}" as="font" type="font/woff2" crossorigin />`);
+if (preloadFonts.length) template = template.replace('</head>', `${preloadFonts.join('\n')}\n</head>`);
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -71,6 +80,22 @@ for (const seo of ALL_SEO) {
   fs.writeFileSync(out, html);
   count++;
 }
+
+// ── 404.html: Netlify serves it with a real 404 status for unknown URLs ─────
+{
+  let html = template;
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>Page not found | DualSync</title>');
+  html = setMeta(html, 'name', 'description', 'This page does not exist.');
+  html = setMeta(html, 'name', 'robots', 'noindex, nofollow');
+  html = html.replace('<div id="root"></div>', `<div id="root">${render('/this-page-does-not-exist')}</div>`);
+  fs.writeFileSync(path.join(dist, '404.html'), html);
+}
+
+// ── Trailing-slash variants 301 to the canonical URL ─────────────────────────
+fs.writeFileSync(
+  path.join(dist, '_redirects'),
+  ALL_SEO.filter((s) => s.path !== '/').map((s) => `${s.path}/  ${s.path}  301`).join('\n') + '\n',
+);
 
 // ── sitemap.xml (generated from the same route list) ─────────────────────────
 const today = new Date().toISOString().slice(0, 10);

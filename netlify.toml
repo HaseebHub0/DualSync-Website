@@ -5,15 +5,14 @@
 [functions]
   directory = "netlify/functions"
 
-# API first — otherwise the SPA catch-all below would swallow /api/*.
+# API first.
 [[redirects]]
   from = "/api/messages"
   to = "/.netlify/functions/messages"
   status = 200
   force = true
 
-# Old URLs from the previous site. Must stay ABOVE the SPA fallback, because
-# Netlify applies the first matching rule.
+# Old URLs from the previous site.
 [[redirects]]
   from = "/work"
   to = "/projects"
@@ -32,11 +31,42 @@
   status = 301
   force = true
 
-# SPA fallback for client-side routes.
+# Every public page is prerendered to its own file (scripts/prerender.mjs), so
+# there is deliberately NO catch-all to index.html: an unknown URL gets
+# dist/404.html with a real 404 status instead of a "soft 404".
+# /admin is the only client-only route.
 [[redirects]]
-  from = "/*"
+  from = "/admin"
   to = "/index.html"
   status = 200
+
+# ── Security headers (all routes) ────────────────────────────────────────────
+# Everything is served from this origin (fonts are self-hosted), so the CSP
+# can stay 'self'. 'unsafe-inline' for styles only: prerendered markup carries
+# a few style attributes. Scripts are never inline (JSON-LD blocks are data,
+# not executed).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), autoplay=(self), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# Hashed build output (vite assetsDir) never changes: cache for a year.
+[[headers]]
+  for = "/_app/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images and videos in public/assets keep stable names: cache for a week.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
 
 # The admin inbox must never be indexed or cached.
 [[headers]]

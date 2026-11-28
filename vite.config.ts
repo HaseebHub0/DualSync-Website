@@ -19,6 +19,9 @@ export default defineConfig(({ isSsrBuild }) => {
         }
       },
       build: {
+        // Hashed output gets its own folder so it can be cached immutably
+        // without also freezing the unhashed media in public/assets.
+        assetsDir: '_app',
         rollupOptions: {
           output: {
             // Split long-lived vendor code from app code so a copy change does
