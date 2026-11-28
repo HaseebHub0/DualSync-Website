@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 // Home is eager: it is the landing route. Everything else is split out.
 import Home from './pages/v3/Home';
+import { track } from './lib/analytics';
 
 const Services = React.lazy(() => import('./pages/v3/Services'));
 const Projects = React.lazy(() => import('./pages/v3/Projects'));
@@ -13,6 +14,8 @@ const JournalPost = React.lazy(() => import('./pages/v3/JournalPost'));
 const Careers = React.lazy(() => import('./pages/v3/Careers'));
 const ErpPakistan = React.lazy(() => import('./pages/v3/ErpPakistan'));
 const Contact = React.lazy(() => import('./pages/v3/Contact'));
+const Privacy = React.lazy(() => import('./pages/v3/Legal').then((m) => ({ default: m.Privacy })));
+const Terms = React.lazy(() => import('./pages/v3/Legal').then((m) => ({ default: m.Terms })));
 const NotFound = React.lazy(() => import('./pages/v3/NotFound'));
 // Private message inbox (not linked anywhere public; noindex via netlify.toml).
 const AdminRoute = React.lazy(() => import('./pages/v3/AdminRoute'));
@@ -22,6 +25,7 @@ const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    track('pageview');
   }, [pathname]);
   return null;
 };
@@ -33,7 +37,8 @@ const RouteFallback: React.FC = () => <div style={{ minHeight: '100vh' }} role="
 const App: React.FC = () => (
   <BrowserRouter>
     <ScrollToTop />
-    <main>
+    <a href="#main" className="v3-skip">Skip to content</a>
+    <main id="main" tabIndex={-1}>
       <React.Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -47,6 +52,8 @@ const App: React.FC = () => (
           <Route path="/careers" element={<Careers />} />
           <Route path="/erp-software-pakistan" element={<ErpPakistan />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/admin" element={<AdminRoute />} />
           {/* Old URLs from the previous site (also 301'd in netlify.toml). */}
           <Route path="/work" element={<Navigate to="/projects" replace />} />

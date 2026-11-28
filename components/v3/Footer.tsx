@@ -61,7 +61,11 @@ const Footer: React.FC = () => (
     <div className="sx-wordmark v3-foot-mark" aria-hidden="true">Dual<span className="sx-green">Sync</span></div>
     <div className="sx-wrap v3-foot-base">
       <span>© {new Date().getFullYear()} DualSync. All rights reserved.</span>
-      <Link to="/contact">Start a project</Link>
+      <nav className="v3-foot-legal" aria-label="Legal">
+        <Link to="/privacy">Privacy Policy</Link>
+        <Link to="/terms">Terms of Use</Link>
+        <Link to="/contact">Start a project</Link>
+      </nav>
     </div>
   </footer>
 );
